@@ -1,0 +1,192 @@
+*# non sorted
+{prtscr}>{speed5}{-lctrl}{-ralt}{delete}{+lctrl}{+ralt}
+
+*# pedals. when only one pedal is attached then this is the kpshf in advantage 2
+*#{lp-tab}>{speed5}{-lshift}{-rwin}{lshift}{+lshift}{s}{+rwin}
+*#{mp-kpshf}>{intl-\}
+*#{rp-kpent}>{speed5}{-rwin}{-lshift}{s}{+rwin}{+lshift}
+
+*# left thumb cluster column 0
+[bspace]>[lshift]
+[kp-bspace]>[lshift]
+
+*# left thumb cluster column 1
+[lctrl]>[kpshft]
+[kp-lctrl]>[kpshft]
+[delete]>[lwin]
+[kp-delete]>[lwin]
+
+*# left thumb cluster column 2
+[lalt]>[rwin]
+[kp-lalt]>[rwin]
+[home]>[lctrl]
+[kp-home]>[lctrl]
+[end]>[ralt]
+[kp-end]>[ralt]
+
+*# right thumb cluster column 3
+[rwin]>[escape]
+[kp-rwin]>[escape]
+[pup]>[delete]
+[kp-pup]>[delete]
+[pdown]>[tab]
+[kp-pdown]>[tab]
+
+*# right thumb cluster column 4
+[rctrl]>[kpshft]
+[kp-rctrl]>[kpshft]
+
+[enter]>[bspace]
+[kp-enter]>[bspace]
+
+{lshift}{enter}>{speed9}{delete}
+{lshift}{kp-enter}>{speed9}{delete}
+
+*# right thumb cluster column 5
+[kp0]>[space]
+*[space]>[space]
+
+*# right pinkey keys
+[hyphen]>[null]
+[kp-hyphen]>[null]
+[']>[enter]
+[kp-']>[enter]
+[\]>[null]
+[kp-\]>[null]
+[rshift]>[null]
+[kp-rshift]>[null]
+
+*# left pinkey keys
+[=]>[null]
+[kp-=]>[null]
+
+*# This will take a screenshot
+{=}>{speed5}{-lshift}{-rwin}{s}{+lshift}{+rwin}
+{kp-=}>{speed5}{-lshift}{-rwin}{s}{+lshift}{+rwin}
+
+[kp-caps]>[escape]
+[caps]>[escape]
+
+*# no changes to tab, caps, shift
+
+*# Left row 0
+{1}>{speed9}{-lshift}{1}{+lshift}
+{lshift}{1}>{speed9}{-lshift}{/}{+lshift}
+[2]>[`]
+[3]>[hyphen]
+[4]>[=]
+[5]>[/]
+{lshift}{5}>{speed9}{-lshift}{5}{+lshift}
+
+
+*# left keypad row 0
+{kp-1}>{speed9}{-lshift}{1}{+lshift}
+{kp-2}>{speed9}{-lshift}{2}{+lshift}
+{kp-3}>{speed9}{-lshift}{3}{+lshift}
+{kp-4}>{speed9}{-lshift}{4}{+lshift}
+{kp-5}>{speed9}{-lshift}{5}{+lshift}
+
+*# left keypad row 1
+{kp-q}>{speed9}{-lshift}{9}{+lshift}{-lshift}{0}{+lshift}{left}
+{kp-w}>{speed9}{-lshift}{,}{+lshift}{-lshift}{.}{+lshift}{left}
+{kp-e}>{speed9}{obrack}{cbrack}{left}
+{kp-r}>{speed9}{-lshift}{obrack}{+lshift}{-lshift}{cbrack}{+lshift}{left}
+
+{kp-t}>{speed9}{-lshift}{4}{+lshift}
+
+*# left keypad row 2 
+
+{kp-a}>{speed9}{-lshift}{9}{+lshift}
+{lshift}{kp-a}>{speed9}{-lshift}{0}{+lshift}
+
+{kp-s}>{speed9}{-lshift}{,}{+lshift}
+{lshift}{kp-s}>{speed9}{-lshift}{.}{+lshift}
+
+{kp-d}>{speed9}{obrack}
+{lshift}{kp-d}>{speed9}{cbrack}
+
+{kp-f}>{speed9}{-lshift}{obrack}{+lshift}
+{lshift}{kp-f}>{speed9}{-lshift}{cbrack}{+lshift}
+
+{kp-g}>{speed9}{-lshift}{3}{+lshift}
+
+*# left keypad row 3
+[kp-z]>[intl-\]
+{kp-x}>{speed9}{-lshift}{`}{+lshift}
+{kp-c}>{speed9}{-lshift}{hyphen}{+lshift}
+{kp-v}>{speed9}{-lshift}{=}{+lshift}
+{kp-b}>{speed9}{-lshift}{2}{+lshift}
+
+*# left keypad row 4 (only four keys)
+[kp-`]>[left]
+[kp-insert]>[down]
+[kp-left]>[up]
+[kp-right]>[right]
+
+*# left row 4 (only four keys)
+[`]>[left]
+[intl-\]>[down]
+[left]>[up]
+*[right]>[right]
+
+*# right row 0
+[6]>[\]
+[7]>[obrack]
+[8]>[cbrack]
+
+*# right keypad row 0
+{kp-6}>{speed9}{-lshift}{6}{+lshift}
+*[numlk]>[null]
+[kp=]>[null]
+[kpdiv]>[null]
+[kpmult]>[null]
+
+*# right keypad row 1
+{kp-y}>{speed9}{-lshift}{7}{+lshift}
+[kp7]>[1]
+[kp8]>[2]
+[kp9]>[3]
+[kpmin]>[']
+
+*# right row 2
+*# no changes to HJKL 
+{;}>{speed9}{.}
+{lshift}{;}>{speed9}{-lshift}{;}{+lshift}
+
+*# right keypad row 2
+{kp-h}>{speed9}{-lshift}{8}{+lshift}
+[kp4]>[4]
+[kp5]>[5]
+[kp6]>[6]
+{kpplus}>{speed9}{.}
+{lshift}{kpplus}>{speed9}{-lshift}{;}{+lshift}
+
+*# right row 3
+*# no changes to NM
+[,]>[null]
+[.]>[']
+{/}>{speed9}{,}
+{lshift}{/}>{speed9}{;}
+
+*# right keypad row 3
+{kp-n}>{speed9}{-lshift}{\}{+lshift}
+{lshift}{kp-n}>{speed9}{-ralt}{kp0}{kp1}{kp5}{kp1}{+ralt}
+
+[kp1]>[7]
+[kp2]>[8]
+[kp3]>[9]
+{kpenter1}>{speed9}{,}
+{lshift}{kpenter1}>{speed9}{;}
+
+*# right keypad row 4 (only four keys)
+[kp-up]>[0]
+[kp-down]>[0] 
+[kp.]>[.]
+{kpenter2}>{speed9}{-lshift}{/}{+lshift}
+
+*# right row 4 (only four keys)
+[up]>[left]
+*# no changes to down key
+[obrack]>[up]
+[cbrack]>[right]
+
