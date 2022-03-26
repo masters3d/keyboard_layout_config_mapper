@@ -6,8 +6,7 @@ A way to synchronize mapping across different keyboard layout configs
 
 ## Layout
 
-We are going to base this layout on the ergodox!
-
+We are going to base this layout on the ergodox but it also needs to overlap with glove80 and the kinesis360 as i have these on preorder :). For this we are going to add six rows when usually we would only need five rows since the glove80 has a function row. Columns will be 8x2=16
 
 Some other cool keyboards:
 
