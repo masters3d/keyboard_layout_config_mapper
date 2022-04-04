@@ -8,6 +8,23 @@ A way to synchronize mapping across different keyboard layout configs
 
 We are going to base this layout on the ergodox but it also needs to overlap with glove80 and the kinesis360 as i have these on preorder :). For this we are going to add six rows when usually we would only need five rows since the glove80 has a function row. Columns will be 8x2=16 since we need both sides. Total amount of row are still 5. 5x16= 80keys
 
+## Keycodes
+
+These are all the keycodes that are compatible with the HID spec
+https://github.com/qmk/qmk_firmware/blob/master/quantum/keycode.h
+
+See the HID defined ones used hex. Fox example define KC_A has a HID of hex 0x04
+
+https://github.com/qmk/libqmk/blob/master/include/qmk/keycodes/basic.h
+https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes.md
+https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes_basic.md
+
+
+These are not part of the HID spec but are used by qmk to depict different features.
+KC_NO                  == 0x0000
+KC_TRANSPARENT         == 0x0001
+
+
 
 Some other cool keyboards:
 
