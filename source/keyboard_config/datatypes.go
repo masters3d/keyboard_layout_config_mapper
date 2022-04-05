@@ -1,7 +1,10 @@
-package main
+package keyboard_config
+
+//go:generate stringer -type=keycode
+type keycode uint
 
 const (
-	KC_NO uint = iota //0x00
+	KC_NO keycode = iota //0x00
 	KC_ROLL_OVER
 	KC_POST_FAIL
 	KC_UNDEFINED
