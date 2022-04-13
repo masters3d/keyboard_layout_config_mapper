@@ -170,3 +170,39 @@ const (
 	KC_CRSEL
 	KC_EXSEL
 )
+
+const (
+	/* Modifiers */
+	KC_LEFT_CTRL = iota + 0xE0 //0xE0
+	KC_LEFT_SHIFT
+	KC_LEFT_ALT
+	KC_LEFT_GUI
+	KC_RIGHT_CTRL
+	KC_RIGHT_SHIFT
+	KC_RIGHT_ALT
+	KC_RIGHT_GUI
+)
+
+const (
+	/* Mouse Buttons */
+	KC_MS_UP = iota + 0xED // 0xED
+	KC_MS_DOWN
+	KC_MS_LEFT
+	KC_MS_RIGHT // 0xF0
+	KC_MS_BTN1
+	KC_MS_BTN2
+	KC_MS_BTN3
+	KC_MS_BTN4
+	KC_MS_BTN5
+	KC_MS_BTN6
+	KC_MS_BTN7
+	/* Mouse Wheel */
+	KC_MS_WH_UP
+	KC_MS_WH_DOWN
+	KC_MS_WH_LEFT
+	KC_MS_WH_RIGHT
+	/* Acceleration */
+	KC_MS_ACCEL0
+	KC_MS_ACCEL1
+	KC_MS_ACCEL2 // 0xFF
+)
