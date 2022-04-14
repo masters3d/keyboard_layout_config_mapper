@@ -173,7 +173,7 @@ const (
 
 const (
 	/* Modifiers */
-	KC_LEFT_CTRL = iota + 0xE0 //0xE0
+	KC_LEFT_CTRL keycode = iota + 0xE0 //0xE0
 	KC_LEFT_SHIFT
 	KC_LEFT_ALT
 	KC_LEFT_GUI
@@ -185,7 +185,7 @@ const (
 
 const (
 	/* Mouse Buttons */
-	KC_MS_UP = iota + 0xED // 0xED
+	KC_MS_UP keycode = iota + 0xED // 0xED
 	KC_MS_DOWN
 	KC_MS_LEFT
 	KC_MS_RIGHT // 0xF0
