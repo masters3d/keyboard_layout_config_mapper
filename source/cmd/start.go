@@ -12,8 +12,6 @@ func main() {
 	for index, element := range keycode.FullKeyboard {
 		fmt.Println(index, element)
 	}
-
-	fmt.Println(keycode.KC_A)
-	fmt.Println(keycode.KC_F9)
-
+	fmt.Println(keycode.KC_GRAVE)
+	fmt.Println(keycode.KC_MINUS)
 }

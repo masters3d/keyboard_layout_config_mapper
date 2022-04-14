@@ -13,6 +13,10 @@ We are going to base this layout on the ergodox but it also needs to overlap wit
 These are all the keycodes that are compatible with the HID spec
 https://github.com/qmk/qmk_firmware/blob/master/quantum/keycode.h
 
+
+Additional alias which builds on top of keycode. These is there unshifted keys are defined
+https://github.com/qmk/qmk_firmware/blob/master/quantum/quantum_keycodes.h
+
 See the HID defined ones used hex. Fox example define KC_A has a HID of hex 0x04
 
 https://github.com/qmk/libqmk/blob/master/include/qmk/keycodes/basic.h
