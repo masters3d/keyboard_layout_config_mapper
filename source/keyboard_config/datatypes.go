@@ -2,6 +2,18 @@ package keyboard_config
 
 import "strconv"
 
+//go:generate stringer -type=macrocode
+type macrocode uint
+
+const (
+	PLACEHOLDER macrocode = iota
+	ST_MACRO_Screenshot
+	ST_MACRO_Anglebrakets
+	ST_MACRO_Parenthesis
+	ST_MACRO_SquareBraces
+	ST_MACRO_CurlyBraces
+)
+
 //go:generate stringer -type=keycode
 type keycode uint
 
@@ -219,7 +231,7 @@ type markercombovalue uint
 // The max value of regular keycodes
 const max_value_for_keycode markercombovalue = 0xFF // see KC_MS_ACCEL2
 
-var ShiftedKeys markercombovalue = max_value_for_keycode * 2     // used for shifted keys.
+var LayerShifedKeys markercombovalue = max_value_for_keycode * 2 // used for shifted keys.
 var LayerSwitchKeys markercombovalue = max_value_for_keycode * 3 // used for switching layer
 var LayerToggleKeys markercombovalue = max_value_for_keycode * 4 // used for toggleing a layer
 
@@ -255,7 +267,7 @@ func (self layercombo) String() string {
 }
 
 func LSFT(i keycode) keycombo {
-	return keycombo{i, ShiftedKeys}
+	return keycombo{i, LayerShifedKeys}
 }
 
 func TO(i int) layercombo {
