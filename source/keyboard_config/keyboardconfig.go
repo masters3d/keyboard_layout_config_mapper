@@ -4,14 +4,13 @@ const rowCount = 5
 const columnCount = 8
 const splitKeyboardCount = 2
 
-var FullKeyboard = [columnCount * rowCount * splitKeyboardCount]string{
-	LSFT(KC_1).String(), KC_GRAVE.String(),
-	// ST_MACRO_0.String(), LSFT(KC_1).String(), KC_GRAVE.String(), KC_MINUS.String(), KC_EQUAL.String(), KC_SLASH.String(), KC_TRANSPARENT.String(), KC_TRANSPARENT.String(), KC_BSLASH.String(), KC_LBRACKET.String(), KC_RBRACKET.String(), KC_LPRN.String(), KC_RPRN.String(), KC_TRANSPARENT.String(),
-	// KC_TRANSPARENT.String(), KC_Q.String(), KC_W.String(), KC_E.String(), KC_R.String(), KC_T.String(), KC_TRANSPARENT.String(), KC_TRANSPARENT.String(), KC_Y.String(), KC_U.String(), KC_I.String(), KC_O.String(), KC_P.String(), KC_TRANSPARENT.String(),
-	// KC_ESCAPE.String(), KC_A.String(), KC_S.String(), KC_D.String(), KC_F.String(), KC_G.String(), KC_H.String(), KC_J.String(), KC_K.String(), KC_L.String(), KC_DOT.String(), KC_ENTER.String(),
-	// KC_TRANSPARENT.String(), KC_Z.String(), KC_X.String(), KC_C.String(), KC_V.String(), KC_B.String(), KC_TRANSPARENT.String(), KC_TRANSPARENT.String(), KC_N.String(), KC_M.String(), KC_SCOLON.String(), KC_QUOTE.String(), KC_COMMA.String(), KC_TRANSPARENT.String(),
-	// KC_TRANSPARENT.String(), TO(0).String(), TO(1).String(), TO(2).String(), TO(3).String(), KC_LEFT.String(), KC_DOWN.String(), KC_UP.String(), KC_RIGHT.String(), KC_TRANSPARENT.String(),
-	// MO(1).String(), KC_RIGHT_GUI.String(), KC_ESCAPE.String(), MO(2).String(),
-	// KC_LEFT_CTRL.String(), KC_DELETE.String(),
-	// KC_LEFT_SHIFT.String(), KC_LEFT_GUI.String(), KC_LEFT_ALT.String(), KC_TAB.String(), KC_BACKSPACE.String(), KC_SPACE.String(),
+var FullKeyboard = [columnCount * rowCount * splitKeyboardCount]KeyCodeRepresentable{
+	LSFT(KC_1), KC_GRAVE, KC_MINUS, KC_EQUAL, KC_SLASH, KC_TRANSPARENT, KC_TRANSPARENT, KC_BACKSLASH, KC_LEFT_BRACKET, KC_RIGHT_BRACKET, KC_LEFT_PAREN, KC_RIGHT_PAREN, KC_TRANSPARENT,
+	KC_TRANSPARENT, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_TRANSPARENT, KC_TRANSPARENT, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_TRANSPARENT,
+	KC_ESCAPE, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_DOT, KC_ENTER,
+	KC_TRANSPARENT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_TRANSPARENT, KC_TRANSPARENT, KC_N, KC_M, KC_SEMICOLON, KC_QUOTE, KC_COMMA, KC_TRANSPARENT,
+	KC_TRANSPARENT, TO(0), TO(1), TO(2), TO(3), KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_TRANSPARENT,
+	MO(1), KC_RIGHT_GUI, KC_ESCAPE, MO(2),
+	KC_LEFT_CTRL, KC_DELETE,
+	KC_LEFT_SHIFT, KC_LEFT_GUI, KC_LEFT_ALT, KC_TAB, KC_BACKSPACE, KC_SPACE,
 }

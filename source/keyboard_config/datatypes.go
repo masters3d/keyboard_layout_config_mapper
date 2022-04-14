@@ -6,10 +6,10 @@ import "strconv"
 type keycode uint
 
 const (
-	KC_NO keycode = iota //0x00
-	KC_ROLL_OVER
-	KC_POST_FAIL
-	KC_UNDEFINED
+	KC_TRANSPARENT keycode = iota //0x00, also KC_NO
+	KC_ROLL_OVER                  // not used
+	KC_POST_FAIL                  // not used
+	KC_UNDEFINED                  // not used
 	KC_A
 	KC_B
 	KC_C
@@ -209,20 +209,28 @@ const (
 	KC_MS_ACCEL2 // 0xFF
 )
 
-// The max value of regular keycodes
-// const max_value_for_keycode uint = 0xFF
+type KeyCodeRepresentable interface {
+	String() string
+}
 
 // Using this value to separate the values in different grouping so combos are unique
-type makercombovalue uint
+type markercombovalue uint
 
-const (
-	ShiftedKeys makercombovalue = 0xFF * (iota + 2) // used for shifted keys.
-)
+// The max value of regular keycodes
+const max_value_for_keycode markercombovalue = 0xFF // see KC_MS_ACCEL2
 
-func (i makercombovalue) String() string {
+var ShiftedKeys markercombovalue = max_value_for_keycode * 2     // used for shifted keys.
+var LayerSwitchKeys markercombovalue = max_value_for_keycode * 3 // used for switching layer
+var LayerToggleKeys markercombovalue = max_value_for_keycode * 4 // used for toggleing a layer
+
+func (i markercombovalue) String() string {
 	switch {
 	case i == 0xFF*2:
 		return "LSFT"
+	case i == 0xFF*3:
+		return "TO"
+	case i == 0xFF*4:
+		return "MO"
 	default:
 		return "makercombovalue(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
@@ -230,57 +238,54 @@ func (i makercombovalue) String() string {
 
 type keycombo struct {
 	value keycode
-	combo makercombovalue
+	combo markercombovalue
 }
 
 func (self keycombo) String() string {
 	return self.combo.String() + "(" + self.value.String() + ")"
 }
 
+type layercombo struct {
+	value int
+	combo markercombovalue
+}
+
+func (self layercombo) String() string {
+	return self.combo.String() + "(" + strconv.FormatInt(int64(self.value), 10) + ")"
+}
+
 func LSFT(i keycode) keycombo {
 	return keycombo{i, ShiftedKeys}
 }
 
+func TO(i int) layercombo {
+	return layercombo{i, LayerSwitchKeys}
+}
+
+func MO(i int) layercombo {
+	return layercombo{i, LayerToggleKeys}
+}
+
 // US ANSI shifted keycode aliases
 
-var KC_TILDE = LSFT(KC_GRAVE) // ~
-
-var KC_EXCLAIM = LSFT(KC_1) // !
-
-var KC_AT = LSFT(KC_2) // @
-
-var KC_HASH = LSFT(KC_3) // #
-
-var KC_DOLLAR = LSFT(KC_4) // $
-
-var KC_PERCENT = LSFT(KC_5) // %
-
-var KC_CIRCUMFLEX = LSFT(KC_6) // ^
-
-var KC_AMPERSAND = LSFT(KC_7) // &
-
-var KC_ASTERISK = LSFT(KC_8) // *
-
-var KC_LEFT_PAREN = LSFT(KC_9) // (
-
-var KC_RIGHT_PAREN = LSFT(KC_0) // )
-
-var KC_UNDERSCORE = LSFT(KC_MINUS) // _
-
-var KC_PLUS = LSFT(KC_EQUAL) // +
-
-var KC_LEFT_CURLY_BRACE = LSFT(KC_LEFT_BRACKET) // {
-
+var KC_TILDE = LSFT(KC_GRAVE)                     // ~
+var KC_EXCLAIM = LSFT(KC_1)                       // !
+var KC_AT = LSFT(KC_2)                            // @
+var KC_HASH = LSFT(KC_3)                          // #
+var KC_DOLLAR = LSFT(KC_4)                        // $
+var KC_PERCENT = LSFT(KC_5)                       // %
+var KC_CIRCUMFLEX = LSFT(KC_6)                    // ^
+var KC_AMPERSAND = LSFT(KC_7)                     // &
+var KC_ASTERISK = LSFT(KC_8)                      // *
+var KC_LEFT_PAREN = LSFT(KC_9)                    // (
+var KC_RIGHT_PAREN = LSFT(KC_0)                   // )
+var KC_UNDERSCORE = LSFT(KC_MINUS)                // _
+var KC_PLUS = LSFT(KC_EQUAL)                      // +
+var KC_LEFT_CURLY_BRACE = LSFT(KC_LEFT_BRACKET)   // {
 var KC_RIGHT_CURLY_BRACE = LSFT(KC_RIGHT_BRACKET) // }
-
-var KC_LEFT_ANGLE_BRACKET = LSFT(KC_COMMA) // <
-
-var KC_RIGHT_ANGLE_BRACKET = LSFT(KC_DOT) // >
-
-var KC_COLON = LSFT(KC_SEMICOLON) // :
-
-var KC_PIPE = LSFT(KC_BACKSLASH) // |
-
-var KC_QUESTION = LSFT(KC_SLASH) // ?
-
-var KC_DOUBLE_QUOTE = LSFT(KC_QUOTE) // "
+var KC_LEFT_ANGLE_BRACKET = LSFT(KC_COMMA)        // <
+var KC_RIGHT_ANGLE_BRACKET = LSFT(KC_DOT)         // >
+var KC_COLON = LSFT(KC_SEMICOLON)                 // :
+var KC_PIPE = LSFT(KC_BACKSLASH)                  // |
+var KC_QUESTION = LSFT(KC_SLASH)                  // ?
+var KC_DOUBLE_QUOTE = LSFT(KC_QUOTE)              // "
