@@ -18,8 +18,8 @@ const (
 type keycode uint
 
 const (
-	KC_TRANSPARENT keycode = iota //0x00, also KC_NO
-	KC_ROLL_OVER                  // not used
+	KC_NO          keycode = iota // 0x00
+	KC_TRANSPARENT                // KC_TRANSPARENT and KC_ROLL_OVER share the same code. KC_ROLL_OVER not used but
 	KC_POST_FAIL                  // not used
 	KC_UNDEFINED                  // not used
 	KC_A
