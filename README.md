@@ -1,12 +1,9 @@
 # keyboard_layout_config_mapper
 A way to synchronize mapping across different keyboard layout configs
 
-
-
-
 ## Layout
 
-We are going to base this layout on the ergodox but it also needs to overlap with glove80 and the kinesis360 as i have these on preorder :). For this we are going to add six rows when usually we would only need five rows since the glove80 has a function row. Columns will be 8x2=16 since we need both sides. Total amount of row are still 5. 5x16= 80keys
+We are going to base this layout on the ergodox but it also needs to overlap with glove80 and the kinesis360 as i have these on preorder (as of 2022) :). For this we are going to add a sixth row when usually we would only need five rows since the glove80 has a function row. In addition I also have a kinesis advantage 2 which includes all the function keys. Columns will be 8x2=16 since we need both sides. Total amount of rows are 6. 6x16= 96keys
 
 ## Keycodes
 
@@ -40,6 +37,8 @@ https://www.reddit.com/r/MechanicalKeyboards/comments/dk9b34/tractyl_split_keybo
 https://drop.com/buy/x-bows-knight-plus-ergonomic-mechanical-keyboard
 https://www.maltron.com/store/p20/Maltron_L90_dual_hand_fully_ergonomic_%283D%29_keyboard_-_US_English.html
 
+Very cool ready made keyboards
+https://bastardkb.com/
 
 Almost Cool:
 https://www.zergotech.com/products/zergotech-freedom-mechanical-ergonomic-keyboard
