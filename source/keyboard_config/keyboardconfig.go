@@ -28,35 +28,43 @@ var mainLayerRight = KeycodeLayerHalf{
 }
 
 func MergeTest() {
+	fmt.Println("#####        start        #####")
 	for index, value := range mergeHalfs(mainLayerLeft, mainLayerRight) {
-		fmt.Println(index, value)
+		if (index)%rowCount == 0 && index != 0 {
+			fmt.Println("")
+		}
+		fmt.Print(value, ", ")
 	}
+	fmt.Println("")
+	fmt.Println("#####        end        #####")
+}
 
+func convertLayerToErgodoxPrexy(input []KeyCodeRepresentable) []KeyCodeRepresentable {
+	return input
 }
 
 func mergeHalfs(left KeycodeLayerHalf, right KeycodeLayerHalf) KeycodeLayerFull {
 
-	var output = []KeyCodeRepresentable{}
+	// To be able to use append this needs to be a non fixed slice
+	var collectedArray = []KeyCodeRepresentable{}
 
 	for indexRow := 0; indexRow < rowCount; indexRow++ {
 		// left hand
 		for indexColumn := 0; indexColumn < columnCount; indexColumn++ {
 			currentHalfIndex := indexColumn + (indexRow * columnCount)
 			currentHalfValue := left[currentHalfIndex]
-			output = append(output, currentHalfValue)
-			//fmt.Println(indexColumn, currentHalfIndex, currentHalfValue)
+			collectedArray = append(collectedArray, currentHalfValue)
 		}
 		// right hand
 		for indexColumn := 0; indexColumn < columnCount; indexColumn++ {
 			currentHalfIndex := indexColumn + (indexRow * columnCount)
 			currentHalfValue := right[currentHalfIndex]
-			output = append(output, currentHalfValue)
-			//fmt.Println(indexColumn, currentHalfIndex, currentHalfValue)
+			collectedArray = append(collectedArray, currentHalfValue)
 		}
 	}
 	var final_output = KeycodeLayerFull{}
 
-	copy(final_output[:], output[:fullKeyboardKeyCount])
+	copy(final_output[:], collectedArray[:fullKeyboardKeyCount])
 
 	return final_output
 }
