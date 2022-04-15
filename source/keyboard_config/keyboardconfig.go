@@ -39,8 +39,8 @@ func MergeTest() {
 	fmt.Println("#####        end        #####")
 }
 
-func convertLayerToErgodoxPrexy(input []KeyCodeRepresentable) []KeyCodeRepresentable {
-	return input
+func convertLayerToErgodoxPrexy(input KeycodeLayerFull) []KeyCodeRepresentable {
+	return input[:]
 }
 
 func mergeHalfs(left KeycodeLayerHalf, right KeycodeLayerHalf) KeycodeLayerFull {

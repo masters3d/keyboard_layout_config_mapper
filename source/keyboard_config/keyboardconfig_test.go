@@ -4,7 +4,7 @@ import "testing"
 
 func Test_layout_ergodox_pretty(t *testing.T) {
 
-	input_layout_ergodox_pretty := []KeyCodeRepresentable{
+	input := KeycodeLayerFull{
 		KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 		KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 		KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_Screenshot, LSFT(KC_1),
@@ -33,7 +33,7 @@ func Test_layout_ergodox_pretty(t *testing.T) {
 		KC_LEFT_CTRL, KC_DELETE,
 		KC_LEFT_SHIFT, KC_LEFT_GUI, KC_LEFT_ALT, KC_TAB, KC_BACKSPACE, KC_SPACE,
 	}
-	got := convertLayerToErgodoxPrexy(input_layout_ergodox_pretty)
+	got := convertLayerToErgodoxPrexy(input)
 
 	for index, expectedValue := range expected_layout_ergodox_pretty {
 		actual := got[index]
