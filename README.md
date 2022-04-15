@@ -3,7 +3,19 @@ A way to synchronize mapping across different keyboard layout configs
 
 ## Layout
 
-We are going to base this layout on the ergodox but it also needs to overlap with glove80 and the kinesis360 as i have these on preorder (as of 2022) :). For this we are going to add a sixth row when usually we would only need five rows since the glove80 has a function row. In addition I also have a kinesis advantage 2 which includes all the function keys. Columns will be 8x2=16 since we need both sides. Total amount of rows are 6. 6x16= 96keys
+We are going to base this layout on the ergodox but it also needs to overlap with glove80 and the kinesis360 as i have these on preorder (as of 2022) :). 
+
+
+ROWS:
+
+For this we are going to add a sixth row when usually we would only need five rows since the glove80 has a function row. In addition I also have a kinesis advantage 2 which includes all the function keys. To support thumb clusters we are going to add another row at the bottom for a total of seven rows. 
+
+
+COLUMNS:
+Initially there was going to be 8x2=16 columns since we need both sides. Six for the keys themselves, one column for the additional function keys that are supported by ergodox and kinesses 360, and one column to accomodate the thumb cluster overflow.
+I have seen decided that seven would be enough for our usecase which the advantage of this giving us a square grid. 
+
+Total amount keys 7x7x2= 98
 
 ## Keycodes
 
