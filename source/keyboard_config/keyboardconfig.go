@@ -3,8 +3,9 @@ package keyboard_config
 import "fmt"
 
 const rowCount = 6
-const columnCount = 8
-const halfKeyboardKeyCount = columnCount * rowCount
+const columnHalfCount = 8
+const columnFullCount = columnHalfCount * 2
+const halfKeyboardKeyCount = columnHalfCount * rowCount
 const fullKeyboardKeyCount = halfKeyboardKeyCount * 2
 
 type KeycodeLayerHalf = [halfKeyboardKeyCount]KeyCodeRepresentable
@@ -39,8 +40,43 @@ func MergeTest() {
 	fmt.Println("#####        end        #####")
 }
 
+type IntSlice []int
+
+func (self IntSlice) Contains(i int) bool {
+	for _, v := range self {
+		if v == i {
+			return true
+		}
+	}
+	return false
+}
+
 func convertLayerToErgodoxPrexy(input KeycodeLayerFull) []KeyCodeRepresentable {
-	return input[:]
+
+	var collectedArray = []KeyCodeRepresentable{}
+
+	indexesToIgnore := IntSlice{
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, //function layer since Ergodox does not have a function layer
+		7 + 16, 9 + 16, // we are getting rid of one collum on each inner side of the half keyboard. The ergodox has a key layer here that
+		7 + (16 * 2), 9 + (16 * 2), // t y row
+		6 + (16 * 3), 7 + (16 * 3), 8 + (16 * 3), 9 + (16 * 3), // g h row. surprisingly the ErgodoxPrexy does not map anything on the middle here but intead it does to the next row
+		6 + (16 * 4), 7 + (16 * 4), 8 + (16 * 4), 9 + (16 * 4), // b n row
+
+	}
+	for indexRow := 0; indexRow < rowCount; indexRow++ {
+
+		for indexColumn := 0; indexColumn < columnFullCount; indexColumn++ {
+			currentIndex := indexColumn + (indexRow * columnFullCount)
+			if indexesToIgnore.Contains(currentIndex) {
+				continue
+			}
+
+			currentValue := input[currentIndex]
+			collectedArray = append(collectedArray, currentValue)
+		}
+	}
+
+	return collectedArray
 }
 
 func mergeHalfs(left KeycodeLayerHalf, right KeycodeLayerHalf) KeycodeLayerFull {
@@ -50,14 +86,14 @@ func mergeHalfs(left KeycodeLayerHalf, right KeycodeLayerHalf) KeycodeLayerFull 
 
 	for indexRow := 0; indexRow < rowCount; indexRow++ {
 		// left hand
-		for indexColumn := 0; indexColumn < columnCount; indexColumn++ {
-			currentHalfIndex := indexColumn + (indexRow * columnCount)
+		for indexColumn := 0; indexColumn < columnHalfCount; indexColumn++ {
+			currentHalfIndex := indexColumn + (indexRow * columnHalfCount)
 			currentHalfValue := left[currentHalfIndex]
 			collectedArray = append(collectedArray, currentHalfValue)
 		}
 		// right hand
-		for indexColumn := 0; indexColumn < columnCount; indexColumn++ {
-			currentHalfIndex := indexColumn + (indexRow * columnCount)
+		for indexColumn := 0; indexColumn < columnHalfCount; indexColumn++ {
+			currentHalfIndex := indexColumn + (indexRow * columnHalfCount)
 			currentHalfValue := right[currentHalfIndex]
 			collectedArray = append(collectedArray, currentHalfValue)
 		}
