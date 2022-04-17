@@ -25,7 +25,7 @@ func convertLayerToErgodoxPrexy(input KeycodeLayerFull) []KeyCodeRepresentable {
 	var collectedArray = []KeyCodeRepresentable{}
 
 	indexesToIgnore := IntSlice{
-		6 + (columnFullCount * 3), 7 + (columnFullCount * 3), // g h row. surprisingly the ErgodoxPrexy does not map anything on the middle here but intead it does to the next row
+		6 + (columnFullCount * 3), 7 + (columnFullCount * 3), // g h row. surprisingly the ErgodoxPrexy does not map anything on the middle here but instead it does to the next row
 		5 + (columnFullCount * 5), 6 + (columnFullCount * 5), 7 + (columnFullCount * 5), 8 + (columnFullCount * 5), // arrow row. We need to skip two values here
 	}
 	firstRowCount := 1 // we will be starting at this row index. firstfunction layer is skipped since Ergodox does not have a function layer
