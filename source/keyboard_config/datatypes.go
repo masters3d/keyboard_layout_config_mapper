@@ -194,7 +194,7 @@ const (
 
 	/* Consumer Page (0x0C) */
 	KC_AUDIO_MUTE
-	KC_AUDIO_VOL_UP   // this is different from KC_KB_VOLUME_UP and it seems to be more widely used
+	KC_AUDIO_VOL_UP   // this is different from KC_KB_VOLUME_UP
 	KC_AUDIO_VOL_DOWN // this is different from KC_KB_VOLUME_DOWN
 	KC_MEDIA_NEXT_TRACK
 	KC_MEDIA_PREV_TRACK
