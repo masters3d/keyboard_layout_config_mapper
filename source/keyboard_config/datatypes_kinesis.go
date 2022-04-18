@@ -17,8 +17,19 @@ var Adv2TopLayerRight = KeycodeLayerHalf{
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 }
 
+type keycode_kinesis string
+
 // KINESIS SmartSet
 // https://cs.github.com/KinesisCorporation/Freestyle-Edge-Pro-SmartSet-App
+
+var KC_VK_HYPER keycode_kinesis = "HYPER" // Alt + Shift + Ctrl + Win HYPER
+var KC_VK_MEH keycode_kinesis = "MEH"     //Alt + Shift + Ctrl MEH
+var KC_VK_LPEDAL keycode_kinesis = "lp-tab"
+var KC_VK_MPEDAL keycode_kinesis = "mp-kpshf"
+var KC_VK_RPEDA keycode_kinesis = "rp-kpent"
+var KC_VK_KPSHIFT keycode_kinesis = "kpshft" //This is how to shift to the
+
+var kinesisAdv2_Custom = map[KeyCodeRepresentable]string{}
 
 var kinesisAdv2_TypeableChars = map[KeyCodeRepresentable]string{
 	KC_A:         "A",
