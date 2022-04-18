@@ -33,6 +33,10 @@ https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes.md
 https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes_basic.md
 
 
+These are from ZMK
+https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/keys.h
+https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/hid_usage.h
+
 These are not part of the HID spec but are used by qmk to depict different features.
 KC_NO                  == 0x0000
 KC_TRANSPARENT         == 0x0001

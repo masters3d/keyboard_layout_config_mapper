@@ -185,6 +185,40 @@ const (
 	KC_EXSEL
 )
 
+/* Media and Function keys from QMK */
+const (
+	/* Generic Desktop Page (0x01) */
+	KC_SYSTEM_POWER keycode = iota + 0xA5 // 0xA5
+	KC_SYSTEM_SLEEP
+	KC_SYSTEM_WAKE
+
+	/* Consumer Page (0x0C) */
+	KC_AUDIO_MUTE
+	KC_AUDIO_VOL_UP   // this is different from KC_KB_VOLUME_UP and it seems to be more widely used
+	KC_AUDIO_VOL_DOWN // this is different from KC_KB_VOLUME_DOWN
+	KC_MEDIA_NEXT_TRACK
+	KC_MEDIA_PREV_TRACK
+	KC_MEDIA_STOP
+	KC_MEDIA_PLAY_PAUSE
+	KC_MEDIA_SELECT
+
+	// These overlap with defined code like keypad 00
+	KC_MEDIA_EJECT // 0xB0
+	KC_MAIL
+	KC_CALCULATOR
+	KC_MY_COMPUTER
+	KC_WWW_SEARCH
+	KC_WWW_HOME
+	KC_WWW_BACK
+	KC_WWW_FORWARD
+	KC_WWW_STOP
+	KC_WWW_REFRESH
+	KC_WWW_FAVORITES
+	KC_MEDIA_FAST_FORWARD
+	KC_MEDIA_REWIND
+	KC_BRIGHTNESS_UP
+	KC_BRIGHTNESS_DOWN
+)
 const (
 	/* Modifiers */
 	KC_LEFT_CTRL keycode = iota + 0xE0 //0xE0
@@ -219,39 +253,6 @@ const (
 	KC_MS_ACCEL0
 	KC_MS_ACCEL1
 	KC_MS_ACCEL2 // 0xFF
-)
-
-/* Media and Function keys */
-const (
-	/* Generic Desktop Page (0x01) */
-	KC_SYSTEM_POWER keycode = iota + 0xA5 // 0xA5
-	KC_SYSTEM_SLEEP
-	KC_SYSTEM_WAKE
-
-	/* Consumer Page (0x0C) */
-	KC_AUDIO_MUTE
-	KC_AUDIO_VOL_UP
-	KC_AUDIO_VOL_DOWN
-	KC_MEDIA_NEXT_TRACK
-	KC_MEDIA_PREV_TRACK
-	KC_MEDIA_STOP
-	KC_MEDIA_PLAY_PAUSE
-	KC_MEDIA_SELECT
-	KC_MEDIA_EJECT // 0xB0
-	KC_MAIL
-	KC_CALCULATOR
-	KC_MY_COMPUTER
-	KC_WWW_SEARCH
-	KC_WWW_HOME
-	KC_WWW_BACK
-	KC_WWW_FORWARD
-	KC_WWW_STOP
-	KC_WWW_REFRESH
-	KC_WWW_FAVORITES
-	KC_MEDIA_FAST_FORWARD
-	KC_MEDIA_REWIND
-	KC_BRIGHTNESS_UP
-	KC_BRIGHTNESS_DOWN
 )
 
 type KeyCodeRepresentable interface {
