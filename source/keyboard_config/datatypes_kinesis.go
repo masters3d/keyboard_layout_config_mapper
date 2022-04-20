@@ -105,7 +105,48 @@ var kinesisAdv2LayerMapping_confirmed = map[KeyCodeRepresentable]KeyCodeRepresen
 	KC_SEMICOLON: KC_KP_PLUS,
 	KC_QUOTE:     KeyPadKinesis(KC_BACKSLASH),
 
-	// NEED MORE HERE
+	// third alpha row
+	KC_Z:           KeyPadKinesis(KC_Z),
+	KC_X:           KeyPadKinesis(KC_X),
+	KC_C:           KeyPadKinesis(KC_C),
+	KC_V:           KeyPadKinesis(KC_V),
+	KC_B:           KeyPadKinesis(KC_B),
+	KC_N:           KeyPadKinesis(KC_N),
+	KC_M:           KC_KP_1,
+	KC_COMMA:       KC_KP_2,
+	KC_DOT:         KC_KP_3,
+	KC_SLASH:       KC_KP_ENTER,
+	KC_RIGHT_SHIFT: KeyPadKinesis(KC_RIGHT_SHIFT),
+
+	// last  row
+	KC_GRAVE:  KeyPadKinesis(KC_GRAVE),
+	KC_INSERT: KeyPadKinesis(KC_INSERT),
+	KC_LEFT:   KeyPadKinesis(KC_LEFT),
+	KC_RIGHT:  KeyPadKinesis(KC_RIGHT),
+
+	KC_UP:            KeyPadKinesis(KC_UP),
+	KC_DOWN:          KeyPadKinesis(KC_DOWN),
+	KC_LEFT_BRACKET:  KC_KP_DOT,
+	KC_RIGHT_BRACKET: KC_RETURN,
+
+	// thumb clusters
+	KC_LEFT_CTRL:  KeyPadKinesis(KC_LEFT_CTRL),
+	KC_LEFT_ALT:   KeyPadKinesis(KC_LEFT_ALT),
+	KC_RIGHT_GUI:  KeyPadKinesis(KC_RIGHT_GUI),
+	KC_RIGHT_CTRL: KeyPadKinesis(KC_RIGHT_CTRL),
+	KC_BACKSPACE:  KeyPadKinesis(KC_BACKSPACE),
+	KC_DELETE:     KeyPadKinesis(KC_DELETE),
+	KC_HOME:       KeyPadKinesis(KC_HOME),
+	KC_PAGE_UP:    KeyPadKinesis(KC_PAGE_UP),
+	KC_ENTER:      KeyPadKinesis(KC_ENTER),
+	KC_SPACE:      KC_KP_0,
+	KC_END:        KeyPadKinesis(KC_END),
+	KC_PAGE_DOWN:  KeyPadKinesis(KC_PAGE_DOWN),
+
+	// pedals
+	KC_VK_LPEDAL: KeyPadKinesis(KC_VK_LPEDAL),
+	KC_VK_MPEDAL: KeyPadKinesis(KC_VK_MPEDAL),
+	KC_VK_RPEDAL: KeyPadKinesis(KC_VK_RPEDAL),
 }
 
 var kinesis_confirmed = map[KeyCodeRepresentable]string{
