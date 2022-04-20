@@ -5,7 +5,8 @@ var Adv2TopLayerLeft = KeycodeLayerHalf{
 	KC_EQUAL, KC_1, KC_2, KC_3, KC_4, KC_5, KC_TRANSPARENT,
 	KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_TRANSPARENT,
 	KC_CAPS_LOCK, KC_A, KC_S, KC_D, KC_F, KC_G, KC_TRANSPARENT,
-	KC_ESCAPE /*start of function row*/, KC_GRAVE, KC_INSERT, KC_LEFT, KC_RIGHT, KC_LEFT_CTRL, KC_TRANSPARENT,
+	KC_LEFT_SHIFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_TRANSPARENT,
+	/*from fn row -->*/ KC_ESCAPE /*<-- from fn row*/, KC_GRAVE, KC_INSERT, KC_LEFT, KC_RIGHT, KC_LEFT_CTRL, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_BACKSPACE, KC_DELETE, KC_END, KC_HOME, KC_LEFT_ALT, KC_TRANSPARENT,
 }
 var Adv2TopLayerRight = KeycodeLayerHalf{
@@ -13,7 +14,8 @@ var Adv2TopLayerRight = KeycodeLayerHalf{
 	KC_VK_LPEDAL, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINUS,
 	KC_VK_MPEDAL, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BACKSLASH,
 	KC_VK_RPEDAL, KC_H, KC_J, KC_K, KC_L, KC_SEMICOLON, KC_QUOTE,
-	KC_TRANSPARENT, KC_RIGHT_CTRL, KC_UP, KC_DOWN, KC_LEFT_BRACKET, KC_RIGHT_BRACKET, KC_PAUSE, /*end of function row*/
+	KC_TRANSPARENT, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_RIGHT_SHIFT,
+	KC_TRANSPARENT, KC_RIGHT_CTRL, KC_UP, KC_DOWN, KC_LEFT_BRACKET, KC_RIGHT_BRACKET /*from fn row -->*/, KC_PAUSE, /*<--- from fn row*/
 	KC_TRANSPARENT, KC_RIGHT_GUI, KC_PAGE_UP, KC_PAGE_DOWN, KC_ENTER, KC_SPACE, KC_TRANSPARENT,
 }
 
@@ -46,7 +48,7 @@ func KeyPadKinesis(input KeyCodeRepresentable) keycode_kinesis {
 	return keycode_kinesis{"UNKNOWN", "UNKNOWN"}
 }
 
-var kinesisAdv2LayerMapping_confirmed = map[KeyCodeRepresentable]KeyCodeRepresentable{
+var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
 	KC_ESCAPE:       KeyPadKinesis(KC_ESCAPE),
 	KC_F1:           KeyPadKinesis(KC_LEFT_GUI),
 	KC_F2:           KeyPadKinesis(KC_RIGHT_ALT),
@@ -106,6 +108,7 @@ var kinesisAdv2LayerMapping_confirmed = map[KeyCodeRepresentable]KeyCodeRepresen
 	KC_QUOTE:     KeyPadKinesis(KC_BACKSLASH),
 
 	// third alpha row
+	KC_LEFT_SHIFT:  KeyPadKinesis(KC_LEFT_SHIFT),
 	KC_Z:           KeyPadKinesis(KC_Z),
 	KC_X:           KeyPadKinesis(KC_X),
 	KC_C:           KeyPadKinesis(KC_C),
