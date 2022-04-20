@@ -2,7 +2,7 @@ package keyboard_config
 
 var Adv2TopLayerLeft = KeycodeLayerHalf{
 	KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, // function row
-	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+	KC_EQUAL, KC_1, KC_2, KC_3, KC_4, KC_5, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 	KC_ESCAPE /*start of function row*/, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -10,7 +10,7 @@ var Adv2TopLayerLeft = KeycodeLayerHalf{
 }
 var Adv2TopLayerRight = KeycodeLayerHalf{
 	KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_PRINT_SCREEN, KC_SCROLL_LOCK, // function row
-	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+	KC_TRANSPARENT, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINUS,
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 	KC_PAUSE /*end of function row*/, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -47,8 +47,64 @@ func KeyPadKinesis(input KeyCodeRepresentable) keycode_kinesis {
 }
 
 var kinesisAdv2LayerMapping_confirmed = map[KeyCodeRepresentable]KeyCodeRepresentable{
-	KC_ESCAPE: KeyPadKinesis(KC_ESCAPE),
-	KC_F1:     KeyPadKinesis(KC_LEFT_GUI),
+	KC_ESCAPE:       KeyPadKinesis(KC_ESCAPE),
+	KC_F1:           KeyPadKinesis(KC_LEFT_GUI),
+	KC_F2:           KeyPadKinesis(KC_RIGHT_ALT),
+	KC_F3:           KeyPadKinesis(KC_MENU),
+	KC_F4:           KeyPadKinesis(KC_MEDIA_PLAY_PAUSE),
+	KC_F5:           KeyPadKinesis(KC_MEDIA_PREV_TRACK),
+	KC_F6:           KeyPadKinesis(KC_MEDIA_NEXT_TRACK),
+	KC_F7:           KeyPadKinesis(KC_CALCULATOR),
+	KC_F8:           KeyPadKinesis(KC_VK_KPSHIFT),
+	KC_F9:           KeyPadKinesis(KC_F9),
+	KC_F10:          KeyPadKinesis(KC_F10),
+	KC_F11:          KeyPadKinesis(KC_F11),
+	KC_F12:          KeyPadKinesis(KC_F12),
+	KC_PRINT_SCREEN: KC_AUDIO_MUTE,
+	KC_SCROLL_LOCK:  KC_AUDIO_VOL_UP,
+	KC_PAUSE:        KC_AUDIO_VOL_DOWN,
+	// number row
+	KC_EQUAL: KeyPadKinesis(KC_EQUAL),
+	KC_1:     KeyPadKinesis(KC_1),
+	KC_2:     KeyPadKinesis(KC_2),
+	KC_3:     KeyPadKinesis(KC_3),
+	KC_4:     KeyPadKinesis(KC_4),
+	KC_5:     KeyPadKinesis(KC_5),
+	KC_6:     KeyPadKinesis(KC_6),
+	KC_7:     KC_NUM_LOCK,
+	KC_8:     KC_KP_EQUAL,
+	KC_9:     KC_KP_SLASH,
+	KC_0:     KC_KP_ASTERISK,
+	KC_MINUS: KeyPadKinesis(KC_MINUS),
+
+	// first alpha row
+	KC_TAB:       KeyPadKinesis(KC_TAB),
+	KC_Q:         KeyPadKinesis(KC_Q),
+	KC_W:         KeyPadKinesis(KC_E),
+	KC_E:         KeyPadKinesis(KC_W),
+	KC_R:         KeyPadKinesis(KC_R),
+	KC_T:         KeyPadKinesis(KC_T),
+	KC_Y:         KeyPadKinesis(KC_Y),
+	KC_U:         KC_KP_7,
+	KC_I:         KC_KP_8,
+	KC_O:         KC_KP_9,
+	KC_P:         KC_KP_MINUS,
+	KC_BACKSLASH: KeyPadKinesis(KC_BACKSLASH),
+
+	// second alpha row
+	KC_CAPS_LOCK: KeyPadKinesis(KC_CAPS_LOCK),
+	KC_A:         KeyPadKinesis(KC_A),
+	KC_S:         KeyPadKinesis(KC_S),
+	KC_D:         KeyPadKinesis(KC_D),
+	KC_F:         KeyPadKinesis(KC_F),
+	KC_G:         KeyPadKinesis(KC_G),
+	KC_H:         KeyPadKinesis(KC_H),
+	KC_J:         KC_KP_4,
+	KC_K:         KC_KP_5,
+	KC_L:         KC_KP_6,
+	KC_SEMICOLON: KC_KP_PLUS,
+	KC_QUOTE:     KeyPadKinesis(KC_BACKSLASH),
+
 	// NEED MORE HERE
 }
 
