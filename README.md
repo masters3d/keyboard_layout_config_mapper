@@ -49,6 +49,8 @@ http://xahlee.info/kbd/fancy_keyboards.html
 https://www.reddit.com/r/MechanicalKeyboards/comments/91wwse/gmk_9009_ortho_just_arrived_today/?st=JK219TUF&sh=297dd81e
 https://www.allthingsergo.com/dyi-ergonomic-keyboard/
 https://trulyergonomic.com/ergonomic-keyboards/best-truly-ergonomic-mechanical-keyboard/
+https://x-bows.com/collections/keyboards/products/x-bows-lite-ergonomic-mechanical-keyboard // The light is not using open source software to program
+https://x-bows.com/products/x-bows-nature-ergonomic-mechanical-keyboard // this uses qmc
 https://www.reddit.com/r/MechanicalKeyboards/comments/dk9b34/tractyl_split_keyboard_with_trackball/?utm_source=ifttt
 https://drop.com/buy/x-bows-knight-plus-ergonomic-mechanical-keyboard
 https://www.maltron.com/store/p20/Maltron_L90_dual_hand_fully_ergonomic_%283D%29_keyboard_-_US_English.html
@@ -59,3 +61,8 @@ https://bastardkb.com/
 Almost Cool:
 https://www.zergotech.com/products/zergotech-freedom-mechanical-ergonomic-keyboard
 https://www.pcbway.com/project/shareproject/ErgoDox_Creation___Infinity_ErgoDox_Mod.html
+
+Some old keyboards:
+http://xahlee.info/kbd/nec_ergofit_keyboard.html
+http://xahlee.info/kbd/Truly_Ergonomic_keyboard.html
+http://xahlee.info/kbd/ergonomic_keyboard_history_index.html
