@@ -57,6 +57,8 @@ func (self keycode_kinesis) String() string {
 	return self.description
 }
 
+// TODO: We are calling two in two nested functions
+// kinesis_confirmed calls this function again. I hate recursion
 func KeyPadKinesis(input KeyCodeRepresentable) keycode_kinesis {
 	value, isOk := kinesis_confirmed[input]
 	if isOk {
