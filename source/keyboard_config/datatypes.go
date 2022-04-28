@@ -2,18 +2,6 @@ package keyboard_config
 
 import "strconv"
 
-//go:generate stringer -type=macrocode
-type macrocode uint
-
-const (
-	PLACEHOLDER macrocode = iota
-	ST_MACRO_Screenshot
-	ST_MACRO_Anglebrakets
-	ST_MACRO_Parenthesis
-	ST_MACRO_SquareBraces
-	ST_MACRO_CurlyBraces
-)
-
 //go:generate stringer -type=keycode
 type keycode uint
 
