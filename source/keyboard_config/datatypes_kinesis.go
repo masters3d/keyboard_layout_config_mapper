@@ -19,6 +19,23 @@ var Adv2TopLayerRight = KeycodeLayerHalf{
 	KC_TRANSPARENT, KC_RIGHT_GUI, KC_PAGE_UP, KC_PAGE_DOWN, KC_ENTER, KC_SPACE, KC_TRANSPARENT,
 }
 
+var AdvKeypad = []string{
+	`kp-F1`, `kp-F2`, `kp-F3`, `kp-F4`, `kp-F5`, `kp-F6`, `kp-F7`,
+	`kp-F8`, `kp-F9`, `kp-F10`, `kp-F11`, `kp-F12`, `kp-prtscr`, `kp-SCROLL`,
+	`kp-=`, `kp-1`, `kp-2`, `kp-3`, `kp-4`, `kp-5`, `_`,
+	`kp-lp-tab`, `kp-6`, `kp-7`, `kp-8`, `kp-9`, `kp-0`, `kp-HYPHEN`,
+	`kp-tab`, `kp-Q`, `kp-W`, `kp-E`, `kp-R`, `kp-T`, `_`,
+	`kp-mp-kpshf`, `kp-Y`, `kp-U`, `kp-I`, `kp-O`, `kp-P`, `kp-\`,
+	`kp-caps`, `kp-A`, `kp-S`, `kp-D`, `kp-F`, `kp-G`, `_`,
+	`kp-rp-kpent`, `kp-H`, `kp-J`, `kp-K`, `kp-L`, `kp-;`, `kp-'`,
+	`kp-lshift`, `kp-Z`, `kp-X`, `kp-C`, `kp-V`, `kp-B`, `_`,
+	`_`, `kp-N`, `kp-M`, `kp-,`, `kp-.`, `kp-/`, `kp-rshift`,
+	`kp-escape`, "kp-`", `kp-INSERT`, `kp-LEFT`, `kp-RIGHT`, `kp-lctrl`, `_`,
+	`_`, `kp-rctrl`, `kp-UP`, `kp-DOWN`, `kp-oBRACK`, `kp-cBRACk`, `kp-PAUSE`,
+	`_`, `kp-BSPACE`, `kp-DELETE`, `kp-END`, `kp-HOME`, `kp-lalt`, `_`,
+	`_`, `kp-rwin`, `kp-pup`, `kp-pdown`, `kp-enter`, `kp-SPACE`, `_`,
+}
+
 type keycode_kinesis struct {
 	description string
 	tokenname   string
@@ -45,6 +62,7 @@ func KeyPadKinesis(input KeyCodeRepresentable) keycode_kinesis {
 	if isOk {
 		return keycode_kinesis{"KP_" + input.String(), "kp-" + value}
 	}
+	// Handle Keypad
 	return keycode_kinesis{"UNKNOWN", "UNKNOWN"}
 }
 
