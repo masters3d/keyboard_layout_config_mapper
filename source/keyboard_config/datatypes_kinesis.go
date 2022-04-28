@@ -19,21 +19,21 @@ var Adv2TopLayerRight = KeycodeLayerHalf{
 	KC_TRANSPARENT, KC_RIGHT_GUI, KC_PAGE_UP, KC_PAGE_DOWN, KC_ENTER, KC_SPACE, KC_TRANSPARENT,
 }
 
-var AdvKeypad = []string{
-	`kp-F1`, `kp-F2`, `kp-F3`, `kp-F4`, `kp-F5`, `kp-F6`, `kp-F7`,
-	`kp-F8`, `kp-F9`, `kp-F10`, `kp-F11`, `kp-F12`, `kp-prtscr`, `kp-SCROLL`,
-	`kp-=`, `kp-1`, `kp-2`, `kp-3`, `kp-4`, `kp-5`, `_`,
-	`kp-lp-tab`, `kp-6`, `kp-7`, `kp-8`, `kp-9`, `kp-0`, `kp-HYPHEN`,
-	`kp-tab`, `kp-Q`, `kp-W`, `kp-E`, `kp-R`, `kp-T`, `_`,
-	`kp-mp-kpshf`, `kp-Y`, `kp-U`, `kp-I`, `kp-O`, `kp-P`, `kp-\`,
-	`kp-caps`, `kp-A`, `kp-S`, `kp-D`, `kp-F`, `kp-G`, `_`,
-	`kp-rp-kpent`, `kp-H`, `kp-J`, `kp-K`, `kp-L`, `kp-;`, `kp-'`,
-	`kp-lshift`, `kp-Z`, `kp-X`, `kp-C`, `kp-V`, `kp-B`, `_`,
-	`_`, `kp-N`, `kp-M`, `kp-,`, `kp-.`, `kp-/`, `kp-rshift`,
-	`kp-escape`, "kp-`", `kp-INSERT`, `kp-LEFT`, `kp-RIGHT`, `kp-lctrl`, `_`,
-	`_`, `kp-rctrl`, `kp-UP`, `kp-DOWN`, `kp-oBRACK`, `kp-cBRACk`, `kp-PAUSE`,
-	`_`, `kp-BSPACE`, `kp-DELETE`, `kp-END`, `kp-HOME`, `kp-lalt`, `_`,
-	`_`, `kp-rwin`, `kp-pup`, `kp-pdown`, `kp-enter`, `kp-SPACE`, `_`,
+var Adv2Keypad = []string{
+	`kp-lwin`, `kp-ralt`, `kp-MENU`, `kp-PLAY`, `kp-PREV`, `kp-NEXT`, `kp-CALC`,
+	`kp-KPSHIFT`, `kp-F9`, `kp-F10`, `kp-F11`, `kp-F12`, `mute`, `vol+`,
+	`kp-=`, `kp-1`, `kp-2`, `kp-3`, `kp-4`, `kp-5`, `null`,
+	`kp-lp-tab`, `kp-6`, `numlk`, `kp=`, `kpdiv`, `kpmult`, `kp-HYPHEN`,
+	`kp-tab`, `kp-Q`, `kp-E`, `kp-W`, `kp-R`, `kp-T`, `null`,
+	`kp-mp-kpshf`, `kp-Y`, `kp7`, `kp8`, `kp9`, `kpmin`, `kp-\`,
+	`kp-caps`, `kp-A`, `kp-S`, `kp-D`, `kp-F`, `kp-G`, `null`,
+	`kp-rp-kpent`, `kp-H`, `kp4`, `kp5`, `kp6`, `kpplus`, `kp-'`,
+	`kp-lshift`, `kp-Z`, `kp-X`, `kp-C`, `kp-V`, `kp-B`, `null`,
+	`null`, `kp-N`, `kp1`, `kp2`, `kp3`, `kpenter-1`, `kp-rshift`,
+	`kp-escape`, "kp-`", `kp-INSERT`, `kp-LEFT`, `kp-RIGHT`, `kp-lctrl`, `null`,
+	`null`, `kp-rctrl`, `kp-UP`, `kp-DOWN`, `kp.`, `kpenter-2`, `vol-`,
+	`null`, `kp-BSPACE`, `kp-DELETE`, `kp-END`, `kp-HOME`, `kp-lalt`, `null`,
+	`null`, `kp-rwin`, `kp-pup`, `kp-pdown`, `kp-enter`, `kp0`, `null`,
 }
 
 type keycode_kinesis struct {
@@ -81,6 +81,7 @@ func KinesisKeypayLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesi
 }
 
 var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]keycode_kinesis{
+	KC_TRANSPARENT:  {description: "null", tokenname: "null"},
 	KC_ESCAPE:       _keyPadKinesisHelper(KC_ESCAPE),
 	KC_F1:           _keyPadKinesisHelper(KC_LEFT_GUI),
 	KC_F2:           _keyPadKinesisHelper(KC_RIGHT_ALT),
@@ -137,7 +138,7 @@ var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]keycode_kinesis{
 	KC_K:         {description: KC_KP_5.String(), tokenname: "kp5"},
 	KC_L:         {description: KC_KP_6.String(), tokenname: "kp6"},
 	KC_SEMICOLON: {description: KC_KP_PLUS.String(), tokenname: "kpplus"},
-	KC_QUOTE:     _keyPadKinesisHelper(KC_BACKSLASH),
+	KC_QUOTE:     _keyPadKinesisHelper(KC_QUOTE),
 
 	// third alpha row
 	KC_LEFT_SHIFT:  _keyPadKinesisHelper(KC_LEFT_SHIFT),
@@ -252,6 +253,12 @@ var kinesis_confirmed = map[KeyCodeRepresentable]string{
 	KC_MEDIA_PREV_TRACK: "PREV",
 	KC_MEDIA_PLAY_PAUSE: "PLAY",
 	KC_CALCULATOR:       "CALC",
+	KC_GRAVE:            "tilde", // ` this needs reverse escaping so we are going to switch to "tilde"
+	KC_QUOTE:            "apos",  // apos or '
+	KC_COMMA:            "com",   // com or ,
+	KC_DOT:              "per",   // per or .
+	KC_SEMICOLON:        "colon", // colon or ;
+
 	//
 	// TypeableChars
 	//
@@ -292,13 +299,8 @@ var kinesis_confirmed = map[KeyCodeRepresentable]string{
 	KC_9:         "9",
 	KC_0:         "0",
 	KC_EQUAL:     "=",
-	KC_GRAVE:     "`",
-	KC_COMMA:     ",",
-	KC_DOT:       ".",
 	KC_SLASH:     "/",
 	KC_BACKSLASH: `\`, // this needs to be escaped
-	KC_QUOTE:     "'",
-	KC_SEMICOLON: ";",
 	//
 	// custom characters only on kinesis
 	//

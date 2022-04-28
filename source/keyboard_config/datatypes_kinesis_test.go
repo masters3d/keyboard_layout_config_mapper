@@ -25,9 +25,6 @@ func Test_Creating_KeyPad_Descriptions_FullArray(t *testing.T) {
 		}
 		_, value := KinesisKeypayLayerMapping(keycode_each_target)
 		token_name := value.tokenname
-		if keycode_each_target.String() == "KC_TRANSPARENT" {
-			token_name = `_`
-		}
 
 		toprint := "`" + token_name + "`"
 		fmt.Print(toprint, ", ")
