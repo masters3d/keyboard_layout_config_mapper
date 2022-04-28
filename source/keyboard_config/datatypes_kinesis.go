@@ -19,7 +19,7 @@ var Adv2TopLayerRight = KeycodeLayerHalf{
 	KC_TRANSPARENT, KC_RIGHT_GUI, KC_PAGE_UP, KC_PAGE_DOWN, KC_ENTER, KC_SPACE, KC_TRANSPARENT,
 }
 
-var Adv2Keypad = []string{
+var Adv2KeypadValidation = []string{
 	`kp-lwin`, `kp-ralt`, `kp-MENU`, `kp-PLAY`, `kp-PREV`, `kp-NEXT`, `kp-CALC`,
 	`kp-KPSHIFT`, `kp-F9`, `kp-F10`, `kp-F11`, `kp-F12`, `mute`, `vol+`,
 	`kp-=`, `kp-1`, `kp-2`, `kp-3`, `kp-4`, `kp-5`, `null`,
@@ -71,7 +71,7 @@ func _keyPadKinesisHelper(input KeyCodeRepresentable) keycode_kinesis {
 	return keycode_kinesis{unknown_sigil, unknown_sigil}
 }
 
-func KinesisKeypayLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesis) {
+func KinesisKeypadLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesis) {
 	value, isOk := kinesisAdv2ndLayerMapping[input]
 	if isOk && value.tokenname != unknown_sigil {
 		return true, value

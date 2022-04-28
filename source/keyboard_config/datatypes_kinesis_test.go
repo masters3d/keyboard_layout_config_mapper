@@ -1,14 +1,13 @@
 package keyboard_config
 
 import (
-	"fmt"
 	"testing"
 )
 
 func Test_Creating_KeyPad_Descriptions(t *testing.T) {
 
 	expectedValue := "kp-escape"
-	_, actual := KinesisKeypayLayerMapping(KC_ESCAPE)
+	_, actual := KinesisKeypadLayerMapping(KC_ESCAPE)
 	if expectedValue != actual.tokenname {
 		var message = "actual:" + actual.tokenname + ", expected:" + expectedValue
 		t.Error(message)
@@ -17,25 +16,18 @@ func Test_Creating_KeyPad_Descriptions(t *testing.T) {
 func Test_Creating_KeyPad_Descriptions_FullArray(t *testing.T) {
 
 	var fullLayerTargetAdv2Default = mergeHalfs(Adv2TopLayerLeft, Adv2TopLayerRight)
-	//var fullLayerTargetAdv2_Keypad = mergeHalfs(Adv2KeypadLayerLeft, Adv2KeypadLayerRight)
 
 	for index, keycode_each_target := range fullLayerTargetAdv2Default {
-		if (index)%rowCount == 0 && index != 0 {
-			fmt.Println("")
+
+		expected := Adv2KeypadValidation[index]
+
+		_, value := KinesisKeypadLayerMapping(keycode_each_target)
+		got := value.tokenname
+
+		if expected != got {
+			var message = ":`" + keycode_each_target.String() + "` should map to `" + expected + "` but instead we got `" + got + "`"
+			t.Error(message)
 		}
-		_, value := KinesisKeypayLayerMapping(keycode_each_target)
-		token_name := value.tokenname
-
-		toprint := "`" + token_name + "`"
-		fmt.Print(toprint, ", ")
-
-		//var expected = kinesisAdv2ndLayer(keycode_each_target)
-		//var got = fullLayerTargetAdv2_Keypad[index]
-
-		// if expected != got {
-		// 	var message = ":`" + keycode_each_target.String() + "` should map to `" + expected.String() + "` but instead we got `" + got.String() + "`"
-		// 	t.Error(message)
-		// }
 
 	}
 
