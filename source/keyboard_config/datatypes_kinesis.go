@@ -59,117 +59,129 @@ func (self keycode_kinesis) String() string {
 
 // TODO: We are calling two in two nested functions
 // kinesis_confirmed calls this function again. I hate recursion
-func KeyPadKinesis(input KeyCodeRepresentable) keycode_kinesis {
+
+const unknown_sigil = "UNKNOWN"
+
+func _keyPadKinesisHelper(input KeyCodeRepresentable) keycode_kinesis {
 	value, isOk := kinesis_confirmed[input]
 	if isOk {
 		return keycode_kinesis{"KP_" + input.String(), "kp-" + value}
 	}
 	// Handle Keypad
-	return keycode_kinesis{"UNKNOWN", "UNKNOWN"}
+	return keycode_kinesis{unknown_sigil, unknown_sigil}
+}
+
+func KinesisKeypayLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesis) {
+	value, isOk := kinesisAdv2ndLayerMapping[input]
+	if isOk && value.tokenname != unknown_sigil {
+		return true, value
+	}
+	// Handle Keypad
+	return false, value
 }
 
 var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]keycode_kinesis{
-	KC_ESCAPE:       KeyPadKinesis(KC_ESCAPE),
-	KC_F1:           KeyPadKinesis(KC_LEFT_GUI),
-	KC_F2:           KeyPadKinesis(KC_RIGHT_ALT),
-	KC_F3:           KeyPadKinesis(KC_MENU),
-	KC_F4:           KeyPadKinesis(KC_MEDIA_PLAY_PAUSE),
-	KC_F5:           KeyPadKinesis(KC_MEDIA_PREV_TRACK),
-	KC_F6:           KeyPadKinesis(KC_MEDIA_NEXT_TRACK),
-	KC_F7:           KeyPadKinesis(KC_CALCULATOR),
-	KC_F8:           KeyPadKinesis(KC_VK_KPSHIFT),
-	KC_F9:           KeyPadKinesis(KC_F9),
-	KC_F10:          KeyPadKinesis(KC_F10),
-	KC_F11:          KeyPadKinesis(KC_F11),
-	KC_F12:          KeyPadKinesis(KC_F12),
+	KC_ESCAPE:       _keyPadKinesisHelper(KC_ESCAPE),
+	KC_F1:           _keyPadKinesisHelper(KC_LEFT_GUI),
+	KC_F2:           _keyPadKinesisHelper(KC_RIGHT_ALT),
+	KC_F3:           _keyPadKinesisHelper(KC_MENU),
+	KC_F4:           _keyPadKinesisHelper(KC_MEDIA_PLAY_PAUSE),
+	KC_F5:           _keyPadKinesisHelper(KC_MEDIA_PREV_TRACK),
+	KC_F6:           _keyPadKinesisHelper(KC_MEDIA_NEXT_TRACK),
+	KC_F7:           _keyPadKinesisHelper(KC_CALCULATOR),
+	KC_F8:           _keyPadKinesisHelper(KC_VK_KPSHIFT),
+	KC_F9:           _keyPadKinesisHelper(KC_F9),
+	KC_F10:          _keyPadKinesisHelper(KC_F10),
+	KC_F11:          _keyPadKinesisHelper(KC_F11),
+	KC_F12:          _keyPadKinesisHelper(KC_F12),
 	KC_PRINT_SCREEN: {description: KC_AUDIO_MUTE.String(), tokenname: "mute"},
 	KC_SCROLL_LOCK:  {description: KC_AUDIO_VOL_UP.String(), tokenname: "vol+"},
 	KC_PAUSE:        {description: KC_AUDIO_VOL_DOWN.String(), tokenname: "vol-"},
 	// number row
-	KC_EQUAL: KeyPadKinesis(KC_EQUAL),
-	KC_1:     KeyPadKinesis(KC_1),
-	KC_2:     KeyPadKinesis(KC_2),
-	KC_3:     KeyPadKinesis(KC_3),
-	KC_4:     KeyPadKinesis(KC_4),
-	KC_5:     KeyPadKinesis(KC_5),
-	KC_6:     KeyPadKinesis(KC_6),
+	KC_EQUAL: _keyPadKinesisHelper(KC_EQUAL),
+	KC_1:     _keyPadKinesisHelper(KC_1),
+	KC_2:     _keyPadKinesisHelper(KC_2),
+	KC_3:     _keyPadKinesisHelper(KC_3),
+	KC_4:     _keyPadKinesisHelper(KC_4),
+	KC_5:     _keyPadKinesisHelper(KC_5),
+	KC_6:     _keyPadKinesisHelper(KC_6),
 	KC_7:     {description: KC_NUM_LOCK.String(), tokenname: "numlk"},
 	KC_8:     {description: KC_KP_EQUAL.String(), tokenname: "kp="},
 	KC_9:     {description: KC_KP_SLASH.String(), tokenname: "kpdiv"},
 	KC_0:     {description: KC_KP_ASTERISK.String(), tokenname: "kpmult"},
-	KC_MINUS: KeyPadKinesis(KC_MINUS),
+	KC_MINUS: _keyPadKinesisHelper(KC_MINUS),
 
 	// first alpha row
-	KC_TAB:       KeyPadKinesis(KC_TAB),
-	KC_Q:         KeyPadKinesis(KC_Q),
-	KC_W:         KeyPadKinesis(KC_E),
-	KC_E:         KeyPadKinesis(KC_W),
-	KC_R:         KeyPadKinesis(KC_R),
-	KC_T:         KeyPadKinesis(KC_T),
-	KC_Y:         KeyPadKinesis(KC_Y),
+	KC_TAB:       _keyPadKinesisHelper(KC_TAB),
+	KC_Q:         _keyPadKinesisHelper(KC_Q),
+	KC_W:         _keyPadKinesisHelper(KC_E),
+	KC_E:         _keyPadKinesisHelper(KC_W),
+	KC_R:         _keyPadKinesisHelper(KC_R),
+	KC_T:         _keyPadKinesisHelper(KC_T),
+	KC_Y:         _keyPadKinesisHelper(KC_Y),
 	KC_U:         {description: KC_KP_7.String(), tokenname: "kp7"},
 	KC_I:         {description: KC_KP_8.String(), tokenname: "kp8"},
 	KC_O:         {description: KC_KP_9.String(), tokenname: "kp9"},
 	KC_P:         {description: KC_KP_MINUS.String(), tokenname: "kpmin"},
-	KC_BACKSLASH: KeyPadKinesis(KC_BACKSLASH),
+	KC_BACKSLASH: _keyPadKinesisHelper(KC_BACKSLASH),
 
 	// second alpha row
-	KC_CAPS_LOCK: KeyPadKinesis(KC_CAPS_LOCK),
-	KC_A:         KeyPadKinesis(KC_A),
-	KC_S:         KeyPadKinesis(KC_S),
-	KC_D:         KeyPadKinesis(KC_D),
-	KC_F:         KeyPadKinesis(KC_F),
-	KC_G:         KeyPadKinesis(KC_G),
-	KC_H:         KeyPadKinesis(KC_H),
+	KC_CAPS_LOCK: _keyPadKinesisHelper(KC_CAPS_LOCK),
+	KC_A:         _keyPadKinesisHelper(KC_A),
+	KC_S:         _keyPadKinesisHelper(KC_S),
+	KC_D:         _keyPadKinesisHelper(KC_D),
+	KC_F:         _keyPadKinesisHelper(KC_F),
+	KC_G:         _keyPadKinesisHelper(KC_G),
+	KC_H:         _keyPadKinesisHelper(KC_H),
 	KC_J:         {description: KC_KP_4.String(), tokenname: "kp4"},
 	KC_K:         {description: KC_KP_5.String(), tokenname: "kp5"},
 	KC_L:         {description: KC_KP_6.String(), tokenname: "kp6"},
 	KC_SEMICOLON: {description: KC_KP_PLUS.String(), tokenname: "kpplus"},
-	KC_QUOTE:     KeyPadKinesis(KC_BACKSLASH),
+	KC_QUOTE:     _keyPadKinesisHelper(KC_BACKSLASH),
 
 	// third alpha row
-	KC_LEFT_SHIFT:  KeyPadKinesis(KC_LEFT_SHIFT),
-	KC_Z:           KeyPadKinesis(KC_Z),
-	KC_X:           KeyPadKinesis(KC_X),
-	KC_C:           KeyPadKinesis(KC_C),
-	KC_V:           KeyPadKinesis(KC_V),
-	KC_B:           KeyPadKinesis(KC_B),
-	KC_N:           KeyPadKinesis(KC_N),
+	KC_LEFT_SHIFT:  _keyPadKinesisHelper(KC_LEFT_SHIFT),
+	KC_Z:           _keyPadKinesisHelper(KC_Z),
+	KC_X:           _keyPadKinesisHelper(KC_X),
+	KC_C:           _keyPadKinesisHelper(KC_C),
+	KC_V:           _keyPadKinesisHelper(KC_V),
+	KC_B:           _keyPadKinesisHelper(KC_B),
+	KC_N:           _keyPadKinesisHelper(KC_N),
 	KC_M:           {description: KC_KP_1.String(), tokenname: "kp1"},
 	KC_COMMA:       {description: KC_KP_2.String(), tokenname: "kp2"},
 	KC_DOT:         {description: KC_KP_3.String(), tokenname: "kp3"},
 	KC_SLASH:       {description: KC_KP_ENTER.String(), tokenname: "kpenter-1"},
-	KC_RIGHT_SHIFT: KeyPadKinesis(KC_RIGHT_SHIFT),
+	KC_RIGHT_SHIFT: _keyPadKinesisHelper(KC_RIGHT_SHIFT),
 
 	// last  row
-	KC_GRAVE:  KeyPadKinesis(KC_GRAVE),
-	KC_INSERT: KeyPadKinesis(KC_INSERT),
-	KC_LEFT:   KeyPadKinesis(KC_LEFT),
-	KC_RIGHT:  KeyPadKinesis(KC_RIGHT),
+	KC_GRAVE:  _keyPadKinesisHelper(KC_GRAVE),
+	KC_INSERT: _keyPadKinesisHelper(KC_INSERT),
+	KC_LEFT:   _keyPadKinesisHelper(KC_LEFT),
+	KC_RIGHT:  _keyPadKinesisHelper(KC_RIGHT),
 
-	KC_UP:            KeyPadKinesis(KC_UP),
-	KC_DOWN:          KeyPadKinesis(KC_DOWN),
+	KC_UP:            _keyPadKinesisHelper(KC_UP),
+	KC_DOWN:          _keyPadKinesisHelper(KC_DOWN),
 	KC_LEFT_BRACKET:  {description: KC_KP_DOT.String(), tokenname: "kp."},
 	KC_RIGHT_BRACKET: {description: KC_RETURN.String(), tokenname: "kpenter-2"},
 
 	// thumb clusters
-	KC_LEFT_CTRL:  KeyPadKinesis(KC_LEFT_CTRL),
-	KC_LEFT_ALT:   KeyPadKinesis(KC_LEFT_ALT),
-	KC_RIGHT_GUI:  KeyPadKinesis(KC_RIGHT_GUI),
-	KC_RIGHT_CTRL: KeyPadKinesis(KC_RIGHT_CTRL),
-	KC_BACKSPACE:  KeyPadKinesis(KC_BACKSPACE),
-	KC_DELETE:     KeyPadKinesis(KC_DELETE),
-	KC_HOME:       KeyPadKinesis(KC_HOME),
-	KC_PAGE_UP:    KeyPadKinesis(KC_PAGE_UP),
-	KC_ENTER:      KeyPadKinesis(KC_ENTER),
+	KC_LEFT_CTRL:  _keyPadKinesisHelper(KC_LEFT_CTRL),
+	KC_LEFT_ALT:   _keyPadKinesisHelper(KC_LEFT_ALT),
+	KC_RIGHT_GUI:  _keyPadKinesisHelper(KC_RIGHT_GUI),
+	KC_RIGHT_CTRL: _keyPadKinesisHelper(KC_RIGHT_CTRL),
+	KC_BACKSPACE:  _keyPadKinesisHelper(KC_BACKSPACE),
+	KC_DELETE:     _keyPadKinesisHelper(KC_DELETE),
+	KC_HOME:       _keyPadKinesisHelper(KC_HOME),
+	KC_PAGE_UP:    _keyPadKinesisHelper(KC_PAGE_UP),
+	KC_ENTER:      _keyPadKinesisHelper(KC_ENTER),
 	KC_SPACE:      {description: KC_KP_0.String(), tokenname: "kp0"},
-	KC_END:        KeyPadKinesis(KC_END),
-	KC_PAGE_DOWN:  KeyPadKinesis(KC_PAGE_DOWN),
+	KC_END:        _keyPadKinesisHelper(KC_END),
+	KC_PAGE_DOWN:  _keyPadKinesisHelper(KC_PAGE_DOWN),
 
 	// pedals
-	KC_VK_LPEDAL: KeyPadKinesis(KC_VK_LPEDAL),
-	KC_VK_MPEDAL: KeyPadKinesis(KC_VK_MPEDAL),
-	KC_VK_RPEDAL: KeyPadKinesis(KC_VK_RPEDAL),
+	KC_VK_LPEDAL: _keyPadKinesisHelper(KC_VK_LPEDAL),
+	KC_VK_MPEDAL: _keyPadKinesisHelper(KC_VK_MPEDAL),
+	KC_VK_RPEDAL: _keyPadKinesisHelper(KC_VK_RPEDAL),
 }
 
 var kinesis_confirmed = map[KeyCodeRepresentable]string{

@@ -8,12 +8,11 @@ import (
 func Test_Creating_KeyPad_Descriptions(t *testing.T) {
 
 	expectedValue := "kp-escape"
-	actual := KeyPadKinesis(KC_ESCAPE).tokenname
-	if expectedValue != actual {
-		var message = "actual:" + actual + ", expected:" + expectedValue
+	_, actual := KinesisKeypayLayerMapping(KC_ESCAPE)
+	if expectedValue != actual.tokenname {
+		var message = "actual:" + actual.tokenname + ", expected:" + expectedValue
 		t.Error(message)
 	}
-
 }
 func Test_Creating_KeyPad_Descriptions_FullArray(t *testing.T) {
 
@@ -24,12 +23,13 @@ func Test_Creating_KeyPad_Descriptions_FullArray(t *testing.T) {
 		if (index)%rowCount == 0 && index != 0 {
 			fmt.Println("")
 		}
-		value := KeyPadKinesis(keycode_each_target).tokenname
+		_, value := KinesisKeypayLayerMapping(keycode_each_target)
+		token_name := value.tokenname
 		if keycode_each_target.String() == "KC_TRANSPARENT" {
-			value = `_`
+			token_name = `_`
 		}
 
-		toprint := "`" + value + "`"
+		toprint := "`" + token_name + "`"
 		fmt.Print(toprint, ", ")
 
 		//var expected = kinesisAdv2ndLayer(keycode_each_target)
