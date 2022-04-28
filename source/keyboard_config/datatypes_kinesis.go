@@ -68,7 +68,7 @@ func KeyPadKinesis(input KeyCodeRepresentable) keycode_kinesis {
 	return keycode_kinesis{"UNKNOWN", "UNKNOWN"}
 }
 
-var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
+var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]keycode_kinesis{
 	KC_ESCAPE:       KeyPadKinesis(KC_ESCAPE),
 	KC_F1:           KeyPadKinesis(KC_LEFT_GUI),
 	KC_F2:           KeyPadKinesis(KC_RIGHT_ALT),
@@ -82,9 +82,9 @@ var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
 	KC_F10:          KeyPadKinesis(KC_F10),
 	KC_F11:          KeyPadKinesis(KC_F11),
 	KC_F12:          KeyPadKinesis(KC_F12),
-	KC_PRINT_SCREEN: KC_AUDIO_MUTE,
-	KC_SCROLL_LOCK:  KC_AUDIO_VOL_UP,
-	KC_PAUSE:        KC_AUDIO_VOL_DOWN,
+	KC_PRINT_SCREEN: {description: KC_AUDIO_MUTE.String(), tokenname: "mute"},
+	KC_SCROLL_LOCK:  {description: KC_AUDIO_VOL_UP.String(), tokenname: "vol+"},
+	KC_PAUSE:        {description: KC_AUDIO_VOL_DOWN.String(), tokenname: "vol-"},
 	// number row
 	KC_EQUAL: KeyPadKinesis(KC_EQUAL),
 	KC_1:     KeyPadKinesis(KC_1),
@@ -93,10 +93,10 @@ var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
 	KC_4:     KeyPadKinesis(KC_4),
 	KC_5:     KeyPadKinesis(KC_5),
 	KC_6:     KeyPadKinesis(KC_6),
-	KC_7:     KC_NUM_LOCK,
-	KC_8:     KC_KP_EQUAL,
-	KC_9:     KC_KP_SLASH,
-	KC_0:     KC_KP_ASTERISK,
+	KC_7:     {description: KC_NUM_LOCK.String(), tokenname: "numlk"},
+	KC_8:     {description: KC_KP_EQUAL.String(), tokenname: "kp="},
+	KC_9:     {description: KC_KP_SLASH.String(), tokenname: "kpdiv"},
+	KC_0:     {description: KC_KP_ASTERISK.String(), tokenname: "kpmult"},
 	KC_MINUS: KeyPadKinesis(KC_MINUS),
 
 	// first alpha row
@@ -107,10 +107,10 @@ var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
 	KC_R:         KeyPadKinesis(KC_R),
 	KC_T:         KeyPadKinesis(KC_T),
 	KC_Y:         KeyPadKinesis(KC_Y),
-	KC_U:         KC_KP_7,
-	KC_I:         KC_KP_8,
-	KC_O:         KC_KP_9,
-	KC_P:         KC_KP_MINUS,
+	KC_U:         {description: KC_KP_7.String(), tokenname: "kp7"},
+	KC_I:         {description: KC_KP_8.String(), tokenname: "kp8"},
+	KC_O:         {description: KC_KP_9.String(), tokenname: "kp9"},
+	KC_P:         {description: KC_KP_MINUS.String(), tokenname: "kpmin"},
 	KC_BACKSLASH: KeyPadKinesis(KC_BACKSLASH),
 
 	// second alpha row
@@ -121,10 +121,10 @@ var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
 	KC_F:         KeyPadKinesis(KC_F),
 	KC_G:         KeyPadKinesis(KC_G),
 	KC_H:         KeyPadKinesis(KC_H),
-	KC_J:         KC_KP_4,
-	KC_K:         KC_KP_5,
-	KC_L:         KC_KP_6,
-	KC_SEMICOLON: KC_KP_PLUS,
+	KC_J:         {description: KC_KP_4.String(), tokenname: "kp4"},
+	KC_K:         {description: KC_KP_5.String(), tokenname: "kp5"},
+	KC_L:         {description: KC_KP_6.String(), tokenname: "kp6"},
+	KC_SEMICOLON: {description: KC_KP_PLUS.String(), tokenname: "kpplus"},
 	KC_QUOTE:     KeyPadKinesis(KC_BACKSLASH),
 
 	// third alpha row
@@ -135,10 +135,10 @@ var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
 	KC_V:           KeyPadKinesis(KC_V),
 	KC_B:           KeyPadKinesis(KC_B),
 	KC_N:           KeyPadKinesis(KC_N),
-	KC_M:           KC_KP_1,
-	KC_COMMA:       KC_KP_2,
-	KC_DOT:         KC_KP_3,
-	KC_SLASH:       KC_KP_ENTER,
+	KC_M:           {description: KC_KP_1.String(), tokenname: "kp1"},
+	KC_COMMA:       {description: KC_KP_2.String(), tokenname: "kp2"},
+	KC_DOT:         {description: KC_KP_3.String(), tokenname: "kp3"},
+	KC_SLASH:       {description: KC_KP_ENTER.String(), tokenname: "kpenter-1"},
 	KC_RIGHT_SHIFT: KeyPadKinesis(KC_RIGHT_SHIFT),
 
 	// last  row
@@ -149,8 +149,8 @@ var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
 
 	KC_UP:            KeyPadKinesis(KC_UP),
 	KC_DOWN:          KeyPadKinesis(KC_DOWN),
-	KC_LEFT_BRACKET:  KC_KP_DOT,
-	KC_RIGHT_BRACKET: KC_RETURN,
+	KC_LEFT_BRACKET:  {description: KC_KP_DOT.String(), tokenname: "kp."},
+	KC_RIGHT_BRACKET: {description: KC_RETURN.String(), tokenname: "kpenter-2"},
 
 	// thumb clusters
 	KC_LEFT_CTRL:  KeyPadKinesis(KC_LEFT_CTRL),
@@ -162,7 +162,7 @@ var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]KeyCodeRepresentable{
 	KC_HOME:       KeyPadKinesis(KC_HOME),
 	KC_PAGE_UP:    KeyPadKinesis(KC_PAGE_UP),
 	KC_ENTER:      KeyPadKinesis(KC_ENTER),
-	KC_SPACE:      KC_KP_0,
+	KC_SPACE:      {description: KC_KP_0.String(), tokenname: "kp0"},
 	KC_END:        KeyPadKinesis(KC_END),
 	KC_PAGE_DOWN:  KeyPadKinesis(KC_PAGE_DOWN),
 
