@@ -27,7 +27,7 @@ var keyboardFullValidationSet = KeycodeLayerFull{
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 	ST_MACRO_Screenshot, LSFT(KC_1), KC_GRAVE, KC_MINUS, KC_EQUAL, KC_SLASH, KC_TRANSPARENT,
-	KC_TRANSPARENT, KC_BACKSLASH, KC_LEFT_BRACKET, KC_RIGHT_BRACKET, LSFT(KC_9), LSFT(KC_0), KC_TRANSPARENT,
+	KC_TRANSPARENT, KC_BACKSLASH, KC_LEFT_BRACKET, KC_RIGHT_BRACKET, KC_LEFT_PAREN, KC_RIGHT_PAREN, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_TRANSPARENT,
 	KC_ESCAPE, KC_A, KC_S, KC_D, KC_F, KC_G, KC_TRANSPARENT,
@@ -42,9 +42,8 @@ var keyboardFullValidationSet = KeycodeLayerFull{
 
 func Test_Merging_Half_Layers(t *testing.T) {
 
-	//fmt.Println("#####_________________________________________________#####")
 	var actualFullLayer = mergeHalfs(mainLayerLeft, mainLayerRight)
-
+	//fmt.Println("#####_________________________________________________#####")
 	// for index, value := range actualFullLayer {
 	// 	if (index)%rowCount == 0 && index != 0 {
 	// 		fmt.Println("")
