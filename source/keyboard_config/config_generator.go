@@ -1,5 +1,10 @@
 package keyboard_config
 
+import (
+	"strconv"
+	"strings"
+)
+
 func convertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
 
 	var resultArray = convertLayerToErgodoxPrexy(input)
@@ -12,6 +17,66 @@ func convertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
 		resultString += (value.String() + ", ")
 	}
 	return resultString
+
+}
+
+func splitStringOnNewLineBasedOnPatterns(text string, startPattern string, endPattern string) []string {
+	var textAsArray = strings.Split(text, "\n")
+	var startIndexOfArray = 0
+	var endIndexOfArray = 0
+
+	for index, _ := range textAsArray {
+
+		if strings.Index(text, startPattern) != -1 {
+			startIndexOfArray = index + 1
+		}
+		if strings.Index(text, endPattern) != -1 {
+			endIndexOfArray = index - 1
+		}
+	}
+	return textAsArray[startIndexOfArray:endIndexOfArray]
+
+}
+
+func find_index_of_previous_line(text string, indexEnd int) int {
+	const line = "\n"
+	for index := indexEnd; index > 0; index += -1 {
+		value := string(text[index])
+		if value == line {
+			return index
+		}
+	}
+	return -1
+}
+
+func find_index_of_next_line(text string, indexStart int) int {
+	const line = "\n"
+	for index := indexStart; index < len(text); index += 1 {
+		value := string(text[index])
+		if value == line {
+			return index
+		}
+	}
+	return -1
+}
+
+func ergodox_replate_layer(template string, layer int, input KeycodeLayerFull) string {
+	startPattern := "[" + strconv.FormatInt(int64(layer), 10) + "] = LAYOUT_ergodox_pretty("
+	endPattern := "[" + strconv.FormatInt(int64(layer), 10) + "] = GENERATED"
+
+	startIndex := strings.Index(template, startPattern)
+	endIndex := strings.Index(template, endPattern)
+
+	startIndexNewLine := find_index_of_next_line(template, startIndex)
+	endIndexNewLine := find_index_of_previous_line(template, endIndex)
+
+	if startIndexNewLine == -1 || endIndexNewLine == -1 {
+		panic("startIndexNewLine == " + strconv.FormatInt(int64(startIndexNewLine), 10) + " endIndexNewLine == " + strconv.FormatInt(int64(endIndexNewLine), 10))
+	}
+
+	layerAsString := convertLayerToErgodoxPrexyAsString(input)
+
+	return template[:startIndex] + layerAsString + template[endIndex:]
 
 }
 
