@@ -20,24 +20,6 @@ func convertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
 
 }
 
-func splitStringOnNewLineBasedOnPatterns(text string, startPattern string, endPattern string) []string {
-	var textAsArray = strings.Split(text, "\n")
-	var startIndexOfArray = 0
-	var endIndexOfArray = 0
-
-	for index, _ := range textAsArray {
-
-		if strings.Index(text, startPattern) != -1 {
-			startIndexOfArray = index + 1
-		}
-		if strings.Index(text, endPattern) != -1 {
-			endIndexOfArray = index - 1
-		}
-	}
-	return textAsArray[startIndexOfArray:endIndexOfArray]
-
-}
-
 func find_index_of_previous_line(text string, indexEnd int) int {
 	const line = "\n"
 	for index := indexEnd; index > 0; index += -1 {
@@ -61,8 +43,14 @@ func find_index_of_next_line(text string, indexStart int) int {
 }
 
 func ergodox_replate_layer(template string, layer int, input KeycodeLayerFull) string {
-	startPattern := "[" + strconv.FormatInt(int64(layer), 10) + "] = LAYOUT_ergodox_pretty("
-	endPattern := "[" + strconv.FormatInt(int64(layer), 10) + "] = GENERATED"
+	return ergodox_replace_layer_specific(template, layer, input, "[{layer}] = LAYOUT_ergodox_pretty(", "[{layer}] = GENERATED")
+}
+
+// Generate String
+func ergodox_replace_layer_specific(template string, layer int, input KeycodeLayerFull, startPatternTemplate string, endPatternTemplate string) string {
+
+	startPattern := strings.Replace(startPatternTemplate, "{layer}", strconv.FormatInt(int64(layer), 10), 1) //"[" + strconv.FormatInt(int64(layer), 10) + "] = LAYOUT_ergodox_pretty("
+	endPattern := strings.Replace(endPatternTemplate, "{layer}", strconv.FormatInt(int64(layer), 10), 1)     //"[" + strconv.FormatInt(int64(layer), 10) + "] = GENERATED"
 
 	startIndex := strings.Index(template, startPattern)
 	endIndex := strings.Index(template, endPattern)
@@ -76,10 +64,13 @@ func ergodox_replate_layer(template string, layer int, input KeycodeLayerFull) s
 
 	layerAsString := convertLayerToErgodoxPrexyAsString(input)
 
-	return template[:startIndex] + layerAsString + template[endIndex:]
+	// the end of the slide range is not inclusive
+	inclusiveStartIndexNewLine := startIndexNewLine + 1
+	return template[:inclusiveStartIndexNewLine] + layerAsString + template[endIndexNewLine:]
 
 }
 
+// Generate Array
 func convertLayerToErgodoxPrexy(input KeycodeLayerFull) []KeyCodeRepresentable {
 
 	var collectedArray = []KeyCodeRepresentable{}
