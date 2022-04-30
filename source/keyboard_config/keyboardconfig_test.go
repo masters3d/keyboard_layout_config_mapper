@@ -42,7 +42,7 @@ var keyboardFullValidationSet = KeycodeLayerFull{
 
 func Test_Merging_Half_Layers(t *testing.T) {
 
-	var actualFullLayer = mergeHalfs(mainLayerLeft, mainLayerRight)
+	var actualFullLayer = MergeHalfLayers(mainLayerLeft, mainLayerRight)
 	//fmt.Println("#####_________________________________________________#####")
 	// for index, value := range actualFullLayer {
 	// 	if (index)%rowCount == 0 && index != 0 {

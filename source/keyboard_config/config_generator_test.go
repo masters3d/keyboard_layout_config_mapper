@@ -78,7 +78,7 @@ func Test_ergodox_pretty_string_replacement(t *testing.T) {
 ), //[0] = GENERATED
 `
 	var cutSet = " 	"
-	preActual := ergodox_replace_layer(template, 0, keyboardFullValidationSet)
+	preActual := Ergodox_replace_layer(template, 0, keyboardFullValidationSet)
 
 	expected := ConvertLayerToErgodoxPrexyAsString(keyboardFullValidationSet)
 

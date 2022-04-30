@@ -15,7 +15,7 @@ func Test_Creating_KeyPad_Descriptions(t *testing.T) {
 }
 func Test_Creating_KeyPad_Descriptions_FullArray(t *testing.T) {
 
-	var fullLayerTargetAdv2Default = mergeHalfs(Adv2TopLayerLeft, Adv2TopLayerRight)
+	var fullLayerTargetAdv2Default = MergeHalfLayers(Adv2TopLayerLeft, Adv2TopLayerRight)
 
 	for index, keycode_each_target := range fullLayerTargetAdv2Default {
 
