@@ -67,8 +67,7 @@ func ergodox_replace_layer_specific(template string, layer int, input KeycodeLay
 	// the end of the slide range is not inclusive
 	inclusiveStartIndexNewLine := startIndexNewLine + 1
 	valueToReturn := template[:inclusiveStartIndexNewLine] + layerAsString + template[endIndexNewLine:]
-
-	return strings.Trim(valueToReturn, " `\n")
+	return strings.Trim(valueToReturn, " \n")
 
 }
 
