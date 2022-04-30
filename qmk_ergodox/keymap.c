@@ -31,15 +31,17 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_ergodox_pretty(
-    ST_MACRO_Screenshot,     LSFT(KC_1),     KC_GRAVE,       KC_MINUS,       KC_EQUAL,       KC_SLASH,       KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_BACKSLASH,      KC_LEFT_BRACKET,    KC_RIGHT_BRACKET,    KC_LEFT_PAREN,        KC_RIGHT_PAREN,        KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_TRANSPARENT,
-    KC_ESCAPE,      KC_A,           KC_S,           KC_D,           KC_F,           KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           KC_DOT,         KC_ENTER,
-    KC_TRANSPARENT, KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_N,           KC_M,           KC_SEMICOLON,   KC_QUOTE,       KC_COMMA,       KC_TRANSPARENT,
-    KC_TRANSPARENT, TO(0),          TO(1),          TO(2),          TO(3),                                                                                                          KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_TRANSPARENT,
-                                                                                                    MO(2),          KC_RIGHT_GUI,        KC_ESCAPE,      MO(1),
-                                                                                                                    KC_LEFT_CTRL,       KC_DELETE,
-                                                                                    KC_LEFT_SHIFT,      KC_LEFT_GUI,        KC_LEFT_ALT,        KC_TAB,         KC_BACKSPACE,      KC_SPACE
-
+ST_MACRO_Screenshot, LSFT(KC_1), KC_GRAVE, KC_MINUS, KC_EQUAL, KC_SLASH, KC_TRANSPARENT, 
+KC_TRANSPARENT, KC_BACKSLASH, KC_LEFT_BRACKET, KC_RIGHT_BRACKET, LSFT(KC_9), LSFT(KC_0), KC_TRANSPARENT, 
+KC_TRANSPARENT, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_TRANSPARENT, 
+KC_TRANSPARENT, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_TRANSPARENT, 
+KC_ESCAPE, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, 
+KC_J, KC_K, KC_L, KC_DOT, KC_ENTER, KC_TRANSPARENT, KC_Z, 
+KC_X, KC_C, KC_V, KC_B, KC_TRANSPARENT, KC_TRANSPARENT, KC_N, 
+KC_M, KC_SEMICOLON, KC_QUOTE, KC_COMMA, KC_TRANSPARENT, KC_TRANSPARENT, TO(0), 
+TO(1), TO(2), TO(3), KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, 
+KC_TRANSPARENT, MO(2), KC_RIGHT_GUI, KC_ESCAPE, MO(1), KC_LEFT_CTRL, KC_DELETE, 
+KC_LEFT_SHIFT, KC_LEFT_GUI, KC_LEFT_ALT, KC_TAB, KC_BACKSPACE, KC_SPACE, 
   ), //[0] = GENERATED
   [1] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, LSFT(KC_4),        KC_TRANSPARENT,                                 KC_TRANSPARENT, LSFT(KC_6),     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -168,5 +170,3 @@ uint32_t layer_state_set_user(uint32_t state) {
   }
   return state;
 };
-
-
