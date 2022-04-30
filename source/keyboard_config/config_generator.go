@@ -42,7 +42,7 @@ func find_index_of_next_line(text string, indexStart int) int {
 	return -1
 }
 
-func ergodox_replate_layer(template string, layer int, input KeycodeLayerFull) string {
+func ergodox_replace_layer(template string, layer int, input KeycodeLayerFull) string {
 	return ergodox_replace_layer_specific(template, layer, input, "[{layer}] = LAYOUT_ergodox_pretty(", "[{layer}] = GENERATED")
 }
 
@@ -66,7 +66,9 @@ func ergodox_replace_layer_specific(template string, layer int, input KeycodeLay
 
 	// the end of the slide range is not inclusive
 	inclusiveStartIndexNewLine := startIndexNewLine + 1
-	return template[:inclusiveStartIndexNewLine] + layerAsString + template[endIndexNewLine:]
+	valueToReturn := template[:inclusiveStartIndexNewLine] + layerAsString + template[endIndexNewLine:]
+
+	return strings.Trim(valueToReturn, " `\n")
 
 }
 
