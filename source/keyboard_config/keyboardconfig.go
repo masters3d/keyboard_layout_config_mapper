@@ -20,7 +20,7 @@ func (self IntSlice) Contains(i int) bool {
 	return false
 }
 
-func mergeHalfs(left KeycodeLayerHalf, right KeycodeLayerHalf) KeycodeLayerFull {
+func MergeHalfLayers(left KeycodeLayerHalf, right KeycodeLayerHalf) KeycodeLayerFull {
 
 	// To be able to use append this needs to be a non fixed slice
 	var collectedArray = []KeyCodeRepresentable{}

@@ -80,7 +80,7 @@ func Test_ergodox_pretty_string_replacement(t *testing.T) {
 	var cutSet = " 	"
 	preActual := ergodox_replace_layer(template, 0, keyboardFullValidationSet)
 
-	expected := convertLayerToErgodoxPrexyAsString(keyboardFullValidationSet)
+	expected := ConvertLayerToErgodoxPrexyAsString(keyboardFullValidationSet)
 
 	arrayFirstPass := strings.Split(preActual, "\n")
 	// droping the first and last lines
@@ -116,7 +116,7 @@ func Test_layout_ergodox_pretty_As_String(t *testing.T) {
 
 	expectedArray := strings.Split(strings.Replace(expected_layout_ergodox_pretty, "\n", "", -1), ",")
 
-	gotArray := strings.Split(strings.Replace(convertLayerToErgodoxPrexyAsString(keyboardFullValidationSet), "\n", "", -1), ",")
+	gotArray := strings.Split(strings.Replace(ConvertLayerToErgodoxPrexyAsString(keyboardFullValidationSet), "\n", "", -1), ",")
 
 	for index, expectedValue := range expectedArray {
 		actual := gotArray[index]

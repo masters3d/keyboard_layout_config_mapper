@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func convertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
+func ConvertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
 
 	var resultArray = convertLayerToErgodoxPrexy(input)
 
@@ -42,7 +42,7 @@ func find_index_of_next_line(text string, indexStart int) int {
 	return -1
 }
 
-func ergodox_replace_layer(template string, layer int, input KeycodeLayerFull) string {
+func Ergodox_replace_layer(template string, layer int, input KeycodeLayerFull) string {
 	return ergodox_replace_layer_specific(template, layer, input, "[{layer}] = LAYOUT_ergodox_pretty(", "[{layer}] = GENERATED")
 }
 
@@ -62,7 +62,7 @@ func ergodox_replace_layer_specific(template string, layer int, input KeycodeLay
 		panic("startIndexNewLine == " + strconv.FormatInt(int64(startIndexNewLine), 10) + " endIndexNewLine == " + strconv.FormatInt(int64(endIndexNewLine), 10))
 	}
 
-	layerAsString := convertLayerToErgodoxPrexyAsString(input)
+	layerAsString := ConvertLayerToErgodoxPrexyAsString(input)
 
 	// the end of the slide range is not inclusive
 	inclusiveStartIndexNewLine := startIndexNewLine + 1
