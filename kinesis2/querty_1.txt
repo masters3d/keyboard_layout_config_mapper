@@ -31,23 +31,41 @@
 
 *#  KC_F12
 
-*#  KC_PRINT_SCREEN
+*#SKIP  KC_PRINT_SCREEN
+
+{prtscr}>{speed5}{-lctrl}{-ralt}{delete}{+lctrl}{+ralt}
 
 *#  KC_SCROLL_LOCK
 
 *#  KC_PAUSE
 
-*#  KC_EQUAL
+*#SKIP  KC_EQUAL
+[=]>[null]
+[kp-=]>[null]
+{=}>{speed5}{-lshift}{-rwin}{s}{+lshift}{+rwin}
+{kp-=}>{speed5}{-lshift}{-rwin}{s}{+lshift}{+rwin}
 
 *#  KC_1
+{1}>{speed9}{-lshift}{1}{+lshift}
+{lshift}{1}>{speed9}{-lshift}{/}{+lshift}
+
+
+
+
+
 
 *#  KC_2
+[2]>[`]
 
 *#  KC_3
+[3]>[hyphen]
 
 *#  KC_4
+[4]>[=]
 
-*#  KC_5 
+*#SKIP  KC_5 
+[5]>[/]
+{lshift}{5}>{speed9}{-lshift}{5}{+lshift}
 
 *#  KC_6
 
@@ -60,6 +78,8 @@
 *#  KC_0
 
 *#  KC_MINUS
+[hyphen]>[null]
+[kp-hyphen]>[null]
 
 *#  KC_TAB
 
@@ -84,8 +104,12 @@
 *#  KC_P
 
 *#  KC_BACKSLASH
+[\]>[null]
+[kp-\]>[null]
 
 *#  KC_CAPS_LOCK
+[caps]>[escape]
+[kp-caps]>[escape]
 
 *#  KC_A
 
@@ -105,9 +129,13 @@
 
 *#  KC_L
 
-*#  KC_SEMICOLON
+*#SKIP  KC_SEMICOLON
+{;}>{speed9}{.}
+{lshift}{;}>{speed9}{-lshift}{;}{+lshift}
 
 *#  KC_QUOTE
+[']>[enter]
+[kp-']>[enter]
 
 *#  KC_LEFT_SHIFT
 
@@ -125,13 +153,19 @@
 
 *#  KC_M
 
-*#  KC_COMMA
+*#SKIP  KC_COMMA
+[,]>[null]
 
 *#  KC_DOT
+[.]>[']
 
-*#  KC_SLASH
+*#SKIP  KC_SLASH
+{/}>{speed9}{,}
+{lshift}{/}>{speed9}{;}
 
 *#  KC_RIGHT_SHIFT
+[rshift]>[null]
+[kp-rshift]>[null]
 
 *#  KC_GRAVE
 
@@ -142,14 +176,19 @@
 *#  KC_RIGHT
 
 *#  KC_UP
+[up]>[left]
 
 *#  KC_DOWN
 
 *#  KC_LEFT_BRACKET
+[obrack]>[up]
 
 *#  KC_RIGHT_BRACKET
-   
+[cbrack]>[right]
+
 *#  KC_BACKSPACE
+[bspace]>[lshift]
+[kp-bspace]>[lshift]
 
 *#  KC_DELETE
 
@@ -174,17 +213,8 @@
 *#  KC_SPACE
 
 
-*# non sorted
-{prtscr}>{speed5}{-lctrl}{-ralt}{delete}{+lctrl}{+ralt}
 
-*# pedals. when only one pedal is attached then this is the kpshf in advantage 2
-*#{lp-tab}>{speed5}{-lshift}{-rwin}{lshift}{+lshift}{s}{+rwin}
-*#{mp-kpshf}>{intl-\}
-*#{rp-kpent}>{speed5}{-rwin}{-lshift}{s}{+rwin}{+lshift}
 
-*# left thumb cluster column 0
-[bspace]>[lshift]
-[kp-bspace]>[lshift]
 
 *# left thumb cluster column 1
 [lctrl]>[kpshft]
@@ -223,36 +253,12 @@
 *[space]>[space]
 
 *# right pinkey keys
-[hyphen]>[null]
-[kp-hyphen]>[null]
-[']>[enter]
-[kp-']>[enter]
-[\]>[null]
-[kp-\]>[null]
-[rshift]>[null]
-[kp-rshift]>[null]
 
-*# left pinkey keys
-[=]>[null]
-[kp-=]>[null]
 
-*# This will take a screenshot
-{=}>{speed5}{-lshift}{-rwin}{s}{+lshift}{+rwin}
-{kp-=}>{speed5}{-lshift}{-rwin}{s}{+lshift}{+rwin}
 
-[kp-caps]>[escape]
-[caps]>[escape]
 
-*# no changes to tab, caps, shift
 
-*# Left row 0
-{1}>{speed9}{-lshift}{1}{+lshift}
-{lshift}{1}>{speed9}{-lshift}{/}{+lshift}
-[2]>[`]
-[3]>[hyphen]
-[4]>[=]
-[5]>[/]
-{lshift}{5}>{speed9}{-lshift}{5}{+lshift}
+
 
 
 *# left keypad row 0
@@ -324,10 +330,8 @@
 [kp9]>[3]
 [kpmin]>[']
 
-*# right row 2
-*# no changes to HJKL 
-{;}>{speed9}{.}
-{lshift}{;}>{speed9}{-lshift}{;}{+lshift}
+
+
 
 *# right keypad row 2
 {kp-h}>{speed9}{-lshift}{8}{+lshift}
@@ -337,12 +341,8 @@
 {kpplus}>{speed9}{.}
 {lshift}{kpplus}>{speed9}{-lshift}{;}{+lshift}
 
-*# right row 3
-*# no changes to NM
-[,]>[null]
-[.]>[']
-{/}>{speed9}{,}
-{lshift}{/}>{speed9}{;}
+
+
 
 *# right keypad row 3
 {kp-n}>{speed9}{-lshift}{\}{+lshift}
@@ -360,9 +360,6 @@
 [kp.]>[.]
 {kpenter2}>{speed9}{-lshift}{/}{+lshift}
 
-*# right row 4 (only four keys)
-[up]>[left]
-*# no changes to down key
-[obrack]>[up]
-[cbrack]>[right]
+
+
 
