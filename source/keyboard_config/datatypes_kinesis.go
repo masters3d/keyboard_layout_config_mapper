@@ -57,8 +57,9 @@ func (self keycode_kinesis) String() string {
 	return self.description
 }
 
-// TODO: We are calling two in two nested functions
-// kinesis_confirmed calls this function again. I hate recursion
+func (self keycode_kinesis) GetTokenname() string {
+	return self.tokenname
+}
 
 const unknown_sigil = "UNKNOWN"
 
@@ -69,6 +70,14 @@ func _keyPadKinesisHelper(input KeyCodeRepresentable) keycode_kinesis {
 	}
 	// Handle Keypad
 	return keycode_kinesis{unknown_sigil, unknown_sigil}
+}
+
+func KinesisMainLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesis) {
+	value, isOk := kinesis_confirmed[input]
+	if isOk {
+		return true, keycode_kinesis{description: input.String(), tokenname: value}
+	}
+	return false, keycode_kinesis{description: unknown_sigil, tokenname: unknown_sigil}
 }
 
 func KinesisKeypadLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesis) {
