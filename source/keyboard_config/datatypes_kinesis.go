@@ -1,5 +1,11 @@
 package keyboard_config
 
+import (
+	"io/ioutil"
+	"log"
+	"strings"
+)
+
 var Adv2TopLayerLeft = KeycodeLayerHalf{
 	KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, // function row
 	KC_EQUAL, KC_1, KC_2, KC_3, KC_4, KC_5, KC_TRANSPARENT,
@@ -36,6 +42,10 @@ var Adv2KeypadValidation = []string{
 	`null`, `kp-rwin`, `kp-pup`, `kp-pdown`, `kp-enter`, `kp0`, `null`,
 }
 
+type Token_index_range struct {
+	start int
+	end   int
+}
 type keycode_kinesis struct {
 	description string
 	tokenname   string
@@ -87,6 +97,73 @@ func KinesisKeypadLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesi
 	}
 	// Handle Keypad
 	return false, value
+}
+
+const magictoken_open = "*#"
+const magictoken_close = "#"
+const magictoken_def_sigil = magictoken_open + "def" + " "
+const magictoken_end_sigil = magictoken_open + "end" + " "
+
+// this section only sets up a brand new file with the comments we are going to using
+func KinesisAdv2CreatedBlankFile(path_file string) {
+
+	kinesis_layer0 := MergeHalfLayers(Adv2TopLayerLeft, Adv2TopLayerRight)
+
+	kinesis2_target_string2 := ""
+
+	for index, keyLayer0 := range kinesis_layer0 {
+
+		if keyLayer0 == KC_TRANSPARENT {
+			continue
+		}
+		keyLayer1 := Adv2KeypadValidation[index]
+
+		isOkay, value := KinesisMainLayerMapping(keyLayer0)
+
+		if !isOkay {
+			panic("error " + keyLayer0.String())
+		}
+
+		//*#def KC_F1# F1, kp-lwin
+		//*#end KC_F1#
+
+		var start_token = magictoken_def_sigil + keyLayer0.String() + magictoken_close
+		kinesis2_target_string2 += start_token + " " + value.GetTokenname() + ", " + keyLayer1 + "\n"
+		var end_token = magictoken_end_sigil + keyLayer0.String() + magictoken_close
+		kinesis2_target_string2 += end_token + "\n"
+
+	}
+	err := ioutil.WriteFile(path_file, []byte(kinesis2_target_string2), 0777)
+
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+}
+
+func Kinesis_Parse_SpecialToken(inputDocument string) map[KeyCodeRepresentable]Token_index_range {
+	kinesis_layer0 := MergeHalfLayers(Adv2TopLayerLeft, Adv2TopLayerRight)
+
+	startAndEnd := map[KeyCodeRepresentable]Token_index_range{}
+
+	for _, keyLayer0 := range kinesis_layer0 {
+
+		if keyLayer0 == KC_TRANSPARENT {
+			continue
+		}
+
+		var start_token_template = magictoken_def_sigil + keyLayer0.String() + magictoken_close
+		var end_token_template = magictoken_end_sigil + keyLayer0.String() + magictoken_close
+
+		//strings.Index
+		var first_line_start_index = strings.Index(inputDocument, start_token_template)
+		var first_line_end_index = find_index_of_next_line(inputDocument, first_line_start_index)
+		var last_line_start_index = strings.Index(inputDocument, end_token_template)
+
+		startAndEnd[keyLayer0] = Token_index_range{start: first_line_end_index, end: last_line_start_index}
+
+	}
+	return startAndEnd
 }
 
 var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]keycode_kinesis{

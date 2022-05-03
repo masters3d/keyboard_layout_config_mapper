@@ -22,7 +22,7 @@ func ConvertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
 
 func find_index_of_previous_line(text string, indexEnd int) int {
 	const line = "\n"
-	for index := indexEnd; index > 0; index += -1 {
+	for index := indexEnd; index > 0 && index < len(text); index += -1 {
 		value := string(text[index])
 		if value == line {
 			return index
@@ -33,7 +33,8 @@ func find_index_of_previous_line(text string, indexEnd int) int {
 
 func find_index_of_next_line(text string, indexStart int) int {
 	const line = "\n"
-	for index := indexStart; index < len(text); index += 1 {
+
+	for index := indexStart; index < len(text) && index > 0; index += 1 {
 		value := string(text[index])
 		if value == line {
 			return index

@@ -1,87 +1,174 @@
-*#  KC_F1:F1|kp-lwin
-*#  KC_F2:F2|kp-ralt
-*#  KC_F3:F3|kp-MENU
-*#  KC_F4:F4|kp-PLAY
-*#  KC_F5:F5|kp-PREV
-*#  KC_F6:F6|kp-NEXT
-*#  KC_F7:F7|kp-CALC
-*#  KC_F8:F8|kp-KPSHIFT
-*#  KC_F9:F9|kp-F9
-*#  KC_F10:F10|kp-F10
-*#  KC_F11:F11|kp-F11
-*#  KC_F12:F12|kp-F12
-*#  KC_PRINT_SCREEN:prtscr|mute
-*#  KC_SCROLL_LOCK:SCROLL|vol+
-*#  KC_EQUAL:=|kp-=
-*#  KC_1:1|kp-1
-*#  KC_2:2|kp-2
-*#  KC_3:3|kp-3
-*#  KC_4:4|kp-4
-*#  KC_5:5|kp-5
-*#  VK_LPEDAL:lp-tab|kp-lp-tab
-*#  KC_6:6|kp-6
-*#  KC_7:7|numlk
-*#  KC_8:8|kp=
-*#  KC_9:9|kpdiv
-*#  KC_0:0|kpmult
-*#  KC_MINUS:HYPHEN|kp-HYPHEN
-*#  KC_TAB:tab|kp-tab
-*#  KC_Q:Q|kp-Q
-*#  KC_W:W|kp-E
-*#  KC_E:E|kp-W
-*#  KC_R:R|kp-R
-*#  KC_T:T|kp-T
-*#  VK_MPEDAL:mp-kpshf|kp-mp-kpshf
-*#  KC_Y:Y|kp-Y
-*#  KC_U:U|kp7
-*#  KC_I:I|kp8
-*#  KC_O:O|kp9
-*#  KC_P:P|kpmin
-*#  KC_BACKSLASH:\|kp-\
-*#  KC_CAPS_LOCK:caps|kp-caps
-*#  KC_A:A|kp-A
-*#  KC_S:S|kp-S
-*#  KC_D:D|kp-D
-*#  KC_F:F|kp-F
-*#  KC_G:G|kp-G
-*#  VK_RPEDAL:rp-kpent|kp-rp-kpent
-*#  KC_H:H|kp-H
-*#  KC_J:J|kp4
-*#  KC_K:K|kp5
-*#  KC_L:L|kp6
-*#  KC_SEMICOLON:colon|kpplus
-*#  KC_QUOTE:apos|kp-apos
-*#  KC_LEFT_SHIFT:lshift|kp-lshift
-*#  KC_Z:Z|kp-Z
-*#  KC_X:X|kp-X
-*#  KC_C:C|kp-C
-*#  KC_V:V|kp-V
-*#  KC_B:B|kp-B
-*#  KC_N:N|kp-N
-*#  KC_M:M|kp1
-*#  KC_COMMA:com|kp2
-*#  KC_DOT:per|kp3
-*#  KC_SLASH:/|kpenter-1
-*#  KC_RIGHT_SHIFT:rshift|kp-rshift
-*#  KC_ESCAPE:escape|kp-escape
-*#  KC_GRAVE:tilde|kp-tilde
-*#  KC_INSERT:INSERT|kp-INSERT
-*#  KC_LEFT:LEFT|kp-LEFT
-*#  KC_RIGHT:RIGHT|kp-RIGHT
-*#  KC_LEFT_CTRL:lctrl|kp-lctrl
-*#  KC_RIGHT_CTRL:rctrl|kp-rctrl
-*#  KC_UP:UP|kp-UP
-*#  KC_DOWN:DOWN|kp-DOWN
-*#  KC_LEFT_BRACKET:oBRACK|kp.
-*#  KC_RIGHT_BRACKET:cBRACk|kpenter-2
-*#  KC_PAUSE:PAUSE|vol-
-*#  KC_BACKSPACE:BSPACE|kp-BSPACE
-*#  KC_DELETE:DELETE|kp-DELETE
-*#  KC_END:END|kp-END
-*#  KC_HOME:HOME|kp-HOME
-*#  KC_LEFT_ALT:lalt|kp-lalt
-*#  KC_RIGHT_GUI:rwin|kp-rwin
-*#  KC_PAGE_UP:pup|kp-pup
-*#  KC_PAGE_DOWN:pdown|kp-pdown
-*#  KC_ENTER:enter|kp-enter
-*#  KC_SPACE:SPACE|kp0
+*#def KC_F1# F1, kp-lwin
+*#end KC_F1#
+*#def KC_F2# F2, kp-ralt
+*#end KC_F2#
+*#def KC_F3# F3, kp-MENU
+*#end KC_F3#
+*#def KC_F4# F4, kp-PLAY
+*#end KC_F4#
+*#def KC_F5# F5, kp-PREV
+*#end KC_F5#
+*#def KC_F6# F6, kp-NEXT
+*#end KC_F6#
+*#def KC_F7# F7, kp-CALC
+*#end KC_F7#
+*#def KC_F8# F8, kp-KPSHIFT
+*#end KC_F8#
+*#def KC_F9# F9, kp-F9
+*#end KC_F9#
+*#def KC_F10# F10, kp-F10
+*#end KC_F10#
+*#def KC_F11# F11, kp-F11
+*#end KC_F11#
+*#def KC_F12# F12, kp-F12
+*#end KC_F12#
+*#def KC_PRINT_SCREEN# prtscr, mute
+*#end KC_PRINT_SCREEN#
+*#def KC_SCROLL_LOCK# SCROLL, vol+
+*#end KC_SCROLL_LOCK#
+*#def KC_EQUAL# =, kp-=
+*#end KC_EQUAL#
+*#def KC_1# 1, kp-1
+*#end KC_1#
+*#def KC_2# 2, kp-2
+*#end KC_2#
+*#def KC_3# 3, kp-3
+*#end KC_3#
+*#def KC_4# 4, kp-4
+*#end KC_4#
+*#def KC_5# 5, kp-5
+*#end KC_5#
+*#def VK_LPEDAL# lp-tab, kp-lp-tab
+*#end VK_LPEDAL#
+*#def KC_6# 6, kp-6
+*#end KC_6#
+*#def KC_7# 7, numlk
+*#end KC_7#
+*#def KC_8# 8, kp=
+*#end KC_8#
+*#def KC_9# 9, kpdiv
+*#end KC_9#
+*#def KC_0# 0, kpmult
+*#end KC_0#
+*#def KC_MINUS# HYPHEN, kp-HYPHEN
+*#end KC_MINUS#
+*#def KC_TAB# tab, kp-tab
+*#end KC_TAB#
+*#def KC_Q# Q, kp-Q
+*#end KC_Q#
+*#def KC_W# W, kp-E
+*#end KC_W#
+*#def KC_E# E, kp-W
+*#end KC_E#
+*#def KC_R# R, kp-R
+*#end KC_R#
+*#def KC_T# T, kp-T
+*#end KC_T#
+*#def VK_MPEDAL# mp-kpshf, kp-mp-kpshf
+*#end VK_MPEDAL#
+*#def KC_Y# Y, kp-Y
+*#end KC_Y#
+*#def KC_U# U, kp7
+*#end KC_U#
+*#def KC_I# I, kp8
+*#end KC_I#
+*#def KC_O# O, kp9
+*#end KC_O#
+*#def KC_P# P, kpmin
+*#end KC_P#
+*#def KC_BACKSLASH# \, kp-\
+*#end KC_BACKSLASH#
+*#def KC_CAPS_LOCK# caps, kp-caps
+*#end KC_CAPS_LOCK#
+*#def KC_A# A, kp-A
+*#end KC_A#
+*#def KC_S# S, kp-S
+*#end KC_S#
+*#def KC_D# D, kp-D
+*#end KC_D#
+*#def KC_F# F, kp-F
+*#end KC_F#
+*#def KC_G# G, kp-G
+*#end KC_G#
+*#def VK_RPEDAL# rp-kpent, kp-rp-kpent
+*#end VK_RPEDAL#
+*#def KC_H# H, kp-H
+*#end KC_H#
+*#def KC_J# J, kp4
+*#end KC_J#
+*#def KC_K# K, kp5
+*#end KC_K#
+*#def KC_L# L, kp6
+*#end KC_L#
+*#def KC_SEMICOLON# colon, kpplus
+*#end KC_SEMICOLON#
+*#def KC_QUOTE# apos, kp-apos
+*#end KC_QUOTE#
+*#def KC_LEFT_SHIFT# lshift, kp-lshift
+*#end KC_LEFT_SHIFT#
+*#def KC_Z# Z, kp-Z
+*#end KC_Z#
+*#def KC_X# X, kp-X
+*#end KC_X#
+*#def KC_C# C, kp-C
+*#end KC_C#
+*#def KC_V# V, kp-V
+*#end KC_V#
+*#def KC_B# B, kp-B
+*#end KC_B#
+*#def KC_N# N, kp-N
+*#end KC_N#
+*#def KC_M# M, kp1
+*#end KC_M#
+*#def KC_COMMA# com, kp2
+*#end KC_COMMA#
+*#def KC_DOT# per, kp3
+*#end KC_DOT#
+*#def KC_SLASH# /, kpenter-1
+*#end KC_SLASH#
+*#def KC_RIGHT_SHIFT# rshift, kp-rshift
+*#end KC_RIGHT_SHIFT#
+*#def KC_ESCAPE# escape, kp-escape
+*#end KC_ESCAPE#
+*#def KC_GRAVE# tilde, kp-tilde
+*#end KC_GRAVE#
+*#def KC_INSERT# INSERT, kp-INSERT
+*#end KC_INSERT#
+*#def KC_LEFT# LEFT, kp-LEFT
+*#end KC_LEFT#
+*#def KC_RIGHT# RIGHT, kp-RIGHT
+*#end KC_RIGHT#
+*#def KC_LEFT_CTRL# lctrl, kp-lctrl
+*#end KC_LEFT_CTRL#
+*#def KC_RIGHT_CTRL# rctrl, kp-rctrl
+*#end KC_RIGHT_CTRL#
+*#def KC_UP# UP, kp-UP
+*#end KC_UP#
+*#def KC_DOWN# DOWN, kp-DOWN
+*#end KC_DOWN#
+*#def KC_LEFT_BRACKET# oBRACK, kp.
+*#end KC_LEFT_BRACKET#
+*#def KC_RIGHT_BRACKET# cBRACk, kpenter-2
+*#end KC_RIGHT_BRACKET#
+*#def KC_PAUSE# PAUSE, vol-
+*#end KC_PAUSE#
+*#def KC_BACKSPACE# BSPACE, kp-BSPACE
+*#end KC_BACKSPACE#
+*#def KC_DELETE# DELETE, kp-DELETE
+*#end KC_DELETE#
+*#def KC_END# END, kp-END
+*#end KC_END#
+*#def KC_HOME# HOME, kp-HOME
+*#end KC_HOME#
+*#def KC_LEFT_ALT# lalt, kp-lalt
+*#end KC_LEFT_ALT#
+*#def KC_RIGHT_GUI# rwin, kp-rwin
+*#end KC_RIGHT_GUI#
+*#def KC_PAGE_UP# pup, kp-pup
+*#end KC_PAGE_UP#
+*#def KC_PAGE_DOWN# pdown, kp-pdown
+*#end KC_PAGE_DOWN#
+*#def KC_ENTER# enter, kp-enter
+*#end KC_ENTER#
+*#def KC_SPACE# SPACE, kp0
+*#end KC_SPACE#
