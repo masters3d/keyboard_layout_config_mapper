@@ -151,19 +151,21 @@ func Kinesis_Parse_SpecialToken(inputDocument string) map[KeyCodeRepresentable]T
 		if keyLayer0 == KC_TRANSPARENT {
 			continue
 		}
-
-		var start_token_template = magictoken_def_sigil + keyLayer0.String() + magictoken_close
-		var end_token_template = magictoken_end_sigil + keyLayer0.String() + magictoken_close
-
-		//strings.Index
-		var first_line_start_index = strings.Index(inputDocument, start_token_template)
-		var first_line_end_index = find_index_of_next_line(inputDocument, first_line_start_index)
-		var last_line_start_index = strings.Index(inputDocument, end_token_template)
-
-		startAndEnd[keyLayer0] = Token_index_range{start: first_line_end_index, end: last_line_start_index}
-
+		startAndEnd[keyLayer0] = KinesisGetRangeForKeycode(keyLayer0.String(), inputDocument)
 	}
 	return startAndEnd
+}
+
+func KinesisGetRangeForKeycode(keycodeAsString string, inputDocument string) Token_index_range {
+	var start_token_template = magictoken_def_sigil + keycodeAsString + magictoken_close
+	var end_token_template = magictoken_end_sigil + keycodeAsString + magictoken_close
+
+	//strings.Index
+	var first_line_start_index = strings.Index(inputDocument, start_token_template)
+	var first_line_end_index = find_index_of_next_line(inputDocument, first_line_start_index)
+	var last_line_start_index = strings.Index(inputDocument, end_token_template)
+
+	return Token_index_range{start: first_line_end_index, end: last_line_start_index}
 }
 
 var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]keycode_kinesis{
