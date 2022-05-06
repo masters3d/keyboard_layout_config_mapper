@@ -10,7 +10,10 @@ import (
 func main() {
 
 	qmk_ergodox_path := `..\qmk_ergodox\keymap.c`
-	qmk_ergodox_source_bytes, _ := ioutil.ReadFile(qmk_ergodox_path)
+	qmk_ergodox_source_bytes, error_qmk_ergodox_path := ioutil.ReadFile(qmk_ergodox_path)
+	if error_qmk_ergodox_path != nil {
+		log.Fatalf("%v", error_qmk_ergodox_path)
+	}
 
 	// Layer Zero
 	layer0 := keyboard_config.MergeHalfLayers(keyboard_config.Layer0Left, keyboard_config.Layer0Right)
