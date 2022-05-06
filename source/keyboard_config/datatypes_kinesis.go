@@ -141,22 +141,104 @@ func KinesisAdv2CreatedBlankFile(path_file string) {
 
 }
 
+func Kinesis_GenerateKinesisMapping(source keycode_kinesis, target keycode_kinesis) string {
+	return "[" + source.tokenname + "]>[" + target.tokenname + "]"
+}
+
+func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer KeycodeLayerFull, configKeyPadLayer KeycodeLayerFull) string {
+	// this is the default config for Qwerty for Main Layer
+	kinesis_layer0 := MergeHalfLayers(Adv2TopLayerLeft, Adv2TopLayerRight)
+
+	// configuration a just a few hundred lines of configurations this is should be fine ruing a replacement in placed
+	runningDocument := inputDocument
+
+	visited := map[KeyCodeRepresentable]bool{}
+
+	// KC_TRANSPARENT on the main layer effectively means that the key is disabled since there is nothing to be tranparent about.
+	visited[KC_TRANSPARENT] = true
+
+	for index, keyLayer0Source := range kinesis_layer0 {
+		_, isVisited := visited[keyLayer0Source]
+
+		if isVisited {
+			continue
+		}
+		isOkay, contentRange := KinesisGetRangeForKeycodeContent(keyLayer0Source.String(), runningDocument)
+
+		visited[keyLayer0Source] = true
+
+		if isOkay {
+
+			var valuesToAdd = ""
+			// Main
+			keyCodeMainTarget := configTopLayer[index]
+
+			// we are not going to check errors here since we get a nice text output saying that they key is not valid if we are not able to find it.
+			_, keyLayer0KinesisTokenSource := KinesisMainLayerMapping(keyLayer0Source)
+			_, keyLayer0KinesisTokenTarget := KinesisMainLayerMapping(keyCodeMainTarget)
+			if keyLayer0KinesisTokenSource.tokenname != keyLayer0KinesisTokenTarget.tokenname {
+				valuesToAdd += Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+				valuesToAdd += "\n"
+			}
+
+			// Keypad
+			keyCodeKeyPadTarget := configKeyPadLayer[index]
+
+			keypadLayerKinesisTokenSource := Adv2KeypadValidation[index]
+			_, keypadLayerKinesisTokenTarget := KinesisMainLayerMapping(keyCodeKeyPadTarget)
+
+			if keyCodeKeyPadTarget == KC_TRANSPARENT {
+				// if we are saying that key should be transparent on the keypad layer then we are saying that we want to use the same value as the main layer
+				keypadLayerKinesisTokenTarget = keyLayer0KinesisTokenTarget
+			}
+
+			if keypadLayerKinesisTokenSource != keypadLayerKinesisTokenTarget.tokenname {
+				valuesToAdd += Kinesis_GenerateKinesisMapping(keycode_kinesis{tokenname: keypadLayerKinesisTokenSource, description: keypadLayerKinesisTokenSource}, keypadLayerKinesisTokenTarget)
+				valuesToAdd += "\n"
+			}
+			runningDocument = runningDocument[:contentRange.start] + "\n" + valuesToAdd +
+				runningDocument[contentRange.end:]
+		}
+
+	}
+	return runningDocument
+}
+
 func Kinesis_Parse_SpecialToken(inputDocument string) map[KeyCodeRepresentable]Token_index_range {
 	kinesis_layer0 := MergeHalfLayers(Adv2TopLayerLeft, Adv2TopLayerRight)
 
-	startAndEnd := map[KeyCodeRepresentable]Token_index_range{}
+	contentStartAndEnd := map[KeyCodeRepresentable]Token_index_range{}
 
 	for _, keyLayer0 := range kinesis_layer0 {
 
 		if keyLayer0 == KC_TRANSPARENT {
 			continue
 		}
-		startAndEnd[keyLayer0] = KinesisGetRangeForKeycode(keyLayer0.String(), inputDocument)
+		_, contentStartAndEnd[keyLayer0] = KinesisGetRangeForKeycodeContent(keyLayer0.String(), inputDocument)
 	}
-	return startAndEnd
+	return contentStartAndEnd
 }
 
-func KinesisGetRangeForKeycode(keycodeAsString string, inputDocument string) Token_index_range {
+func KinesisGetRangeForWholeKeycodeContext(keycodeAsString string, inputDocument string) (bool, Token_index_range) {
+	var start_token_template = magictoken_def_sigil + keycodeAsString + magictoken_close
+	var end_token_template = magictoken_end_sigil + keycodeAsString + magictoken_close
+
+	//strings.Index
+	var first_line_start_index = strings.Index(inputDocument, start_token_template)
+	var last_line_start_index = strings.Index(inputDocument, end_token_template)
+	var last_line_end_index = find_index_of_next_line(inputDocument, last_line_start_index)
+
+	// this is the start of the token to the very end of the token
+	allContextRange := Token_index_range{start: first_line_start_index, end: last_line_end_index}
+
+	if allContextRange.start == -1 || allContextRange.end == -1 {
+		return false, allContextRange
+	}
+
+	return true, allContextRange
+}
+
+func KinesisGetRangeForKeycodeContent(keycodeAsString string, inputDocument string) (bool, Token_index_range) {
 	var start_token_template = magictoken_def_sigil + keycodeAsString + magictoken_close
 	var end_token_template = magictoken_end_sigil + keycodeAsString + magictoken_close
 
@@ -165,7 +247,13 @@ func KinesisGetRangeForKeycode(keycodeAsString string, inputDocument string) Tok
 	var first_line_end_index = find_index_of_next_line(inputDocument, first_line_start_index)
 	var last_line_start_index = strings.Index(inputDocument, end_token_template)
 
-	return Token_index_range{start: first_line_end_index, end: last_line_start_index}
+	// this part is only concerned with the content. This is what would de replaced by the configuration
+	contentRange := Token_index_range{start: first_line_end_index, end: last_line_start_index}
+	if contentRange.start == -1 || contentRange.end == -1 {
+		return false, contentRange
+	}
+
+	return true, contentRange
 }
 
 var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]keycode_kinesis{

@@ -6,6 +6,39 @@ import (
 	"testing"
 )
 
+func Test_Kinesis_Insert_Data_Into_TokenAreas(t *testing.T) {
+
+	rangeToIgnore := " 	\n"
+	expectedDoc :=
+		`
+*#def KC_CAPS_LOCK# caps, kp-caps
+[caps]>[escape]
+[kp-caps]>[escape]
+*#end KC_CAPS_LOCK#
+*ignore me 
+*#def KC_QUOTE# apos, kp-apos
+[apos]>[enter]
+[kp-apos]>[enter]
+*#end KC_QUOTE#
+	`
+	inputDoc :=
+		`
+*#def KC_CAPS_LOCK# caps, kp-caps
+*#end KC_CAPS_LOCK#
+*ignore me 
+*#def KC_QUOTE# apos, kp-apos
+*#end KC_QUOTE#
+`
+
+	actualDoc := Kinesis_ParseAndFill_SpecialTokens(inputDoc, keyboardFullValidationSet, keyboardFullValidationSet)
+
+	if strings.Trim(actualDoc, rangeToIgnore) != strings.Trim(expectedDoc, rangeToIgnore) {
+		var message = "actual:`" + actualDoc + "`, expected:" + expectedDoc + "`"
+		t.Error(message)
+	}
+
+}
+
 func Test_Kinesis_Parse_SpecialToken(t *testing.T) {
 
 	inputDoc :=
