@@ -1,24 +1,19 @@
 *#def KC_F1# F1, kp-lwin
 *#end KC_F1#
 *#def KC_F2# F2, kp-ralt
-[F2]>[null]
-[kp-ralt]>[null]
+[kp-ralt]>[F2]
 *#end KC_F2#
 *#def KC_F3# F3, kp-MENU
-[F3]>[null]
-[kp-MENU]>[null]
+[kp-MENU]>[F3]
 *#end KC_F3#
 *#def KC_F4# F4, kp-PLAY
-[F4]>[null]
-[kp-PLAY]>[null]
+[kp-PLAY]>[F4]
 *#end KC_F4#
 *#def KC_F5# F5, kp-PREV
-[F5]>[null]
-[kp-PREV]>[null]
+[kp-PREV]>[F5]
 *#end KC_F5#
 *#def KC_F6# F6, kp-NEXT
-[F6]>[null]
-[kp-NEXT]>[null]
+[kp-NEXT]>[F6]
 *#end KC_F6#
 *#def KC_F7# F7, kp-CALC
 [F7]>[null]
@@ -29,28 +24,28 @@
 [kp-KPSHIFT]>[null]
 *#end KC_F8#
 *#def KC_F9# F9, kp-F9
-[F9]>[null]
-[kp-F9]>[null]
+[F9]>[F7]
+[kp-F9]>[F7]
 *#end KC_F9#
 *#def KC_F10# F10, kp-F10
-[F10]>[null]
-[kp-F10]>[null]
+[F10]>[F8]
+[kp-F10]>[F8]
 *#end KC_F10#
 *#def KC_F11# F11, kp-F11
-[F11]>[null]
-[kp-F11]>[null]
+[F11]>[F9]
+[kp-F11]>[F9]
 *#end KC_F11#
 *#def KC_F12# F12, kp-F12
-[F12]>[null]
-[kp-F12]>[null]
+[F12]>[F10]
+[kp-F12]>[F10]
 *#end KC_F12#
 *#def KC_PRINT_SCREEN# prtscr, mute
-[prtscr]>[null]
-[mute]>[null]
+[prtscr]>[F11]
+[mute]>[F11]
 *#end KC_PRINT_SCREEN#
 *#def KC_SCROLL_LOCK# SCROLL, vol+
-[SCROLL]>[null]
-[vol+]>[null]
+[SCROLL]>[F12]
+[vol+]>[F12]
 *#end KC_SCROLL_LOCK#
 *#def KC_EQUAL# =, kp-=
 [=]>[UNKNOWN]
