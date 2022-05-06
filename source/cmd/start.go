@@ -9,6 +9,11 @@ import (
 
 func main() {
 
+	// shared
+	layer0 := keyboard_config.MergeHalfLayers(keyboard_config.Layer0Left, keyboard_config.Layer0Right)
+	layer1 := keyboard_config.MergeHalfLayers(keyboard_config.Layer1Left, keyboard_config.Layer1Right)
+
+	// Ergodox
 	qmk_ergodox_path := `..\qmk_ergodox\keymap.c`
 	qmk_ergodox_source_bytes, error_qmk_ergodox_path := ioutil.ReadFile(qmk_ergodox_path)
 	if error_qmk_ergodox_path != nil {
@@ -16,27 +21,37 @@ func main() {
 	}
 
 	// Layer Zero
-	layer0 := keyboard_config.MergeHalfLayers(keyboard_config.Layer0Left, keyboard_config.Layer0Right)
-
 	qmk_ergodox_target_string := keyboard_config.Ergodox_replace_layer(string(qmk_ergodox_source_bytes), 0, layer0)
 
 	// Layer One
-	layer1 := keyboard_config.MergeHalfLayers(keyboard_config.Layer1Left, keyboard_config.Layer1Right)
-
 	qmk_ergodox_target_string = keyboard_config.Ergodox_replace_layer(qmk_ergodox_target_string, 1, layer1)
 
 	// Writting out Results
-	err := ioutil.WriteFile(qmk_ergodox_path, []byte(qmk_ergodox_target_string), 0777)
+	errErgodox := ioutil.WriteFile(qmk_ergodox_path, []byte(qmk_ergodox_target_string), 0777)
 
-	if err != nil {
-		log.Fatalf("%v", err)
+	if errErgodox != nil {
+		log.Fatalf("%v", errErgodox)
 	}
 
 	//kinesi2
 
-	if false {
+	path_file_2 := `..\kinesis2\querty_2.txt`
 
-		path_file_2 := `..\kinesis2\querty_2.txt`
-		keyboard_config.KinesisAdv2CreatedBlankFile(path_file_2)
+	kinesi2_source_bytes, error_kinesi2_path := ioutil.ReadFile(path_file_2)
+	if error_kinesi2_path != nil {
+		log.Fatalf("%v", error_kinesi2_path)
 	}
+
+	// use the below to reset the file
+	// keyboard_config.KinesisAdv2CreatedBlankFile(path_file_2)
+
+	kinesi2_target := keyboard_config.Kinesis_ParseAndFill_SpecialTokens(string(kinesi2_source_bytes), layer0, layer1)
+
+	// Writting out Results
+	errKinesis2 := ioutil.WriteFile(path_file_2, []byte(kinesi2_target), 0777)
+
+	if errKinesis2 != nil {
+		log.Fatalf("%v", errKinesis2)
+	}
+
 }

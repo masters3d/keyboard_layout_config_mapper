@@ -1,174 +1,318 @@
 *#def KC_F1# F1, kp-lwin
 *#end KC_F1#
 *#def KC_F2# F2, kp-ralt
+[F2]>[null]
+[kp-ralt]>[null]
 *#end KC_F2#
 *#def KC_F3# F3, kp-MENU
+[F3]>[null]
+[kp-MENU]>[null]
 *#end KC_F3#
 *#def KC_F4# F4, kp-PLAY
+[F4]>[null]
+[kp-PLAY]>[null]
 *#end KC_F4#
 *#def KC_F5# F5, kp-PREV
+[F5]>[null]
+[kp-PREV]>[null]
 *#end KC_F5#
 *#def KC_F6# F6, kp-NEXT
+[F6]>[null]
+[kp-NEXT]>[null]
 *#end KC_F6#
 *#def KC_F7# F7, kp-CALC
+[F7]>[null]
+[kp-CALC]>[null]
 *#end KC_F7#
 *#def KC_F8# F8, kp-KPSHIFT
+[F8]>[null]
+[kp-KPSHIFT]>[null]
 *#end KC_F8#
 *#def KC_F9# F9, kp-F9
+[F9]>[null]
+[kp-F9]>[null]
 *#end KC_F9#
 *#def KC_F10# F10, kp-F10
+[F10]>[null]
+[kp-F10]>[null]
 *#end KC_F10#
 *#def KC_F11# F11, kp-F11
+[F11]>[null]
+[kp-F11]>[null]
 *#end KC_F11#
 *#def KC_F12# F12, kp-F12
+[F12]>[null]
+[kp-F12]>[null]
 *#end KC_F12#
 *#def KC_PRINT_SCREEN# prtscr, mute
+[prtscr]>[null]
+[mute]>[null]
 *#end KC_PRINT_SCREEN#
 *#def KC_SCROLL_LOCK# SCROLL, vol+
+[SCROLL]>[null]
+[vol+]>[null]
 *#end KC_SCROLL_LOCK#
 *#def KC_EQUAL# =, kp-=
+[=]>[UNKNOWN]
+[kp-=]>[UNKNOWN]
 *#end KC_EQUAL#
 *#def KC_1# 1, kp-1
+[1]>[UNKNOWN]
+[kp-1]>[UNKNOWN]
 *#end KC_1#
 *#def KC_2# 2, kp-2
+[2]>[tilde]
+[kp-2]>[tilde]
 *#end KC_2#
 *#def KC_3# 3, kp-3
+[3]>[HYPHEN]
+[kp-3]>[HYPHEN]
 *#end KC_3#
 *#def KC_4# 4, kp-4
+[4]>[=]
+[kp-4]>[=]
 *#end KC_4#
 *#def KC_5# 5, kp-5
+[5]>[/]
+[kp-5]>[UNKNOWN]
 *#end KC_5#
 *#def VK_LPEDAL# lp-tab, kp-lp-tab
+[lp-tab]>[null]
+[kp-lp-tab]>[null]
 *#end VK_LPEDAL#
 *#def KC_6# 6, kp-6
+[6]>[\]
+[kp-6]>[UNKNOWN]
 *#end KC_6#
 *#def KC_7# 7, numlk
+[7]>[oBRACK]
+[numlk]>[0]
 *#end KC_7#
 *#def KC_8# 8, kp=
+[8]>[cBRACk]
+[kp=]>[0]
 *#end KC_8#
 *#def KC_9# 9, kpdiv
+[9]>[UNKNOWN]
+[kpdiv]>[UNKNOWN]
 *#end KC_9#
 *#def KC_0# 0, kpmult
+[0]>[UNKNOWN]
+[kpmult]>[UNKNOWN]
 *#end KC_0#
 *#def KC_MINUS# HYPHEN, kp-HYPHEN
+[HYPHEN]>[null]
+[kp-HYPHEN]>[null]
 *#end KC_MINUS#
 *#def KC_TAB# tab, kp-tab
+[tab]>[null]
+[kp-tab]>[null]
 *#end KC_TAB#
 *#def KC_Q# Q, kp-Q
+[kp-Q]>[Q]
 *#end KC_Q#
 *#def KC_W# W, kp-E
+[kp-E]>[W]
 *#end KC_W#
 *#def KC_E# E, kp-W
+[kp-W]>[E]
 *#end KC_E#
 *#def KC_R# R, kp-R
+[kp-R]>[R]
 *#end KC_R#
 *#def KC_T# T, kp-T
+[kp-T]>[UNKNOWN]
 *#end KC_T#
 *#def VK_MPEDAL# mp-kpshf, kp-mp-kpshf
+[mp-kpshf]>[null]
+[kp-mp-kpshf]>[null]
 *#end VK_MPEDAL#
 *#def KC_Y# Y, kp-Y
+[kp-Y]>[UNKNOWN]
 *#end KC_Y#
 *#def KC_U# U, kp7
+[kp7]>[1]
 *#end KC_U#
 *#def KC_I# I, kp8
+[kp8]>[2]
 *#end KC_I#
 *#def KC_O# O, kp9
+[kp9]>[3]
 *#end KC_O#
 *#def KC_P# P, kpmin
+[kpmin]>[P]
 *#end KC_P#
 *#def KC_BACKSLASH# \, kp-\
+[\]>[null]
+[kp-\]>[null]
 *#end KC_BACKSLASH#
 *#def KC_CAPS_LOCK# caps, kp-caps
+[caps]>[escape]
+[kp-caps]>[escape]
 *#end KC_CAPS_LOCK#
 *#def KC_A# A, kp-A
+[kp-A]>[UNKNOWN]
 *#end KC_A#
 *#def KC_S# S, kp-S
+[kp-S]>[UNKNOWN]
 *#end KC_S#
 *#def KC_D# D, kp-D
+[kp-D]>[UNKNOWN]
 *#end KC_D#
 *#def KC_F# F, kp-F
+[kp-F]>[UNKNOWN]
 *#end KC_F#
 *#def KC_G# G, kp-G
+[kp-G]>[UNKNOWN]
 *#end KC_G#
 *#def VK_RPEDAL# rp-kpent, kp-rp-kpent
+[rp-kpent]>[null]
+[kp-rp-kpent]>[null]
 *#end VK_RPEDAL#
 *#def KC_H# H, kp-H
+[kp-H]>[UNKNOWN]
 *#end KC_H#
 *#def KC_J# J, kp4
+[kp4]>[4]
 *#end KC_J#
 *#def KC_K# K, kp5
+[kp5]>[5]
 *#end KC_K#
 *#def KC_L# L, kp6
+[kp6]>[6]
 *#end KC_L#
 *#def KC_SEMICOLON# colon, kpplus
+[colon]>[per]
+[kpplus]>[per]
 *#end KC_SEMICOLON#
 *#def KC_QUOTE# apos, kp-apos
+[apos]>[enter]
+[kp-apos]>[enter]
 *#end KC_QUOTE#
 *#def KC_LEFT_SHIFT# lshift, kp-lshift
+[lshift]>[null]
+[kp-lshift]>[null]
 *#end KC_LEFT_SHIFT#
 *#def KC_Z# Z, kp-Z
+[kp-Z]>[Z]
 *#end KC_Z#
 *#def KC_X# X, kp-X
+[kp-X]>[X]
 *#end KC_X#
 *#def KC_C# C, kp-C
+[kp-C]>[C]
 *#end KC_C#
 *#def KC_V# V, kp-V
+[kp-V]>[V]
 *#end KC_V#
 *#def KC_B# B, kp-B
+[kp-B]>[UNKNOWN]
 *#end KC_B#
 *#def KC_N# N, kp-N
+[kp-N]>[UNKNOWN]
 *#end KC_N#
 *#def KC_M# M, kp1
+[kp1]>[7]
 *#end KC_M#
 *#def KC_COMMA# com, kp2
+[com]>[colon]
+[kp2]>[8]
 *#end KC_COMMA#
 *#def KC_DOT# per, kp3
+[per]>[apos]
+[kp3]>[9]
 *#end KC_DOT#
 *#def KC_SLASH# /, kpenter-1
+[/]>[com]
+[kpenter-1]>[com]
 *#end KC_SLASH#
 *#def KC_RIGHT_SHIFT# rshift, kp-rshift
+[rshift]>[null]
+[kp-rshift]>[null]
 *#end KC_RIGHT_SHIFT#
 *#def KC_ESCAPE# escape, kp-escape
+[escape]>[null]
+[kp-escape]>[null]
 *#end KC_ESCAPE#
 *#def KC_GRAVE# tilde, kp-tilde
+[tilde]>[UNKNOWN]
+[kp-tilde]>[UNKNOWN]
 *#end KC_GRAVE#
 *#def KC_INSERT# INSERT, kp-INSERT
+[INSERT]>[UNKNOWN]
+[kp-INSERT]>[UNKNOWN]
 *#end KC_INSERT#
 *#def KC_LEFT# LEFT, kp-LEFT
+[LEFT]>[UNKNOWN]
+[kp-LEFT]>[UNKNOWN]
 *#end KC_LEFT#
 *#def KC_RIGHT# RIGHT, kp-RIGHT
+[RIGHT]>[UNKNOWN]
+[kp-RIGHT]>[UNKNOWN]
 *#end KC_RIGHT#
 *#def KC_LEFT_CTRL# lctrl, kp-lctrl
+[lctrl]>[UNKNOWN]
+[kp-lctrl]>[UNKNOWN]
 *#end KC_LEFT_CTRL#
 *#def KC_RIGHT_CTRL# rctrl, kp-rctrl
+[rctrl]>[UNKNOWN]
+[kp-rctrl]>[UNKNOWN]
 *#end KC_RIGHT_CTRL#
 *#def KC_UP# UP, kp-UP
+[UP]>[LEFT]
+[kp-UP]>[0]
 *#end KC_UP#
 *#def KC_DOWN# DOWN, kp-DOWN
+[kp-DOWN]>[0]
 *#end KC_DOWN#
 *#def KC_LEFT_BRACKET# oBRACK, kp.
+[oBRACK]>[UP]
+[kp.]>[UP]
 *#end KC_LEFT_BRACKET#
 *#def KC_RIGHT_BRACKET# cBRACk, kpenter-2
+[cBRACk]>[RIGHT]
+[kpenter-2]>[RIGHT]
 *#end KC_RIGHT_BRACKET#
 *#def KC_PAUSE# PAUSE, vol-
+[PAUSE]>[null]
+[vol-]>[null]
 *#end KC_PAUSE#
 *#def KC_BACKSPACE# BSPACE, kp-BSPACE
+[BSPACE]>[lshift]
+[kp-BSPACE]>[lshift]
 *#end KC_BACKSPACE#
 *#def KC_DELETE# DELETE, kp-DELETE
+[DELETE]>[lwin]
+[kp-DELETE]>[lwin]
 *#end KC_DELETE#
 *#def KC_END# END, kp-END
+[END]>[lalt]
+[kp-END]>[lalt]
 *#end KC_END#
 *#def KC_HOME# HOME, kp-HOME
+[HOME]>[lctrl]
+[kp-HOME]>[lctrl]
 *#end KC_HOME#
 *#def KC_LEFT_ALT# lalt, kp-lalt
+[lalt]>[rwin]
+[kp-lalt]>[rwin]
 *#end KC_LEFT_ALT#
 *#def KC_RIGHT_GUI# rwin, kp-rwin
+[rwin]>[escape]
+[kp-rwin]>[escape]
 *#end KC_RIGHT_GUI#
 *#def KC_PAGE_UP# pup, kp-pup
+[pup]>[DELETE]
+[kp-pup]>[DELETE]
 *#end KC_PAGE_UP#
 *#def KC_PAGE_DOWN# pdown, kp-pdown
+[pdown]>[tab]
+[kp-pdown]>[tab]
 *#end KC_PAGE_DOWN#
 *#def KC_ENTER# enter, kp-enter
+[enter]>[BSPACE]
+[kp-enter]>[BSPACE]
 *#end KC_ENTER#
 *#def KC_SPACE# SPACE, kp0
+[kp0]>[SPACE]
 *#end KC_SPACE#
