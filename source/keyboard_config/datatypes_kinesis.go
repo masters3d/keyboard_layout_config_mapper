@@ -142,7 +142,7 @@ func KinesisAdv2CreatedBlankFile(path_file string) {
 }
 
 func Kinesis_GenerateKinesisMapping(source keycode_kinesis, target keycode_kinesis) string {
-	return "[" + source.tokenname + "]>[" + target.tokenname + "]"
+	return "[" + strings.ToLower(source.tokenname) + "]>[" + strings.ToLower(target.tokenname) + "]"
 }
 
 func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer KeycodeLayerFull, configKeyPadLayer KeycodeLayerFull) string {
