@@ -15,7 +15,13 @@ func ConvertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
 		if (index)%rowCount == 0 && index != 0 {
 			resultString += "\n"
 		}
-		resultString += (value.String() + ", ")
+		separator := ", "
+		// if this is the last one we will not add a separator as
+		if index == len(resultArray)-1 {
+			// the qmk macro doesn't like trailing commas as they are considred as new item
+			separator = ""
+		}
+		resultString += (value.String() + separator)
 	}
 	return resultString
 
