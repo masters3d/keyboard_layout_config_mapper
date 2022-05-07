@@ -273,8 +273,7 @@
 [vol-]>[null]
 *#end KC_PAUSE#
 *#def KC_BACKSPACE# BSPACE, kp-BSPACE
-[bspace]>[lshift]
-[kp-bspace]>[lshift]
+[kp-bspace]>[bspace]
 *#end KC_BACKSPACE#
 *#def KC_DELETE# DELETE, kp-DELETE
 [delete]>[lwin]
@@ -305,8 +304,8 @@
 [kp-pdown]>[tab]
 *#end KC_PAGE_DOWN#
 *#def KC_ENTER# enter, kp-enter
-[enter]>[bspace]
-[kp-enter]>[bspace]
+[enter]>[lshift]
+[kp-enter]>[lshift]
 *#end KC_ENTER#
 *#def KC_SPACE# SPACE, kp0
 [kp0]>[space]
