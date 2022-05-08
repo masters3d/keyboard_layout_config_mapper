@@ -141,8 +141,16 @@ func KinesisAdv2CreatedBlankFile(path_file string) {
 
 }
 
-func Kinesis_GenerateKinesisMapping(source keycode_kinesis, target keycode_kinesis) string {
-	return "[" + strings.ToLower(source.tokenname) + "]>[" + strings.ToLower(target.tokenname) + "]"
+func Kinesis_GenerateKinesisMapping(source keycode_kinesis, target keycode_kinesis) (bool, string) {
+
+	sourceToken := strings.ToLower(source.tokenname)
+	targetToken := strings.ToLower(target.tokenname)
+	valueComposed := "[" + sourceToken + "]>[" + targetToken + "]"
+	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
+		return false, valueComposed
+	}
+
+	return true, valueComposed
 }
 
 func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer KeycodeLayerFull, configKeyPadLayer KeycodeLayerFull) string {
@@ -177,7 +185,14 @@ func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer Key
 			_, keyLayer0KinesisTokenSource := KinesisMainLayerMapping(keyLayer0Source)
 			_, keyLayer0KinesisTokenTarget := KinesisMainLayerMapping(keyCodeMainTarget)
 			if keyLayer0KinesisTokenSource.tokenname != keyLayer0KinesisTokenTarget.tokenname {
-				valuesToAdd += Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+				isOkay, value := Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+				if !isOkay {
+					valuesToAdd += magictoken_open + "Not mapped" + magictoken_close
+				}
+				valuesToAdd += value
+
 				valuesToAdd += "\n"
 			}
 
@@ -193,7 +208,13 @@ func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer Key
 			}
 
 			if keypadLayerKinesisTokenSource != keypadLayerKinesisTokenTarget.tokenname {
-				valuesToAdd += Kinesis_GenerateKinesisMapping(keycode_kinesis{tokenname: keypadLayerKinesisTokenSource, description: keypadLayerKinesisTokenSource}, keypadLayerKinesisTokenTarget)
+				isOkay, value := Kinesis_GenerateKinesisMapping(keycode_kinesis{tokenname: keypadLayerKinesisTokenSource, description: keypadLayerKinesisTokenSource}, keypadLayerKinesisTokenTarget)
+
+				if !isOkay {
+					valuesToAdd += magictoken_open + "Not mapped" + magictoken_close
+				}
+				valuesToAdd += value
+
 				valuesToAdd += "\n"
 			}
 			runningDocument = runningDocument[:contentRange.start] + "\n" + valuesToAdd +
