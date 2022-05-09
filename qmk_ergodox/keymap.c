@@ -83,7 +83,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case ST_MACRO_Screenshot:
     if (record->event.pressed) {
-      SEND_STRING(SS_LSFT(SS_RGUI(SS_TAP(X_S))));
+      SEND_STRING(SS_LSFT(SS_LGUI(SS_TAP(X_S))));
 
     }
     break;
