@@ -270,12 +270,12 @@ func (i markercombovalue) String() string {
 	}
 }
 
-type keycombo struct {
+type Keycombo struct {
 	value keycode
 	combo markercombovalue
 }
 
-func (self keycombo) String() string {
+func (self Keycombo) String() string {
 	return self.combo.String() + "(" + self.value.String() + ")"
 }
 
@@ -288,8 +288,8 @@ func (self layercombo) String() string {
 	return self.combo.String() + "(" + strconv.FormatInt(int64(self.value), 10) + ")"
 }
 
-func LSFT(i keycode) keycombo {
-	return keycombo{i, LayerShifedKeys}
+func LSFT(i keycode) Keycombo {
+	return Keycombo{i, LayerShifedKeys}
 }
 
 func TO(i int) layercombo {

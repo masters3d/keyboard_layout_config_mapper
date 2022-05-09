@@ -185,13 +185,20 @@ func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer Key
 			_, keyLayer0KinesisTokenSource := KinesisMainLayerMapping(keyLayer0Source)
 			_, keyLayer0KinesisTokenTarget := KinesisMainLayerMapping(keyCodeMainTarget)
 			if keyLayer0KinesisTokenSource.tokenname != keyLayer0KinesisTokenTarget.tokenname {
+				// check if the key is a shifter key
 
-				isOkay, value := Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+				keycombo_value, isKeycombo := keyCodeMainTarget.(Keycombo)
+				if isKeycombo {
+					valuesToAdd += magictoken_open + keycombo_value.combo.String() + magictoken_close
 
-				if !isOkay {
-					valuesToAdd += magictoken_open + "Not mapped" + magictoken_close
+				} else {
+					isOkay, value := Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+					if !isOkay {
+						valuesToAdd += magictoken_open + "Not mapped" + magictoken_close
+					}
+					valuesToAdd += value
 				}
-				valuesToAdd += value
 
 				valuesToAdd += "\n"
 			}
