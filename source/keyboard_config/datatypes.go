@@ -259,11 +259,11 @@ var LayerToggleKeys markercombovalue = max_value_for_keycode * 4 // used for tog
 
 func (i markercombovalue) String() string {
 	switch {
-	case i == 0xFF*2:
+	case i == LayerShifedKeys:
 		return "LSFT"
-	case i == 0xFF*3:
+	case i == LayerSwitchKeys:
 		return "TO"
-	case i == 0xFF*4:
+	case i == LayerToggleKeys:
 		return "MO"
 	default:
 		return "makercombovalue(" + strconv.FormatInt(int64(i), 10) + ")"

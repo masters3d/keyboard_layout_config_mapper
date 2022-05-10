@@ -7,8 +7,8 @@
 *#Not mapped#[kp-=]>[unknown]
 *#end KC_EQUAL#
 *#def KC_1# 1, kp-1
-*#LSFT#
-*#Not mapped#[kp-1]>[unknown]
+{1}>{speed9}{-lshift}{1}{+lshift}
+[kp-1]>[{speed9}{-lshift}{1}{+lshift}]
 *#end KC_1#
 *#def KC_2# 2, kp-2
 [2]>[tilde]
@@ -43,12 +43,12 @@
 [kp=]>[0]
 *#end KC_8#
 *#def KC_9# 9, kpdiv
-*#LSFT#
-*#Not mapped#[kpdiv]>[unknown]
+{9}>{speed9}{-lshift}{9}{+lshift}
+[kpdiv]>[{speed9}{-lshift}{9}{+lshift}]
 *#end KC_9#
 *#def KC_0# 0, kpmult
-*#LSFT#
-*#Not mapped#[kpmult]>[unknown]
+{0}>{speed9}{-lshift}{0}{+lshift}
+[kpmult]>[{speed9}{-lshift}{0}{+lshift}]
 *#end KC_0#
 *#def KC_MINUS# HYPHEN, kp-HYPHEN
 [hyphen]>[null]

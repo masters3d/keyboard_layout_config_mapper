@@ -141,6 +141,18 @@ func KinesisAdv2CreatedBlankFile(path_file string) {
 
 }
 
+func Kinesis_GenerateKinesisShifted(source keycode_kinesis, target keycode_kinesis) (bool, string) {
+
+	sourceToken := strings.ToLower(source.tokenname)
+	targetToken := strings.ToLower(target.tokenname)
+	valueComposed := "{" + sourceToken + "}>" + targetToken
+	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
+		return false, valueComposed
+	}
+
+	return true, valueComposed
+}
+
 func Kinesis_GenerateKinesisMapping(source keycode_kinesis, target keycode_kinesis) (bool, string) {
 
 	sourceToken := strings.ToLower(source.tokenname)
@@ -151,6 +163,19 @@ func Kinesis_GenerateKinesisMapping(source keycode_kinesis, target keycode_kines
 	}
 
 	return true, valueComposed
+}
+
+func ConvertToSourceTarget(i Keycombo, token keycode_kinesis) (bool, string, string) {
+	switch {
+	case i.combo == LayerShifedKeys:
+		return true, "{lshift}{" + token.tokenname + "}", "{speed9}{-lshift}{" + token.tokenname + "}{+lshift}"
+	case i.combo == LayerSwitchKeys:
+		return false, "TO", "unknown"
+	case i.combo == LayerToggleKeys:
+		return false, "MO", "unknown"
+	default:
+		return false, "unknown", "unknown"
+	}
 }
 
 func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer KeycodeLayerFull, configKeyPadLayer KeycodeLayerFull) string {
@@ -183,23 +208,36 @@ func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer Key
 
 			// we are not going to check errors here since we get a nice text output saying that they key is not valid if we are not able to find it.
 			_, keyLayer0KinesisTokenSource := KinesisMainLayerMapping(keyLayer0Source)
-			_, keyLayer0KinesisTokenTarget := KinesisMainLayerMapping(keyCodeMainTarget)
+			isTargetToken, keyLayer0KinesisTokenTarget := KinesisMainLayerMapping(keyCodeMainTarget)
+			keycombo_value, isKeycombo := keyCodeMainTarget.(Keycombo)
+
+			if !isTargetToken && isKeycombo {
+				_, keyLayer0KinesisTokenTarget = KinesisMainLayerMapping(keycombo_value.value)
+				isOkay, _, target := ConvertToSourceTarget(keycombo_value, keyLayer0KinesisTokenTarget)
+				if isOkay {
+					keyLayer0KinesisTokenTarget = keycode_kinesis{tokenname: target}
+				}
+			}
+
 			if keyLayer0KinesisTokenSource.tokenname != keyLayer0KinesisTokenTarget.tokenname {
 				// check if the key is a shifter key
 
-				keycombo_value, isKeycombo := keyCodeMainTarget.(Keycombo)
-				if isKeycombo {
-					valuesToAdd += magictoken_open + keycombo_value.combo.String() + magictoken_close
+				isOkay := false
+				value := ""
+
+				if isKeycombo && keycombo_value.combo == LayerShifedKeys {
+
+					isOkay, value = Kinesis_GenerateKinesisShifted(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
 
 				} else {
-					isOkay, value := Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+					isOkay, value = Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
 
-					if !isOkay {
-						valuesToAdd += magictoken_open + "Not mapped" + magictoken_close
-					}
-					valuesToAdd += value
 				}
 
+				if !isOkay {
+					valuesToAdd += magictoken_open + "Not mapped" + magictoken_close
+				}
+				valuesToAdd += value
 				valuesToAdd += "\n"
 			}
 
