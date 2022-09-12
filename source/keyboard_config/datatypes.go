@@ -253,12 +253,24 @@ type markercombovalue uint
 // The max value of regular keycodes
 const max_value_for_keycode markercombovalue = 0xFF // see KC_MS_ACCEL2
 
-var LayerShifedKeys markercombovalue = max_value_for_keycode * 2 // used for shifted keys.
-var LayerSwitchKeys markercombovalue = max_value_for_keycode * 3 // used for switching layer
-var LayerToggleKeys markercombovalue = max_value_for_keycode * 4 // used for toggleing a layer
+var LayerShifedKeys markercombovalue = max_value_for_keycode * 2       // used for shifted keys.
+var LayerSwitchKeys markercombovalue = max_value_for_keycode * 3       // used for switching layer
+var LayerToggleKeys markercombovalue = max_value_for_keycode * 4       // used for toggleing a layer
+var LayerHoldMOD_LGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod MOD_LGUI
+var LayerHoldMOD_LALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod MOD_LALT
+var LayerHoldMOD_LCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod MOD_LCTL
+var LayerHoldMOD_LSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod MOD_LSFT
 
 func (i markercombovalue) String() string {
 	switch {
+	case i == LayerHoldMOD_LGUIKeys:
+		return "MOD_LGUI"
+	case i == LayerHoldMOD_LALTKeys:
+		return "MOD_LALT"
+	case i == LayerHoldMOD_LCTLKeys:
+		return "MOD_LCTL"
+	case i == LayerHoldMOD_LSFTKeys:
+		return "MOD_LSFT"
 	case i == LayerShifedKeys:
 		return "LSFT"
 	case i == LayerSwitchKeys:
@@ -298,6 +310,21 @@ func TO(i int) layercombo {
 
 func MO(i int) layercombo {
 	return layercombo{i, LayerToggleKeys}
+}
+
+// tap and hold mods
+
+func MOD_LGUI(i keycode) Keycombo {
+	return Keycombo{i, LayerHoldMOD_LGUIKeys}
+}
+func MOD_LALT(i keycode) Keycombo {
+	return Keycombo{i, LayerHoldMOD_LALTKeys}
+}
+func MOD_LCTL(i keycode) Keycombo {
+	return Keycombo{i, LayerHoldMOD_LCTLKeys}
+}
+func MOD_LSFT(i keycode) Keycombo {
+	return Keycombo{i, LayerHoldMOD_LSFTKeys}
 }
 
 // US ANSI shifted keycode aliases
