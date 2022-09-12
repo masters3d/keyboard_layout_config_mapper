@@ -189,16 +189,16 @@
 *#Not mapped#[kp-tilde]>[unknown]
 *#end KC_GRAVE#
 *#def KC_INSERT# INSERT, kp-INSERT
-*#Not mapped#[insert]>[unknown]
-*#Not mapped#[kp-insert]>[unknown]
+[insert]>[mmouse]
+[kp-insert]>[mmouse]
 *#end KC_INSERT#
 *#def KC_LEFT# LEFT, kp-LEFT
-*#Not mapped#[left]>[unknown]
-*#Not mapped#[kp-left]>[unknown]
+[left]>[rmouse]
+[kp-left]>[rmouse]
 *#end KC_LEFT#
 *#def KC_RIGHT# RIGHT, kp-RIGHT
-*#Not mapped#[right]>[unknown]
-*#Not mapped#[kp-right]>[unknown]
+[right]>[lmouse]
+[kp-right]>[lmouse]
 *#end KC_RIGHT#
 *#def KC_LEFT_CTRL# lctrl, kp-lctrl
 *#Not mapped#[lctrl]>[unknown]

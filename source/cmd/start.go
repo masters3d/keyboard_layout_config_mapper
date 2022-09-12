@@ -3,18 +3,26 @@ package main
 import (
 	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 
 	"masters3d.com/keyboard_layout_config_mapper/source/keyboard_config"
 )
 
 func main() {
 
+	ex, err := os.Executable()
+	if err != nil {
+		panic(err)
+	}
+	exPath := filepath.Dir(ex)
+
 	// shared
 	layer0 := keyboard_config.MergeHalfLayers(keyboard_config.Layer0Left, keyboard_config.Layer0Right)
 	layer1 := keyboard_config.MergeHalfLayers(keyboard_config.Layer1Left, keyboard_config.Layer1Right)
 
 	// Ergodox
-	qmk_ergodox_path := `..\qmk_ergodox\keymap.c`
+	qmk_ergodox_path := filepath.Join(exPath, "qmk_ergodox", "keymap.c")
 	qmk_ergodox_source_bytes, error_qmk_ergodox_path := ioutil.ReadFile(qmk_ergodox_path)
 	if error_qmk_ergodox_path != nil {
 		log.Fatalf("%v", error_qmk_ergodox_path)
@@ -35,7 +43,7 @@ func main() {
 
 	//kinesi2
 
-	path_file_2 := `..\kinesis2\querty_2.txt`
+	path_file_2 := filepath.Join(exPath, "kinesis2", "querty_2.txt")
 
 	kinesi2_source_bytes, error_kinesi2_path := ioutil.ReadFile(path_file_2)
 	if error_kinesi2_path != nil {
