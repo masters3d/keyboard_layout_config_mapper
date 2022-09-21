@@ -140,8 +140,8 @@
 [kp-apos]>[enter]
 *#end KC_QUOTE#
 *#def KC_LEFT_SHIFT# lshift, kp-lshift
-[lshift]>[null]
-[kp-lshift]>[null]
+*#Not mapped#[lshift]>[unknown]
+*#Not mapped#[kp-lshift]>[unknown]
 *#end KC_LEFT_SHIFT#
 *#def KC_Z# Z, kp-Z
 [kp-z]>[z]
