@@ -120,6 +120,12 @@ const key_override_t dot_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, LSFT(K
 const key_override_t comma_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_SCOLON);
 const key_override_t parens_left_override = ko_make_basic(MOD_MASK_SHIFT, LSFT(KC_9), LSFT(KC_COMMA));
 const key_override_t parens_right_override = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, LSFT(KC_DOT));
+const key_override_t exclamation_override = ko_make_basic(MOD_MASK_SHIFT, KC_BACKSLASH, LSFT(KC_1));
+// ' KC_QUOTE and ` KC_GRAVE
+const key_override_t quote_single_override = ko_make_basic(MOD_MASK_SHIFT, KC_QUOTE, KC_GRAVE);
+// " LSFT(KC_QUOTE) and ~ LSFT(KC_GRAVE)
+const key_override_t quote_double_override = ko_make_basic(MOD_MASK_SHIFT, LSFT(KC_QUOTE), LSFT(KC_GRAVE));
+
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
@@ -128,6 +134,9 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &comma_override,
     &parens_left_override,
     &parens_right_override,
+    &exclamation_override,
+    &quote_single_override,
+    &quote_double_override,
     NULL // Null terminate the array of overrides!
 };
 
