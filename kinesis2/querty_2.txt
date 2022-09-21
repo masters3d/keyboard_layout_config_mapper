@@ -59,7 +59,7 @@
 [kp-tab]>[null]
 *#end KC_TAB#
 *#def KC_Q# Q, kp-Q
-[kp-q]>[q]
+[kp-q]>[apos]
 *#end KC_Q#
 *#def KC_W# W, kp-E
 [kp-e]>[w]
@@ -90,7 +90,7 @@
 [kp9]>[3]
 *#end KC_O#
 *#def KC_P# P, kpmin
-[kpmin]>[p]
+*#Not mapped#[kpmin]>[unknown]
 *#end KC_P#
 *#def KC_BACKSLASH# \, kp-\
 [\]>[null]
