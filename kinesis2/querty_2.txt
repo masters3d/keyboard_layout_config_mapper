@@ -228,11 +228,12 @@
 [vol-]>[null]
 *#end KC_PAUSE#
 *#def KC_BACKSPACE# BSPACE, kp-BSPACE
-[kp-bspace]>[bspace]
+[bspace]>[e]
+[kp-bspace]>[e]
 *#end KC_BACKSPACE#
 *#def KC_DELETE# DELETE, kp-DELETE
-[delete]>[e]
-[kp-delete]>[e]
+[delete]>[bspace]
+[kp-delete]>[bspace]
 *#end KC_DELETE#
 *#def KC_END# END, kp-END
 [end]>[lalt]
