@@ -269,21 +269,21 @@ func (i markercombovalue) String() string {
 	switch {
 
 	case i == LayerHOLD_RGUIKeys:
-		return "MT(HOLD_RGUI,"
+		return "MT(MOD_RGUI,"
 	case i == LayerHOLD_RALTKeys:
-		return "MT(HOLD_RALT,"
+		return "MT(MOD_RALT,"
 	case i == LayerHOLD_RCTLKeys:
-		return "MT(HOLD_RCTL,"
+		return "MT(MOD_RCTL,"
 	case i == LayerHOLD_RSFTKeys:
-		return "MT(HOLD_RSFT,"
+		return "MT(MOD_RSFT,"
 	case i == LayerHOLD_LGUIKeys:
-		return "MT(HOLD_LGUI,"
+		return "MT(MOD_LGUI,"
 	case i == LayerHOLD_LALTKeys:
-		return "MT(HOLD_LALT,"
+		return "MT(MOD_LALT,"
 	case i == LayerHOLD_LCTLKeys:
-		return "MT(HOLD_LCTL,"
+		return "MT(MOD_LCTL,"
 	case i == LayerHOLD_LSFTKeys:
-		return "MT(HOLD_LSFT,"
+		return "MT(MOD_LSFT,"
 	case i == LayerShifedKeys:
 		return "LSFT("
 	case i == LayerSwitchKeys:
@@ -326,6 +326,7 @@ func MO(i int) layercombo {
 }
 
 // tap and hold mods
+// TODO: This should take two keycodes just like QMK does does with MT()
 
 func HOLD_RGUI(i keycode) Keycombo {
 	return Keycombo{i, LayerHOLD_RGUIKeys}
