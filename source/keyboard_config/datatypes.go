@@ -257,26 +257,39 @@ var LayerShifedKeys markercombovalue = max_value_for_keycode * 2       // used f
 var LayerSwitchKeys markercombovalue = max_value_for_keycode * 3       // used for switching layer
 var LayerToggleKeys markercombovalue = max_value_for_keycode * 4       // used for toggleing a layer
 var LayerHoldMOD_LGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod MOD_LGUI
+var LayerHoldMOD_RGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod MOD_RGUI
 var LayerHoldMOD_LALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod MOD_LALT
+var LayerHoldMOD_RALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod MOD_RALT
 var LayerHoldMOD_LCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod MOD_LCTL
+var LayerHoldMOD_RCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod MOD_RCTL
 var LayerHoldMOD_LSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod MOD_LSFT
+var LayerHoldMOD_RSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod MOD_RSFT
 
 func (i markercombovalue) String() string {
 	switch {
+
+	case i == LayerHoldMOD_RGUIKeys:
+		return "MT(MOD_RGUI,"
+	case i == LayerHoldMOD_RALTKeys:
+		return "MT(MOD_RALT,"
+	case i == LayerHoldMOD_RCTLKeys:
+		return "MT(MOD_RCTL,"
+	case i == LayerHoldMOD_RSFTKeys:
+		return "MT(MOD_RSFT,"
 	case i == LayerHoldMOD_LGUIKeys:
-		return "MOD_LGUI"
+		return "MT(MOD_LGUI,"
 	case i == LayerHoldMOD_LALTKeys:
-		return "MOD_LALT"
+		return "MT(MOD_LALT,"
 	case i == LayerHoldMOD_LCTLKeys:
-		return "MOD_LCTL"
+		return "MT(MOD_LCTL,"
 	case i == LayerHoldMOD_LSFTKeys:
-		return "MOD_LSFT"
+		return "MT(MOD_LSFT,"
 	case i == LayerShifedKeys:
-		return "LSFT"
+		return "LSFT("
 	case i == LayerSwitchKeys:
-		return "TO"
+		return "TO("
 	case i == LayerToggleKeys:
-		return "MO"
+		return "MO("
 	default:
 		return "makercombovalue(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
@@ -288,7 +301,7 @@ type Keycombo struct {
 }
 
 func (self Keycombo) String() string {
-	return self.combo.String() + "(" + self.value.String() + ")"
+	return self.combo.String() + self.value.String() + ")"
 }
 
 type layercombo struct {
@@ -297,7 +310,7 @@ type layercombo struct {
 }
 
 func (self layercombo) String() string {
-	return self.combo.String() + "(" + strconv.FormatInt(int64(self.value), 10) + ")"
+	return self.combo.String() + strconv.FormatInt(int64(self.value), 10) + ")"
 }
 
 func LSFT(i keycode) Keycombo {
@@ -313,6 +326,19 @@ func MO(i int) layercombo {
 }
 
 // tap and hold mods
+
+func MOD_RGUI(i keycode) Keycombo {
+	return Keycombo{i, LayerHoldMOD_RGUIKeys}
+}
+func MOD_RALT(i keycode) Keycombo {
+	return Keycombo{i, LayerHoldMOD_RALTKeys}
+}
+func MOD_RCTL(i keycode) Keycombo {
+	return Keycombo{i, LayerHoldMOD_RCTLKeys}
+}
+func MOD_RSFT(i keycode) Keycombo {
+	return Keycombo{i, LayerHoldMOD_RSFTKeys}
+}
 
 func MOD_LGUI(i keycode) Keycombo {
 	return Keycombo{i, LayerHoldMOD_LGUIKeys}
