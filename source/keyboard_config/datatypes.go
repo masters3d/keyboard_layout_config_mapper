@@ -253,37 +253,37 @@ type markercombovalue uint
 // The max value of regular keycodes
 const max_value_for_keycode markercombovalue = 0xFF // see KC_MS_ACCEL2
 
-var LayerShifedKeys markercombovalue = max_value_for_keycode * 2       // used for shifted keys.
-var LayerSwitchKeys markercombovalue = max_value_for_keycode * 3       // used for switching layer
-var LayerToggleKeys markercombovalue = max_value_for_keycode * 4       // used for toggleing a layer
-var LayerHoldMOD_LGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod MOD_LGUI
-var LayerHoldMOD_RGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod MOD_RGUI
-var LayerHoldMOD_LALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod MOD_LALT
-var LayerHoldMOD_RALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod MOD_RALT
-var LayerHoldMOD_LCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod MOD_LCTL
-var LayerHoldMOD_RCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod MOD_RCTL
-var LayerHoldMOD_LSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod MOD_LSFT
-var LayerHoldMOD_RSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod MOD_RSFT
+var LayerShifedKeys markercombovalue = max_value_for_keycode * 2    // used for shifted keys.
+var LayerSwitchKeys markercombovalue = max_value_for_keycode * 3    // used for switching layer
+var LayerToggleKeys markercombovalue = max_value_for_keycode * 4    // used for toggleing a layer
+var LayerHOLD_LGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod HOLD_LGUI
+var LayerHOLD_RGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod HOLD_RGUI
+var LayerHOLD_LALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod HOLD_LALT
+var LayerHOLD_RALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod HOLD_RALT
+var LayerHOLD_LCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod HOLD_LCTL
+var LayerHOLD_RCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod HOLD_RCTL
+var LayerHOLD_LSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod HOLD_LSFT
+var LayerHOLD_RSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod HOLD_RSFT
 
 func (i markercombovalue) String() string {
 	switch {
 
-	case i == LayerHoldMOD_RGUIKeys:
-		return "MT(MOD_RGUI,"
-	case i == LayerHoldMOD_RALTKeys:
-		return "MT(MOD_RALT,"
-	case i == LayerHoldMOD_RCTLKeys:
-		return "MT(MOD_RCTL,"
-	case i == LayerHoldMOD_RSFTKeys:
-		return "MT(MOD_RSFT,"
-	case i == LayerHoldMOD_LGUIKeys:
-		return "MT(MOD_LGUI,"
-	case i == LayerHoldMOD_LALTKeys:
-		return "MT(MOD_LALT,"
-	case i == LayerHoldMOD_LCTLKeys:
-		return "MT(MOD_LCTL,"
-	case i == LayerHoldMOD_LSFTKeys:
-		return "MT(MOD_LSFT,"
+	case i == LayerHOLD_RGUIKeys:
+		return "MT(HOLD_RGUI,"
+	case i == LayerHOLD_RALTKeys:
+		return "MT(HOLD_RALT,"
+	case i == LayerHOLD_RCTLKeys:
+		return "MT(HOLD_RCTL,"
+	case i == LayerHOLD_RSFTKeys:
+		return "MT(HOLD_RSFT,"
+	case i == LayerHOLD_LGUIKeys:
+		return "MT(HOLD_LGUI,"
+	case i == LayerHOLD_LALTKeys:
+		return "MT(HOLD_LALT,"
+	case i == LayerHOLD_LCTLKeys:
+		return "MT(HOLD_LCTL,"
+	case i == LayerHOLD_LSFTKeys:
+		return "MT(HOLD_LSFT,"
 	case i == LayerShifedKeys:
 		return "LSFT("
 	case i == LayerSwitchKeys:
@@ -327,30 +327,30 @@ func MO(i int) layercombo {
 
 // tap and hold mods
 
-func MOD_RGUI(i keycode) Keycombo {
-	return Keycombo{i, LayerHoldMOD_RGUIKeys}
+func HOLD_RGUI(i keycode) Keycombo {
+	return Keycombo{i, LayerHOLD_RGUIKeys}
 }
-func MOD_RALT(i keycode) Keycombo {
-	return Keycombo{i, LayerHoldMOD_RALTKeys}
+func HOLD_RALT(i keycode) Keycombo {
+	return Keycombo{i, LayerHOLD_RALTKeys}
 }
-func MOD_RCTL(i keycode) Keycombo {
-	return Keycombo{i, LayerHoldMOD_RCTLKeys}
+func HOLD_RCTL(i keycode) Keycombo {
+	return Keycombo{i, LayerHOLD_RCTLKeys}
 }
-func MOD_RSFT(i keycode) Keycombo {
-	return Keycombo{i, LayerHoldMOD_RSFTKeys}
+func HOLD_RSFT(i keycode) Keycombo {
+	return Keycombo{i, LayerHOLD_RSFTKeys}
 }
 
-func MOD_LGUI(i keycode) Keycombo {
-	return Keycombo{i, LayerHoldMOD_LGUIKeys}
+func HOLD_LGUI(i keycode) Keycombo {
+	return Keycombo{i, LayerHOLD_LGUIKeys}
 }
-func MOD_LALT(i keycode) Keycombo {
-	return Keycombo{i, LayerHoldMOD_LALTKeys}
+func HOLD_LALT(i keycode) Keycombo {
+	return Keycombo{i, LayerHOLD_LALTKeys}
 }
-func MOD_LCTL(i keycode) Keycombo {
-	return Keycombo{i, LayerHoldMOD_LCTLKeys}
+func HOLD_LCTL(i keycode) Keycombo {
+	return Keycombo{i, LayerHOLD_LCTLKeys}
 }
-func MOD_LSFT(i keycode) Keycombo {
-	return Keycombo{i, LayerHoldMOD_LSFTKeys}
+func HOLD_LSFT(i keycode) Keycombo {
+	return Keycombo{i, LayerHOLD_LSFTKeys}
 }
 
 // US ANSI shifted keycode aliases
