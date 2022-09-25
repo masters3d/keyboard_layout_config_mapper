@@ -55,8 +55,8 @@
 [kp-hyphen]>[null]
 *#end KC_MINUS#
 *#def KC_TAB# tab, kp-tab
-[tab]>[null]
-[kp-tab]>[null]
+*#Not mapped#[tab]>[unknown]
+*#Not mapped#[kp-tab]>[unknown]
 *#end KC_TAB#
 *#def KC_Q# Q, kp-Q
 [kp-q]>[apos]
@@ -228,12 +228,10 @@
 [vol-]>[null]
 *#end KC_PAUSE#
 *#def KC_BACKSPACE# BSPACE, kp-BSPACE
-[bspace]>[e]
-[kp-bspace]>[e]
+[kp-bspace]>[bspace]
 *#end KC_BACKSPACE#
 *#def KC_DELETE# DELETE, kp-DELETE
-[delete]>[bspace]
-[kp-delete]>[bspace]
+[kp-delete]>[delete]
 *#end KC_DELETE#
 *#def KC_END# END, kp-END
 [end]>[lalt]
@@ -248,8 +246,8 @@
 [kp-lalt]>[lwin]
 *#end KC_LEFT_ALT#
 *#def KC_RIGHT_GUI# rwin, kp-rwin
-[rwin]>[delete]
-[kp-rwin]>[delete]
+[rwin]>[escape]
+[kp-rwin]>[escape]
 *#end KC_RIGHT_GUI#
 *#def KC_PAGE_UP# pup, kp-pup
 [pup]>[enter]
