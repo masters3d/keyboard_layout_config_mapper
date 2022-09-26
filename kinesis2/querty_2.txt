@@ -177,8 +177,8 @@
 [kpenter-1]>[com]
 *#end KC_SLASH#
 *#def KC_RIGHT_SHIFT# rshift, kp-rshift
-[rshift]>[null]
-[kp-rshift]>[null]
+*#Not mapped#[rshift]>[unknown]
+*#Not mapped#[kp-rshift]>[unknown]
 *#end KC_RIGHT_SHIFT#
 *#def KC_ESCAPE# escape, kp-escape
 [escape]>[null]

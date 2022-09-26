@@ -20,6 +20,7 @@ func main() {
 	// shared
 	layer0 := keyboard_config.MergeHalfLayers(keyboard_config.Layer0Left, keyboard_config.Layer0Right)
 	layer1 := keyboard_config.MergeHalfLayers(keyboard_config.Layer1Left, keyboard_config.Layer1Right)
+	layer2 := keyboard_config.MergeHalfLayers(keyboard_config.Layer2Left, keyboard_config.Layer2Right)
 
 	// Ergodox
 	qmk_ergodox_path := filepath.Join(exPath, "qmk_ergodox", "keymap.c")
@@ -33,6 +34,9 @@ func main() {
 
 	// Layer One
 	qmk_ergodox_target_string = keyboard_config.Ergodox_replace_layer(qmk_ergodox_target_string, 1, layer1)
+
+	// Layer Two
+	qmk_ergodox_target_string = keyboard_config.Ergodox_replace_layer(qmk_ergodox_target_string, 2, layer2)
 
 	// Writting out Results
 	errErgodox := ioutil.WriteFile(qmk_ergodox_path, []byte(qmk_ergodox_target_string), 0777)
