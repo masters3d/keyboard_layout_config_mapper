@@ -231,7 +231,8 @@
 [kp-bspace]>[bspace]
 *#end KC_BACKSPACE#
 *#def KC_DELETE# DELETE, kp-DELETE
-[kp-delete]>[delete]
+[delete]>[lshift]
+[kp-delete]>[lshift]
 *#end KC_DELETE#
 *#def KC_END# END, kp-END
 [end]>[lalt]
@@ -250,16 +251,16 @@
 [kp-rwin]>[escape]
 *#end KC_RIGHT_GUI#
 *#def KC_PAGE_UP# pup, kp-pup
-[pup]>[enter]
-[kp-pup]>[enter]
+[pup]>[tab]
+[kp-pup]>[tab]
 *#end KC_PAGE_UP#
 *#def KC_PAGE_DOWN# pdown, kp-pdown
 [pdown]>[rwin]
 [kp-pdown]>[rwin]
 *#end KC_PAGE_DOWN#
 *#def KC_ENTER# enter, kp-enter
-[enter]>[tab]
-[kp-enter]>[tab]
+[enter]>[rshift]
+[kp-enter]>[rshift]
 *#end KC_ENTER#
 *#def KC_SPACE# SPACE, kp0
 [kp0]>[space]
