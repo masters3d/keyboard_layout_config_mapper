@@ -7,11 +7,11 @@
 *#Not mapped#[kp-=]>[unknown]
 *#end KC_EQUAL#
 *#def KC_1# 1, kp-1
-{1}>{speed9}{-lshift}{0}{+lshift}
+[1]>[apos]
 *#Not mapped#[kp-1]>[unknown]
 *#end KC_1#
 *#def KC_2# 2, kp-2
-[2]>[cbrack]
+{2}>{speed9}{-lshift}{apos}{+lshift}
 *#Not mapped#[kp-2]>[unknown]
 *#end KC_2#
 *#def KC_3# 3, kp-3
@@ -19,8 +19,8 @@
 [kp-3]>[hyphen]
 *#end KC_3#
 *#def KC_4# 4, kp-4
-[4]>[apos]
-[kp-4]>[apos]
+[4]>[=]
+[kp-4]>[=]
 *#end KC_4#
 *#def KC_5# 5, kp-5
 [5]>[/]
@@ -35,19 +35,19 @@
 *#Not mapped#[kp-6]>[unknown]
 *#end KC_6#
 *#def KC_7# 7, numlk
-{7}>{speed9}{-lshift}{apos}{+lshift}
-[numlk]>[{speed9}{-lshift}{apos}{+lshift}]
+[7]>[obrack]
+[numlk]>[obrack]
 *#end KC_7#
 *#def KC_8# 8, kp=
-[8]>[=]
+[8]>[cbrack]
 [kp=]>[0]
 *#end KC_8#
 *#def KC_9# 9, kpdiv
-[9]>[obrack]
+{9}>{speed9}{-lshift}{9}{+lshift}
 *#Not mapped#[kpdiv]>[unknown]
 *#end KC_9#
 *#def KC_0# 0, kpmult
-{0}>{speed9}{-lshift}{9}{+lshift}
+{0}>{speed9}{-lshift}{0}{+lshift}
 *#Not mapped#[kpmult]>[unknown]
 *#end KC_0#
 *#def KC_MINUS# HYPHEN, kp-HYPHEN
@@ -185,20 +185,19 @@
 [kp-escape]>[null]
 *#end KC_ESCAPE#
 *#def KC_GRAVE# tilde, kp-tilde
-*#Not mapped#[tilde]>[unknown]
-*#Not mapped#[kp-tilde]>[unknown]
+[tilde]>[left]
+[kp-tilde]>[left]
 *#end KC_GRAVE#
 *#def KC_INSERT# INSERT, kp-INSERT
-[insert]>[mmouse]
-[kp-insert]>[mmouse]
+[insert]>[down]
+[kp-insert]>[down]
 *#end KC_INSERT#
 *#def KC_LEFT# LEFT, kp-LEFT
-[left]>[rmouse]
-[kp-left]>[rmouse]
+[left]>[up]
+[kp-left]>[up]
 *#end KC_LEFT#
 *#def KC_RIGHT# RIGHT, kp-RIGHT
-[right]>[lmouse]
-[kp-right]>[lmouse]
+[kp-right]>[right]
 *#end KC_RIGHT#
 *#def KC_LEFT_CTRL# lctrl, kp-lctrl
 *#Not mapped#[lctrl]>[unknown]
