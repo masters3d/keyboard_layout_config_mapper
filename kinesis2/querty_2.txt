@@ -165,11 +165,11 @@
 [kp1]>[7]
 *#end KC_M#
 *#def KC_COMMA# com, kp2
-[com]>[p]
+[com]>[j]
 [kp2]>[8]
 *#end KC_COMMA#
 *#def KC_DOT# per, kp3
-[per]>[q]
+[per]>[g]
 [kp3]>[9]
 *#end KC_DOT#
 *#def KC_SLASH# /, kpenter-1
@@ -185,19 +185,20 @@
 [kp-escape]>[null]
 *#end KC_ESCAPE#
 *#def KC_GRAVE# tilde, kp-tilde
-[tilde]>[left]
-[kp-tilde]>[left]
+[tilde]>[z]
+[kp-tilde]>[z]
 *#end KC_GRAVE#
 *#def KC_INSERT# INSERT, kp-INSERT
-[insert]>[down]
-[kp-insert]>[down]
+[insert]>[s]
+[kp-insert]>[s]
 *#end KC_INSERT#
 *#def KC_LEFT# LEFT, kp-LEFT
-[left]>[up]
-[kp-left]>[up]
+[left]>[c]
+[kp-left]>[c]
 *#end KC_LEFT#
 *#def KC_RIGHT# RIGHT, kp-RIGHT
-[kp-right]>[right]
+[right]>[v]
+[kp-right]>[v]
 *#end KC_RIGHT#
 *#def KC_LEFT_CTRL# lctrl, kp-lctrl
 *#Not mapped#[lctrl]>[unknown]

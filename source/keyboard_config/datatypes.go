@@ -253,21 +253,28 @@ type markercombovalue uint
 // The max value of regular keycodes
 const max_value_for_keycode markercombovalue = 0xFF // see KC_MS_ACCEL2
 
-var LayerShifedKeys markercombovalue = max_value_for_keycode * 2    // used for shifted keys.
-var LayerSwitchKeys markercombovalue = max_value_for_keycode * 3    // used for switching layer
-var LayerToggleKeys markercombovalue = max_value_for_keycode * 4    // used for toggleing a layer
-var LayerHOLD_LGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod HOLD_LGUI
-var LayerHOLD_RGUIKeys markercombovalue = max_value_for_keycode * 5 // used for tap and hold mod HOLD_RGUI
-var LayerHOLD_LALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod HOLD_LALT
-var LayerHOLD_RALTKeys markercombovalue = max_value_for_keycode * 6 // used for tap and hold mod HOLD_RALT
-var LayerHOLD_LCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod HOLD_LCTL
-var LayerHOLD_RCTLKeys markercombovalue = max_value_for_keycode * 7 // used for tap and hold mod HOLD_RCTL
-var LayerHOLD_LSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod HOLD_LSFT
-var LayerHOLD_RSFTKeys markercombovalue = max_value_for_keycode * 8 // used for tap and hold mod HOLD_RSFT
+var LayerShifedKeys markercombovalue = max_value_for_keycode + 2     // used for shifted keys.
+var LayerSwitchKeys markercombovalue = max_value_for_keycode + 3     // used for switching layer
+var LayerToggleKeys markercombovalue = max_value_for_keycode + 4     // used for toggleing a layer
+var LayerHOLD_LGUIKeys markercombovalue = max_value_for_keycode + 10 // used for tap and hold mod HOLD_LGUI
+var LayerHOLD_RGUIKeys markercombovalue = max_value_for_keycode + 11 // used for tap and hold mod HOLD_RGUI
+var LayerHOLD_LALTKeys markercombovalue = max_value_for_keycode + 12 // used for tap and hold mod HOLD_LALT
+var LayerHOLD_RALTKeys markercombovalue = max_value_for_keycode + 13 // used for tap and hold mod HOLD_RALT
+var LayerHOLD_LCTLKeys markercombovalue = max_value_for_keycode + 14 // used for tap and hold mod HOLD_LCTL
+var LayerHOLD_RCTLKeys markercombovalue = max_value_for_keycode + 15 // used for tap and hold mod HOLD_RCTL
+var LayerHOLD_LSFTKeys markercombovalue = max_value_for_keycode + 16 // used for tap and hold mod HOLD_LSFT
+var LayerHOLD_RSFTKeys markercombovalue = max_value_for_keycode + 17 // used for tap and hold mod HOLD_RSFT
+// NOTE(CHEYO) In my windows computers I have the R Win key mapped to Control
+var LayerRGUIKeys markercombovalue = max_value_for_keycode + 30 // used for combo RGUI
+var LayerLGUIKeys markercombovalue = max_value_for_keycode + 30 // used for combo RGUI
 
 func (i markercombovalue) String() string {
 	switch {
 
+	case i == LayerRGUIKeys:
+		return "RGUI("
+	case i == LayerLGUIKeys:
+		return "LGUI("
 	case i == LayerHOLD_RGUIKeys:
 		return "MT(MOD_RGUI,"
 	case i == LayerHOLD_RALTKeys:
@@ -315,6 +322,14 @@ func (self layercombo) String() string {
 
 func LSFT(i keycode) Keycombo {
 	return Keycombo{i, LayerShifedKeys}
+}
+
+func RGUI(i keycode) Keycombo {
+	return Keycombo{i, LayerRGUIKeys}
+}
+
+func LGUI(i keycode) Keycombo {
+	return Keycombo{i, LayerLGUIKeys}
 }
 
 func TO(i int) layercombo {
