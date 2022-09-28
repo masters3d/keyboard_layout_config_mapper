@@ -659,7 +659,8 @@
             "id": 75,
             "shift": -1,
             "altGr": -1,
-            "shiftAltGr": -1
+            "shiftAltGr": -1,
+            "numpad": -1
         }
     ]
 }
