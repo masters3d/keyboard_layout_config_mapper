@@ -42,6 +42,15 @@ var Adv2KeypadValidation = []string{
 	`null`, `kp-rwin`, `kp-pup`, `kp-pdown`, `kp-enter`, `kp0`, `null`,
 }
 
+const (
+	speed9               = "{speed9}"
+	unknown_sigil        = "UNKNOWN"
+	magictoken_open      = "*#"
+	magictoken_close     = "#"
+	magictoken_def_sigil = magictoken_open + "def" + " "
+	magictoken_end_sigil = magictoken_open + "end" + " "
+)
+
 type Token_index_range struct {
 	start int
 	end   int
@@ -71,7 +80,14 @@ func (self keycode_kinesis) GetTokenname() string {
 	return self.tokenname
 }
 
-const unknown_sigil = "UNKNOWN"
+func addCurlyBraces(token string) string {
+	return "{" + token + "}"
+}
+
+func addModifierWrapper(modifierToken string, targetToken string) string {
+	// example {-rwin}{z}{+rwin} where rwin is the modifierToken and z is the target token
+	return addCurlyBraces("-"+modifierToken) + addCurlyBraces(targetToken) + addCurlyBraces("+"+modifierToken)
+}
 
 func _keyPadKinesisHelper(input KeyCodeRepresentable) keycode_kinesis {
 	value, isOk := kinesis_confirmed[input]
@@ -98,11 +114,6 @@ func KinesisKeypadLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesi
 	// Handle Keypad
 	return false, value
 }
-
-const magictoken_open = "*#"
-const magictoken_close = "#"
-const magictoken_def_sigil = magictoken_open + "def" + " "
-const magictoken_end_sigil = magictoken_open + "end" + " "
 
 // this section only sets up a brand new file with the comments we are going to using
 func KinesisAdv2CreatedBlankFile(path_file string) {
@@ -144,14 +155,12 @@ func KinesisAdv2CreatedBlankFile(path_file string) {
 func Kinesis_GenerateKinesisShifted(source keycode_kinesis, target keycode_kinesis) (bool, string) {
 
 	sourceToken := strings.ToLower(source.tokenname)
-	// TODO: The target token needs to be change to mark what kinesis expects
-
+	// TODO: Refactor why ConvertToSourceTarget func has a different path
 	targetToken := strings.ToLower(target.tokenname)
-	valueComposed := "{" + sourceToken + "}>" + targetToken
+	valueComposed := addCurlyBraces(sourceToken) + ">" + targetToken
 	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
 		return false, valueComposed
 	}
-
 	return true, valueComposed
 }
 
@@ -166,10 +175,14 @@ func Kinesis_GenerateKinesisRGUID(source keycode_kinesis, target keycode_kinesis
 func Kinesis_GenerateKinesisGUID(source keycode_kinesis, target keycode_kinesis, isLeft bool) (bool, string) {
 
 	sourceToken := strings.ToLower(source.tokenname)
-	// TODO: The target token needs to be change to mark what kinesis expects
+	var winName string = "rwin"
+
+	if isLeft {
+		winName = "lwin"
+	}
 
 	targetToken := strings.ToLower(target.tokenname)
-	valueComposed := "{" + sourceToken + "}>" + targetToken
+	valueComposed := addCurlyBraces(sourceToken) + ">" + speed9 + addModifierWrapper(winName, targetToken)
 	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
 		return false, valueComposed
 	}

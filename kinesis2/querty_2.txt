@@ -185,19 +185,19 @@
 [kp-escape]>[null]
 *#end KC_ESCAPE#
 *#def KC_GRAVE# tilde, kp-tilde
-{tilde}>z
+{tilde}>{speed9}{-rwin}{z}{+rwin}
 [kp-tilde]>[z]
 *#end KC_GRAVE#
 *#def KC_INSERT# INSERT, kp-INSERT
-{insert}>s
+{insert}>{speed9}{-rwin}{s}{+rwin}
 [kp-insert]>[s]
 *#end KC_INSERT#
 *#def KC_LEFT# LEFT, kp-LEFT
-{left}>c
+{left}>{speed9}{-rwin}{c}{+rwin}
 [kp-left]>[c]
 *#end KC_LEFT#
 *#def KC_RIGHT# RIGHT, kp-RIGHT
-{right}>v
+{right}>{speed9}{-rwin}{v}{+rwin}
 [kp-right]>[v]
 *#end KC_RIGHT#
 *#def KC_LEFT_CTRL# lctrl, kp-lctrl
