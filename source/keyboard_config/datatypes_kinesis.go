@@ -144,6 +144,30 @@ func KinesisAdv2CreatedBlankFile(path_file string) {
 func Kinesis_GenerateKinesisShifted(source keycode_kinesis, target keycode_kinesis) (bool, string) {
 
 	sourceToken := strings.ToLower(source.tokenname)
+	// TODO: The target token needs to be change to mark what kinesis expects
+
+	targetToken := strings.ToLower(target.tokenname)
+	valueComposed := "{" + sourceToken + "}>" + targetToken
+	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
+		return false, valueComposed
+	}
+
+	return true, valueComposed
+}
+
+func Kinesis_GenerateKinesisLGUID(source keycode_kinesis, target keycode_kinesis) (bool, string) {
+	return Kinesis_GenerateKinesisGUID(source, target, true) // isLeft = true
+}
+
+func Kinesis_GenerateKinesisRGUID(source keycode_kinesis, target keycode_kinesis) (bool, string) {
+	return Kinesis_GenerateKinesisGUID(source, target, false) // isLeft = false
+}
+
+func Kinesis_GenerateKinesisGUID(source keycode_kinesis, target keycode_kinesis, isLeft bool) (bool, string) {
+
+	sourceToken := strings.ToLower(source.tokenname)
+	// TODO: The target token needs to be change to mark what kinesis expects
+
 	targetToken := strings.ToLower(target.tokenname)
 	valueComposed := "{" + sourceToken + "}>" + targetToken
 	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
@@ -228,6 +252,14 @@ func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer Key
 				if isKeycombo && keycombo_value.combo == LayerShifedKeys {
 
 					isOkay, value = Kinesis_GenerateKinesisShifted(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+				} else if isKeycombo && keycombo_value.combo == LayerLGUIKeys {
+
+					isOkay, value = Kinesis_GenerateKinesisLGUID(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+				} else if isKeycombo && keycombo_value.combo == LayerRGUIKeys {
+
+					isOkay, value = Kinesis_GenerateKinesisRGUID(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
 
 				} else {
 					isOkay, value = Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)

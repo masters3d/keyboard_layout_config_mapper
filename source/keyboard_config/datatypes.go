@@ -266,7 +266,7 @@ var LayerHOLD_LSFTKeys markercombovalue = max_value_for_keycode + 16 // used for
 var LayerHOLD_RSFTKeys markercombovalue = max_value_for_keycode + 17 // used for tap and hold mod HOLD_RSFT
 // NOTE(CHEYO) In my windows computers I have the R Win key mapped to Control
 var LayerRGUIKeys markercombovalue = max_value_for_keycode + 30 // used for combo RGUI
-var LayerLGUIKeys markercombovalue = max_value_for_keycode + 30 // used for combo RGUI
+var LayerLGUIKeys markercombovalue = max_value_for_keycode + 31 // used for combo LGUI
 
 func (i markercombovalue) String() string {
 	switch {
