@@ -119,8 +119,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 };
 
-const key_override_t delete_override = ko_make_basic(MOD_MASK_SHIFT, KC_BACKSPACE, KC_DEL);
-const key_override_t enter_override = ko_make_basic(MOD_MASK_SHIFT, KC_SPACE, KC_ENTER);
 const key_override_t dot_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, LSFT(KC_SCOLON));
 const key_override_t comma_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_SCOLON);
 const key_override_t parens_left_override = ko_make_basic(MOD_MASK_SHIFT, LSFT(KC_9), LSFT(KC_COMMA));
@@ -134,8 +132,6 @@ const key_override_t quote_double_override = ko_make_basic(MOD_MASK_SHIFT, LSFT(
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
-    &delete_override,
-    &enter_override,
     &dot_override,
     &comma_override,
     &parens_left_override,
