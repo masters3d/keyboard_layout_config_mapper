@@ -165,11 +165,11 @@
 [kp1]>[7]
 *#end KC_M#
 *#def KC_COMMA# com, kp2
-[com]>[j]
+[com]>[apos]
 [kp2]>[8]
 *#end KC_COMMA#
 *#def KC_DOT# per, kp3
-[per]>[g]
+{per}>{speed9}{-lshift}{apos}{+lshift}
 [kp3]>[9]
 *#end KC_DOT#
 *#def KC_SLASH# /, kpenter-1
