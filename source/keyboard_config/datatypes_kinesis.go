@@ -1,5 +1,11 @@
 package keyboard_config
 
+import (
+	"io/ioutil"
+	"log"
+	"strings"
+)
+
 var Adv2TopLayerLeft = KeycodeLayerHalf{
 	KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, // function row
 	KC_EQUAL, KC_1, KC_2, KC_3, KC_4, KC_5, KC_TRANSPARENT,
@@ -36,6 +42,19 @@ var Adv2KeypadValidation = []string{
 	`null`, `kp-rwin`, `kp-pup`, `kp-pdown`, `kp-enter`, `kp0`, `null`,
 }
 
+const (
+	speed9               = "{speed9}"
+	unknown_sigil        = "UNKNOWN"
+	magictoken_open      = "*#"
+	magictoken_close     = "#"
+	magictoken_def_sigil = magictoken_open + "def" + " "
+	magictoken_end_sigil = magictoken_open + "end" + " "
+)
+
+type Token_index_range struct {
+	start int
+	end   int
+}
 type keycode_kinesis struct {
 	description string
 	tokenname   string
@@ -57,10 +76,18 @@ func (self keycode_kinesis) String() string {
 	return self.description
 }
 
-// TODO: We are calling two in two nested functions
-// kinesis_confirmed calls this function again. I hate recursion
+func (self keycode_kinesis) GetTokenname() string {
+	return self.tokenname
+}
 
-const unknown_sigil = "UNKNOWN"
+func addCurlyBraces(token string) string {
+	return "{" + token + "}"
+}
+
+func addModifierWrapper(modifierToken string, targetToken string) string {
+	// example {-rwin}{z}{+rwin} where rwin is the modifierToken and z is the target token
+	return addCurlyBraces("-"+modifierToken) + addCurlyBraces(targetToken) + addCurlyBraces("+"+modifierToken)
+}
 
 func _keyPadKinesisHelper(input KeyCodeRepresentable) keycode_kinesis {
 	value, isOk := kinesis_confirmed[input]
@@ -71,6 +98,14 @@ func _keyPadKinesisHelper(input KeyCodeRepresentable) keycode_kinesis {
 	return keycode_kinesis{unknown_sigil, unknown_sigil}
 }
 
+func KinesisMainLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesis) {
+	value, isOk := kinesis_confirmed[input]
+	if isOk {
+		return true, keycode_kinesis{description: input.String(), tokenname: value}
+	}
+	return false, keycode_kinesis{description: unknown_sigil, tokenname: unknown_sigil}
+}
+
 func KinesisKeypadLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesis) {
 	value, isOk := kinesisAdv2ndLayerMapping[input]
 	if isOk && value.tokenname != unknown_sigil {
@@ -78,6 +113,258 @@ func KinesisKeypadLayerMapping(input KeyCodeRepresentable) (bool, keycode_kinesi
 	}
 	// Handle Keypad
 	return false, value
+}
+
+// this section only sets up a brand new file with the comments we are going to using
+func KinesisAdv2CreatedBlankFile(path_file string) {
+
+	kinesis_layer0 := MergeHalfLayers(Adv2TopLayerLeft, Adv2TopLayerRight)
+
+	kinesis2_target_string2 := ""
+
+	for index, keyLayer0 := range kinesis_layer0 {
+
+		if keyLayer0 == KC_TRANSPARENT {
+			continue
+		}
+		keyLayer1 := Adv2KeypadValidation[index]
+
+		isOkay, value := KinesisMainLayerMapping(keyLayer0)
+
+		if !isOkay {
+			panic("error " + keyLayer0.String())
+		}
+
+		//*#def KC_F1# F1, kp-lwin
+		//*#end KC_F1#
+
+		var start_token = magictoken_def_sigil + keyLayer0.String() + magictoken_close
+		kinesis2_target_string2 += start_token + " " + value.GetTokenname() + ", " + keyLayer1 + "\n"
+		var end_token = magictoken_end_sigil + keyLayer0.String() + magictoken_close
+		kinesis2_target_string2 += end_token + "\n"
+
+	}
+	err := ioutil.WriteFile(path_file, []byte(kinesis2_target_string2), 0777)
+
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+}
+
+func Kinesis_GenerateKinesisShifted(source keycode_kinesis, target keycode_kinesis) (bool, string) {
+
+	sourceToken := strings.ToLower(source.tokenname)
+	// TODO: Refactor why ConvertToSourceTarget func has a different path
+	targetToken := strings.ToLower(target.tokenname)
+	valueComposed := addCurlyBraces(sourceToken) + ">" + targetToken
+	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
+		return false, valueComposed
+	}
+	return true, valueComposed
+}
+
+func Kinesis_GenerateKinesisLGUID(source keycode_kinesis, target keycode_kinesis) (bool, string) {
+	return Kinesis_GenerateKinesisGUID(source, target, true) // isLeft = true
+}
+
+func Kinesis_GenerateKinesisRGUID(source keycode_kinesis, target keycode_kinesis) (bool, string) {
+	return Kinesis_GenerateKinesisGUID(source, target, false) // isLeft = false
+}
+
+func Kinesis_GenerateKinesisGUID(source keycode_kinesis, target keycode_kinesis, isLeft bool) (bool, string) {
+
+	sourceToken := strings.ToLower(source.tokenname)
+	var winName string = "rwin"
+
+	if isLeft {
+		winName = "lwin"
+	}
+
+	targetToken := strings.ToLower(target.tokenname)
+	valueComposed := addCurlyBraces(sourceToken) + ">" + speed9 + addModifierWrapper(winName, targetToken)
+	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
+		return false, valueComposed
+	}
+
+	return true, valueComposed
+}
+
+func Kinesis_GenerateKinesisMapping(source keycode_kinesis, target keycode_kinesis) (bool, string) {
+
+	sourceToken := strings.ToLower(source.tokenname)
+	targetToken := strings.ToLower(target.tokenname)
+	valueComposed := "[" + sourceToken + "]>[" + targetToken + "]"
+	if targetToken == strings.ToLower(unknown_sigil) || sourceToken == strings.ToLower(unknown_sigil) {
+		return false, valueComposed
+	}
+
+	return true, valueComposed
+}
+
+func ConvertToSourceTarget(i Keycombo, token keycode_kinesis) (bool, string, string) {
+	switch {
+	case i.combo == LayerShifedKeys:
+		return true, "{lshift}{" + token.tokenname + "}", "{speed9}{-lshift}{" + token.tokenname + "}{+lshift}"
+	case i.combo == LayerSwitchKeys:
+		return false, "TO", "unknown"
+	case i.combo == LayerToggleKeys:
+		return false, "MO", "unknown"
+	default:
+		return false, "unknown", "unknown"
+	}
+}
+
+func Kinesis_ParseAndFill_SpecialTokens(inputDocument string, configTopLayer KeycodeLayerFull, configKeyPadLayer KeycodeLayerFull) string {
+	// this is the default config for Qwerty for Main Layer
+	kinesis_layer0 := MergeHalfLayers(Adv2TopLayerLeft, Adv2TopLayerRight)
+
+	// configuration a just a few hundred lines of configurations this is should be fine ruing a replacement in placed
+	runningDocument := inputDocument
+
+	visited := map[KeyCodeRepresentable]bool{}
+
+	// KC_TRANSPARENT on the main layer effectively means that the key is disabled since there is nothing to be tranparent about.
+	visited[KC_TRANSPARENT] = true
+
+	for index, keyLayer0Source := range kinesis_layer0 {
+		_, isVisited := visited[keyLayer0Source]
+
+		if isVisited {
+			continue
+		}
+		isOkay, contentRange := KinesisGetRangeForKeycodeContent(keyLayer0Source.String(), runningDocument)
+
+		visited[keyLayer0Source] = true
+
+		if isOkay {
+
+			var valuesToAdd = ""
+			// Main
+			keyCodeMainTarget := configTopLayer[index]
+
+			// we are not going to check errors here since we get a nice text output saying that they key is not valid if we are not able to find it.
+			_, keyLayer0KinesisTokenSource := KinesisMainLayerMapping(keyLayer0Source)
+			isTargetToken, keyLayer0KinesisTokenTarget := KinesisMainLayerMapping(keyCodeMainTarget)
+			keycombo_value, isKeycombo := keyCodeMainTarget.(Keycombo)
+
+			if !isTargetToken && isKeycombo {
+				_, keyLayer0KinesisTokenTarget = KinesisMainLayerMapping(keycombo_value.value)
+				isOkay, _, target := ConvertToSourceTarget(keycombo_value, keyLayer0KinesisTokenTarget)
+				if isOkay {
+					keyLayer0KinesisTokenTarget = keycode_kinesis{tokenname: target}
+				}
+			}
+
+			if keyLayer0KinesisTokenSource.tokenname != keyLayer0KinesisTokenTarget.tokenname {
+				// check if the key is a shifter key
+
+				isOkay := false
+				value := ""
+
+				if isKeycombo && keycombo_value.combo == LayerShifedKeys {
+
+					isOkay, value = Kinesis_GenerateKinesisShifted(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+				} else if isKeycombo && keycombo_value.combo == LayerLGUIKeys {
+
+					isOkay, value = Kinesis_GenerateKinesisLGUID(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+				} else if isKeycombo && keycombo_value.combo == LayerRGUIKeys {
+
+					isOkay, value = Kinesis_GenerateKinesisRGUID(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+				} else {
+					isOkay, value = Kinesis_GenerateKinesisMapping(keyLayer0KinesisTokenSource, keyLayer0KinesisTokenTarget)
+
+				}
+
+				if !isOkay {
+					valuesToAdd += magictoken_open + "Not mapped" + magictoken_close
+				}
+				valuesToAdd += value
+				valuesToAdd += "\n"
+			}
+
+			// Keypad
+			keyCodeKeyPadTarget := configKeyPadLayer[index]
+
+			keypadLayerKinesisTokenSource := Adv2KeypadValidation[index]
+			_, keypadLayerKinesisTokenTarget := KinesisMainLayerMapping(keyCodeKeyPadTarget)
+
+			if keyCodeKeyPadTarget == KC_TRANSPARENT {
+				// if we are saying that key should be transparent on the keypad layer then we are saying that we want to use the same value as the main layer
+				keypadLayerKinesisTokenTarget = keyLayer0KinesisTokenTarget
+			}
+
+			if keypadLayerKinesisTokenSource != keypadLayerKinesisTokenTarget.tokenname {
+				isOkay, value := Kinesis_GenerateKinesisMapping(keycode_kinesis{tokenname: keypadLayerKinesisTokenSource, description: keypadLayerKinesisTokenSource}, keypadLayerKinesisTokenTarget)
+
+				if !isOkay {
+					valuesToAdd += magictoken_open + "Not mapped" + magictoken_close
+				}
+				valuesToAdd += value
+
+				valuesToAdd += "\n"
+			}
+			runningDocument = runningDocument[:contentRange.start] + "\n" + valuesToAdd +
+				runningDocument[contentRange.end:]
+		}
+
+	}
+	return runningDocument
+}
+
+func Kinesis_Parse_SpecialToken(inputDocument string) map[KeyCodeRepresentable]Token_index_range {
+	kinesis_layer0 := MergeHalfLayers(Adv2TopLayerLeft, Adv2TopLayerRight)
+
+	contentStartAndEnd := map[KeyCodeRepresentable]Token_index_range{}
+
+	for _, keyLayer0 := range kinesis_layer0 {
+
+		if keyLayer0 == KC_TRANSPARENT {
+			continue
+		}
+		_, contentStartAndEnd[keyLayer0] = KinesisGetRangeForKeycodeContent(keyLayer0.String(), inputDocument)
+	}
+	return contentStartAndEnd
+}
+
+func KinesisGetRangeForWholeKeycodeContext(keycodeAsString string, inputDocument string) (bool, Token_index_range) {
+	var start_token_template = magictoken_def_sigil + keycodeAsString + magictoken_close
+	var end_token_template = magictoken_end_sigil + keycodeAsString + magictoken_close
+
+	//strings.Index
+	var first_line_start_index = strings.Index(inputDocument, start_token_template)
+	var last_line_start_index = strings.Index(inputDocument, end_token_template)
+	var last_line_end_index = find_index_of_next_line(inputDocument, last_line_start_index)
+
+	// this is the start of the token to the very end of the token
+	allContextRange := Token_index_range{start: first_line_start_index, end: last_line_end_index}
+
+	if allContextRange.start == -1 || allContextRange.end == -1 {
+		return false, allContextRange
+	}
+
+	return true, allContextRange
+}
+
+func KinesisGetRangeForKeycodeContent(keycodeAsString string, inputDocument string) (bool, Token_index_range) {
+	var start_token_template = magictoken_def_sigil + keycodeAsString + magictoken_close
+	var end_token_template = magictoken_end_sigil + keycodeAsString + magictoken_close
+
+	//strings.Index
+	var first_line_start_index = strings.Index(inputDocument, start_token_template)
+	var first_line_end_index = find_index_of_next_line(inputDocument, first_line_start_index)
+	var last_line_start_index = strings.Index(inputDocument, end_token_template)
+
+	// this part is only concerned with the content. This is what would de replaced by the configuration
+	contentRange := Token_index_range{start: first_line_end_index, end: last_line_start_index}
+	if contentRange.start == -1 || contentRange.end == -1 {
+		return false, contentRange
+	}
+
+	return true, contentRange
 }
 
 var kinesisAdv2ndLayerMapping = map[KeyCodeRepresentable]keycode_kinesis{

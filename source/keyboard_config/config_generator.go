@@ -1,6 +1,7 @@
 package keyboard_config
 
 import (
+	"log"
 	"strconv"
 	"strings"
 )
@@ -14,7 +15,13 @@ func ConvertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
 		if (index)%rowCount == 0 && index != 0 {
 			resultString += "\n"
 		}
-		resultString += (value.String() + ", ")
+		separator := ", "
+		// if this is the last one we will not add a separator as
+		if index == len(resultArray)-1 {
+			// the qmk macro doesn't like trailing commas as they are considred as new item
+			separator = ""
+		}
+		resultString += (value.String() + separator)
 	}
 	return resultString
 
@@ -22,7 +29,7 @@ func ConvertLayerToErgodoxPrexyAsString(input KeycodeLayerFull) string {
 
 func find_index_of_previous_line(text string, indexEnd int) int {
 	const line = "\n"
-	for index := indexEnd; index > 0; index += -1 {
+	for index := indexEnd; index > 0 && index < len(text); index += -1 {
 		value := string(text[index])
 		if value == line {
 			return index
@@ -33,7 +40,7 @@ func find_index_of_previous_line(text string, indexEnd int) int {
 
 func find_index_of_next_line(text string, indexStart int) int {
 	const line = "\n"
-	for index := indexStart; index < len(text); index += 1 {
+	for index := indexStart; index < len(text) && index > 0; index += 1 {
 		value := string(text[index])
 		if value == line {
 			return index
@@ -52,11 +59,20 @@ func ergodox_replace_layer_specific(template string, layer int, input KeycodeLay
 	startPattern := strings.Replace(startPatternTemplate, "{layer}", strconv.FormatInt(int64(layer), 10), 1) //"[" + strconv.FormatInt(int64(layer), 10) + "] = LAYOUT_ergodox_pretty("
 	endPattern := strings.Replace(endPatternTemplate, "{layer}", strconv.FormatInt(int64(layer), 10), 1)     //"[" + strconv.FormatInt(int64(layer), 10) + "] = GENERATED"
 
+	log.Print("startPattern = `" + startPattern + "`")
+	log.Print("endPattern = `" + endPattern + "`")
+
 	startIndex := strings.Index(template, startPattern)
 	endIndex := strings.Index(template, endPattern)
 
+	log.Print("startIndex = " + strconv.FormatInt(int64(startIndex), 10))
+	log.Print("endIndex = " + strconv.FormatInt(int64(endIndex), 10))
+
 	startIndexNewLine := find_index_of_next_line(template, startIndex)
 	endIndexNewLine := find_index_of_previous_line(template, endIndex)
+
+	log.Print("startIndexNewLine = " + strconv.FormatInt(int64(startIndexNewLine), 10))
+	log.Print("endIndexNewLine = " + strconv.FormatInt(int64(endIndexNewLine), 10))
 
 	if startIndexNewLine == -1 || endIndexNewLine == -1 {
 		panic("startIndexNewLine == " + strconv.FormatInt(int64(startIndexNewLine), 10) + " endIndexNewLine == " + strconv.FormatInt(int64(endIndexNewLine), 10))

@@ -1,5 +1,7 @@
 package keyboard_config
 
+import "strconv"
+
 // ST_MACRO_Screenshot
 
 // macro_quotes: macro_quotes {
@@ -20,7 +22,6 @@ package keyboard_config
 
 // var ST_MACRO_Screenshot = macro_keycodes{label: "ST_MACRO_Screenshot"}
 
-//go:generate stringer -type=macrocode
 type macrocode uint
 
 const (
@@ -30,4 +31,27 @@ const (
 	ST_MACRO_Parenthesis
 	ST_MACRO_SquareBraces
 	ST_MACRO_CurlyBraces
+	// these are defines
+	KC_ControlAltDelete
 )
+
+func (i macrocode) String() string {
+	switch {
+	case i == ST_MACRO_Anglebrakets:
+		return "ST_MACRO_Anglebrakets"
+	case i == ST_MACRO_Screenshot:
+		return "ST_MACRO_Screenshot"
+	case i == ST_MACRO_Parenthesis:
+		return "ST_MACRO_Parenthesis"
+	case i == ST_MACRO_SquareBraces:
+		return "ST_MACRO_SquareBraces"
+	case i == ST_MACRO_CurlyBraces:
+		return "ST_MACRO_CurlyBraces"
+	case i == ST_MACRO_CurlyBraces:
+		return "ST_MACRO_CurlyBraces"
+	case i == KC_ControlAltDelete:
+		return "KC_ControlAltDelete"
+	default:
+		return "MACRO_UNKNOWN(" + strconv.FormatInt(int64(i), 10) + ")"
+	}
+}

@@ -1,0 +1,267 @@
+*#def KC_PRINT_SCREEN# prtscr, mute
+[prtscr]>[f11]
+[mute]>[f11]
+*#end KC_PRINT_SCREEN#
+*#def KC_EQUAL# =, kp-=
+*#Not mapped#[=]>[unknown]
+*#Not mapped#[kp-=]>[unknown]
+*#end KC_EQUAL#
+*#def KC_1# 1, kp-1
+[1]>[apos]
+*#Not mapped#[kp-1]>[unknown]
+*#end KC_1#
+*#def KC_2# 2, kp-2
+{2}>{speed9}{-lshift}{apos}{+lshift}
+*#Not mapped#[kp-2]>[unknown]
+*#end KC_2#
+*#def KC_3# 3, kp-3
+[3]>[hyphen]
+[kp-3]>[hyphen]
+*#end KC_3#
+*#def KC_4# 4, kp-4
+[4]>[=]
+[kp-4]>[=]
+*#end KC_4#
+*#def KC_5# 5, kp-5
+[5]>[/]
+*#Not mapped#[kp-5]>[unknown]
+*#end KC_5#
+*#def VK_LPEDAL# lp-tab, kp-lp-tab
+[lp-tab]>[null]
+[kp-lp-tab]>[null]
+*#end VK_LPEDAL#
+*#def KC_6# 6, kp-6
+[6]>[\]
+*#Not mapped#[kp-6]>[unknown]
+*#end KC_6#
+*#def KC_7# 7, numlk
+[7]>[obrack]
+[numlk]>[obrack]
+*#end KC_7#
+*#def KC_8# 8, kp=
+[8]>[cbrack]
+[kp=]>[0]
+*#end KC_8#
+*#def KC_9# 9, kpdiv
+{9}>{speed9}{-lshift}{9}{+lshift}
+*#Not mapped#[kpdiv]>[unknown]
+*#end KC_9#
+*#def KC_0# 0, kpmult
+{0}>{speed9}{-lshift}{0}{+lshift}
+*#Not mapped#[kpmult]>[unknown]
+*#end KC_0#
+*#def KC_MINUS# HYPHEN, kp-HYPHEN
+[hyphen]>[null]
+[kp-hyphen]>[null]
+*#end KC_MINUS#
+*#def KC_TAB# tab, kp-tab
+*#Not mapped#[tab]>[unknown]
+*#Not mapped#[kp-tab]>[unknown]
+*#end KC_TAB#
+*#def KC_Q# Q, kp-Q
+[kp-q]>[apos]
+*#end KC_Q#
+*#def KC_W# W, kp-E
+[kp-e]>[w]
+*#end KC_W#
+*#def KC_E# E, kp-W
+[kp-w]>[e]
+*#end KC_E#
+*#def KC_R# R, kp-R
+[kp-r]>[r]
+*#end KC_R#
+*#def KC_T# T, kp-T
+*#Not mapped#[kp-t]>[unknown]
+*#end KC_T#
+*#def VK_MPEDAL# mp-kpshf, kp-mp-kpshf
+[mp-kpshf]>[null]
+[kp-mp-kpshf]>[null]
+*#end VK_MPEDAL#
+*#def KC_Y# Y, kp-Y
+*#Not mapped#[kp-y]>[unknown]
+*#end KC_Y#
+*#def KC_U# U, kp7
+[kp7]>[1]
+*#end KC_U#
+*#def KC_I# I, kp8
+[kp8]>[2]
+*#end KC_I#
+*#def KC_O# O, kp9
+[kp9]>[3]
+*#end KC_O#
+*#def KC_P# P, kpmin
+*#Not mapped#[kpmin]>[unknown]
+*#end KC_P#
+*#def KC_BACKSLASH# \, kp-\
+[\]>[null]
+[kp-\]>[null]
+*#end KC_BACKSLASH#
+*#def KC_CAPS_LOCK# caps, kp-caps
+[caps]>[escape]
+[kp-caps]>[escape]
+*#end KC_CAPS_LOCK#
+*#def KC_A# A, kp-A
+[kp-a]>[a]
+*#end KC_A#
+*#def KC_S# S, kp-S
+[kp-s]>[s]
+*#end KC_S#
+*#def KC_D# D, kp-D
+[kp-d]>[d]
+*#end KC_D#
+*#def KC_F# F, kp-F
+[kp-f]>[f]
+*#end KC_F#
+*#def KC_G# G, kp-G
+*#Not mapped#[kp-g]>[unknown]
+*#end KC_G#
+*#def VK_RPEDAL# rp-kpent, kp-rp-kpent
+[rp-kpent]>[null]
+[kp-rp-kpent]>[null]
+*#end VK_RPEDAL#
+*#def KC_H# H, kp-H
+*#Not mapped#[kp-h]>[unknown]
+*#end KC_H#
+*#def KC_J# J, kp4
+[kp4]>[4]
+*#end KC_J#
+*#def KC_K# K, kp5
+[kp5]>[5]
+*#end KC_K#
+*#def KC_L# L, kp6
+[kp6]>[6]
+*#end KC_L#
+*#def KC_SEMICOLON# colon, kpplus
+[colon]>[per]
+[kpplus]>[per]
+*#end KC_SEMICOLON#
+*#def KC_QUOTE# apos, kp-apos
+[apos]>[enter]
+[kp-apos]>[enter]
+*#end KC_QUOTE#
+*#def KC_LEFT_SHIFT# lshift, kp-lshift
+*#Not mapped#[lshift]>[unknown]
+*#Not mapped#[kp-lshift]>[unknown]
+*#end KC_LEFT_SHIFT#
+*#def KC_Z# Z, kp-Z
+[kp-z]>[z]
+*#end KC_Z#
+*#def KC_X# X, kp-X
+[kp-x]>[x]
+*#end KC_X#
+*#def KC_C# C, kp-C
+[kp-c]>[c]
+*#end KC_C#
+*#def KC_V# V, kp-V
+[kp-v]>[v]
+*#end KC_V#
+*#def KC_B# B, kp-B
+*#Not mapped#[kp-b]>[unknown]
+*#end KC_B#
+*#def KC_N# N, kp-N
+*#Not mapped#[kp-n]>[unknown]
+*#end KC_N#
+*#def KC_M# M, kp1
+[kp1]>[7]
+*#end KC_M#
+*#def KC_COMMA# com, kp2
+[com]>[apos]
+[kp2]>[8]
+*#end KC_COMMA#
+*#def KC_DOT# per, kp3
+{per}>{speed9}{-lshift}{apos}{+lshift}
+[kp3]>[9]
+*#end KC_DOT#
+*#def KC_SLASH# /, kpenter-1
+[/]>[com]
+[kpenter-1]>[com]
+*#end KC_SLASH#
+*#def KC_RIGHT_SHIFT# rshift, kp-rshift
+*#Not mapped#[rshift]>[unknown]
+*#Not mapped#[kp-rshift]>[unknown]
+*#end KC_RIGHT_SHIFT#
+*#def KC_ESCAPE# escape, kp-escape
+[escape]>[null]
+[kp-escape]>[null]
+*#end KC_ESCAPE#
+*#def KC_GRAVE# tilde, kp-tilde
+{tilde}>{speed9}{-rwin}{z}{+rwin}
+[kp-tilde]>[z]
+*#end KC_GRAVE#
+*#def KC_INSERT# INSERT, kp-INSERT
+{insert}>{speed9}{-rwin}{s}{+rwin}
+[kp-insert]>[s]
+*#end KC_INSERT#
+*#def KC_LEFT# LEFT, kp-LEFT
+{left}>{speed9}{-rwin}{c}{+rwin}
+[kp-left]>[c]
+*#end KC_LEFT#
+*#def KC_RIGHT# RIGHT, kp-RIGHT
+{right}>{speed9}{-rwin}{v}{+rwin}
+[kp-right]>[v]
+*#end KC_RIGHT#
+*#def KC_LEFT_CTRL# lctrl, kp-lctrl
+*#Not mapped#[lctrl]>[unknown]
+*#Not mapped#[kp-lctrl]>[unknown]
+*#end KC_LEFT_CTRL#
+*#def KC_RIGHT_CTRL# rctrl, kp-rctrl
+*#Not mapped#[rctrl]>[unknown]
+*#Not mapped#[kp-rctrl]>[unknown]
+*#end KC_RIGHT_CTRL#
+*#def KC_UP# UP, kp-UP
+[up]>[left]
+[kp-up]>[left]
+*#end KC_UP#
+*#def KC_DOWN# DOWN, kp-DOWN
+[kp-down]>[0]
+*#end KC_DOWN#
+*#def KC_LEFT_BRACKET# oBRACK, kp.
+[obrack]>[up]
+[kp.]>[up]
+*#end KC_LEFT_BRACKET#
+*#def KC_RIGHT_BRACKET# cBRACk, kpenter-2
+[cbrack]>[right]
+[kpenter-2]>[right]
+*#end KC_RIGHT_BRACKET#
+*#def KC_PAUSE# PAUSE, vol-
+[pause]>[null]
+[vol-]>[null]
+*#end KC_PAUSE#
+*#def KC_BACKSPACE# BSPACE, kp-BSPACE
+[kp-bspace]>[bspace]
+*#end KC_BACKSPACE#
+*#def KC_DELETE# DELETE, kp-DELETE
+[delete]>[lshift]
+[kp-delete]>[lshift]
+*#end KC_DELETE#
+*#def KC_END# END, kp-END
+[end]>[lalt]
+[kp-end]>[lalt]
+*#end KC_END#
+*#def KC_HOME# HOME, kp-HOME
+[home]>[lctrl]
+[kp-home]>[lctrl]
+*#end KC_HOME#
+*#def KC_LEFT_ALT# lalt, kp-lalt
+[lalt]>[lwin]
+[kp-lalt]>[lwin]
+*#end KC_LEFT_ALT#
+*#def KC_RIGHT_GUI# rwin, kp-rwin
+[rwin]>[escape]
+[kp-rwin]>[escape]
+*#end KC_RIGHT_GUI#
+*#def KC_PAGE_UP# pup, kp-pup
+[pup]>[tab]
+[kp-pup]>[tab]
+*#end KC_PAGE_UP#
+*#def KC_PAGE_DOWN# pdown, kp-pdown
+[pdown]>[rwin]
+[kp-pdown]>[rwin]
+*#end KC_PAGE_DOWN#
+*#def KC_ENTER# enter, kp-enter
+[enter]>[rshift]
+[kp-enter]>[rshift]
+*#end KC_ENTER#
+*#def KC_SPACE# SPACE, kp0
+[kp0]>[space]
+*#end KC_SPACE#
