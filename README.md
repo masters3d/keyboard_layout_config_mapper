@@ -1,6 +1,9 @@
 # keyboard_layout_config_mapper
 A way to synchronize mapping across different keyboard layout configs
 
+## Building
+go build -o 'source/bin/' source/cmd/start.go
+
 ## Layout
 
 We are going to base this layout on the ergodox but it also needs to overlap with glove80 and the kinesis360 as i have these on preorder (as of 2022) :). 
