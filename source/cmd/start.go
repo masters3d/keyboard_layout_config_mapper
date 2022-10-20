@@ -15,7 +15,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	exPath := filepath.Dir(ex)
+	exPath := filepath.Dir(filepath.Dir(filepath.Dir(ex)))
 
 	// shared
 	layer0 := keyboard_config.MergeHalfLayers(keyboard_config.Layer0Left, keyboard_config.Layer0Right)

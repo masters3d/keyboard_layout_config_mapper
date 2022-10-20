@@ -8,19 +8,19 @@
 *#end KC_EQUAL#
 *#def KC_1# 1, kp-1
 [1]>[apos]
-*#Not mapped#[kp-1]>[unknown]
+[kp-1]>[f5]
 *#end KC_1#
 *#def KC_2# 2, kp-2
 {2}>{speed9}{-lshift}{apos}{+lshift}
-*#Not mapped#[kp-2]>[unknown]
+[kp-2]>[f6]
 *#end KC_2#
 *#def KC_3# 3, kp-3
 [3]>[hyphen]
-[kp-3]>[hyphen]
+[kp-3]>[f7]
 *#end KC_3#
 *#def KC_4# 4, kp-4
 [4]>[=]
-[kp-4]>[=]
+[kp-4]>[f8]
 *#end KC_4#
 *#def KC_5# 5, kp-5
 [5]>[/]
@@ -36,11 +36,11 @@
 *#end KC_6#
 *#def KC_7# 7, numlk
 [7]>[obrack]
-[numlk]>[obrack]
+*#Not mapped#[numlk]>[unknown]
 *#end KC_7#
 *#def KC_8# 8, kp=
 [8]>[cbrack]
-[kp=]>[0]
+*#Not mapped#[kp=]>[unknown]
 *#end KC_8#
 *#def KC_9# 9, kpdiv
 {9}>{speed9}{-lshift}{9}{+lshift}
@@ -59,16 +59,16 @@
 *#Not mapped#[kp-tab]>[unknown]
 *#end KC_TAB#
 *#def KC_Q# Q, kp-Q
-[kp-q]>[apos]
+[kp-q]>[f9]
 *#end KC_Q#
 *#def KC_W# W, kp-E
-[kp-e]>[w]
+[kp-e]>[f10]
 *#end KC_W#
 *#def KC_E# E, kp-W
-[kp-w]>[e]
+[kp-w]>[f11]
 *#end KC_E#
 *#def KC_R# R, kp-R
-[kp-r]>[r]
+[kp-r]>[f12]
 *#end KC_R#
 *#def KC_T# T, kp-T
 *#Not mapped#[kp-t]>[unknown]
@@ -101,16 +101,16 @@
 [kp-caps]>[escape]
 *#end KC_CAPS_LOCK#
 *#def KC_A# A, kp-A
-[kp-a]>[a]
+[kp-a]>[f13]
 *#end KC_A#
 *#def KC_S# S, kp-S
-[kp-s]>[s]
+[kp-s]>[f14]
 *#end KC_S#
 *#def KC_D# D, kp-D
-[kp-d]>[d]
+[kp-d]>[f15]
 *#end KC_D#
 *#def KC_F# F, kp-F
-[kp-f]>[f]
+[kp-f]>[f16]
 *#end KC_F#
 *#def KC_G# G, kp-G
 *#Not mapped#[kp-g]>[unknown]
@@ -144,16 +144,16 @@
 *#Not mapped#[kp-lshift]>[unknown]
 *#end KC_LEFT_SHIFT#
 *#def KC_Z# Z, kp-Z
-[kp-z]>[z]
+[kp-z]>[f17]
 *#end KC_Z#
 *#def KC_X# X, kp-X
-[kp-x]>[x]
+[kp-x]>[f18]
 *#end KC_X#
 *#def KC_C# C, kp-C
-[kp-c]>[c]
+[kp-c]>[f19]
 *#end KC_C#
 *#def KC_V# V, kp-V
-[kp-v]>[v]
+[kp-v]>[f20]
 *#end KC_V#
 *#def KC_B# B, kp-B
 *#Not mapped#[kp-b]>[unknown]
@@ -186,19 +186,19 @@
 *#end KC_ESCAPE#
 *#def KC_GRAVE# tilde, kp-tilde
 {tilde}>{speed9}{-rwin}{z}{+rwin}
-[kp-tilde]>[z]
+[kp-tilde]>[f21]
 *#end KC_GRAVE#
 *#def KC_INSERT# INSERT, kp-INSERT
 {insert}>{speed9}{-rwin}{s}{+rwin}
-[kp-insert]>[s]
+[kp-insert]>[f22]
 *#end KC_INSERT#
 *#def KC_LEFT# LEFT, kp-LEFT
 {left}>{speed9}{-rwin}{c}{+rwin}
-[kp-left]>[c]
+[kp-left]>[f23]
 *#end KC_LEFT#
 *#def KC_RIGHT# RIGHT, kp-RIGHT
 {right}>{speed9}{-rwin}{v}{+rwin}
-[kp-right]>[v]
+[kp-right]>[f24]
 *#end KC_RIGHT#
 *#def KC_LEFT_CTRL# lctrl, kp-lctrl
 *#Not mapped#[lctrl]>[unknown]
