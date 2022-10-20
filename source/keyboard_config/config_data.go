@@ -39,24 +39,35 @@ var Layer1Right = KeycodeLayerHalf{
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 }
 
-// Enegram Layout with the following mods.
-// Flipped
+// Enegram-FlipFlop:
+// Enegram inspired layout with the following mods
+// Flipped from left to right.
 // R and H swap, R is on the home row in energram-ES
+// The following are ergodox only compatible changes as we will use the extra bottom row.
+// Z and Q moved to left pinky and ring finger (ergodox left bottom row)
+// V to middle finger two rows top from home row (left number row) .
+// B to middle finger two rows bottom from home row (ergodox left bottom row).
+// The following are `x1.en.ergodox` inspired changes:
+// K,J,X moved to left hand and U,O,Y moved down to take their place
+// K moved to index finger (ergodox left bottom row)
+// J moved to ring finger number row
+// V moved to middle finger number row
+// X moved to index finger number row
 var Layer2Left = KeycodeLayerHalf{
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, // function keys
-	KC_TRANSPARENT, KC_TRANSPARENT, KC_K, KC_J, KC_X, KC_TRANSPARENT, KC_TRANSPARENT,
+	KC_TRANSPARENT, KC_TRANSPARENT, KC_J, KC_V, KC_X, KC_TRANSPARENT, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_V, KC_W, KC_D, KC_L, KC_MINUS, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_N, KC_S, KC_T, KC_R, KC_COMMA, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_P, KC_F, KC_M, KC_H, KC_QUOTE, KC_TRANSPARENT,
-	KC_TRANSPARENT, KC_Z, KC_Q, KC_V, KC_B, KC_TRANSPARENT, KC_TRANSPARENT,
+	KC_TRANSPARENT, KC_Z, KC_Q, KC_B, KC_K, KC_TRANSPARENT, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 }
 var Layer2Right = KeycodeLayerHalf{
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, // function keys
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-	KC_TRANSPARENT, KC_EQUAL, KC_U, KC_O, KC_Y, KC_B, KC_TRANSPARENT,
+	KC_TRANSPARENT, KC_EQUAL, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_DOT, KC_A, KC_E, KC_I, KC_C, KC_TRANSPARENT,
-	KC_TRANSPARENT, KC_DOUBLE_QUOTE, KC_K, KC_J, KC_X, KC_G, KC_TRANSPARENT,
+	KC_TRANSPARENT, KC_DOUBLE_QUOTE, KC_U, KC_O, KC_Y, KC_G, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 	KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 }
