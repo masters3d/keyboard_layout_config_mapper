@@ -48,8 +48,8 @@
             "numpad": -1
         },
         {
-            "primary": 53,
-            "shift": 42,
+            "primary": 98,
+            "shift": 66,
             "finger": 3,
             "id": 3,
             "altGr": -1,
@@ -542,8 +542,8 @@
             "numpad": -1
         },
         {
-            "primary": 98,
-            "shift": 66,
+            "primary": 53,
+            "shift": 42,
             "finger": 5,
             "id": 58,
             "altGr": -1,
