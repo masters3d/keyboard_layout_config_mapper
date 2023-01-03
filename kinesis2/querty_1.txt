@@ -12,24 +12,24 @@
 *# left thumb cluster column 1
 [lctrl]>[kpshft]
 [kp-lctrl]>[kpshft]
-[delete]>[lwin]
-[kp-delete]>[lwin]
+[delete]>[lshift]
+[kp-delete]>[lshift]
 
 *# left thumb cluster column 2
-[lalt]>[rwin]
-[kp-lalt]>[rwin]
+[lalt]>[lwin]
+[kp-lalt]>[lwin]
 [home]>[lctrl]
 [kp-home]>[lctrl]
 [end]>[ralt]
 [kp-end]>[ralt]
 
 *# right thumb cluster column 3
-[rwin]>[escape]
-[kp-rwin]>[escape]
-[pup]>[delete]
-[kp-pup]>[delete]
-[pdown]>[tab]
-[kp-pdown]>[tab]
+[rwin]>[delete]
+[kp-rwin]>[delete]
+[pup]>[tab]
+[kp-pup]>[tab]
+[pdown]>[rwin]
+[kp-pdown]>[rwin]
 
 *# right thumb cluster column 4
 [rctrl]>[kpshft]
@@ -60,8 +60,8 @@
 [kp-=]>[null]
 
 *# This will take a screenshot
-{=}>{speed5}{-lshift}{-rwin}{s}{+lshift}{+rwin}
-{kp-=}>{speed5}{-lshift}{-rwin}{s}{+lshift}{+rwin}
+{=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
+{kp-=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
 
 [kp-caps]>[escape]
 [caps]>[escape]
@@ -69,13 +69,11 @@
 *# no changes to tab, caps, shift
 
 *# Left row 0
-[1]>[']
+{1}>{speed9}{-lshift}{1}{+lshift}
 [2]>[`]
 [3]>[hyphen]
 [4]>[=]
 [5]>[/]
-{lshift}{5}>{speed9}{-lshift}{1}{+lshift}
-
 
 *# left keypad row 0
 {kp-1}>{speed9}{-lshift}{1}{+lshift}
@@ -131,6 +129,10 @@
 [6]>[\]
 [7]>[obrack]
 [8]>[cbrack]
+{9}>{speed9}{-lshift}{9}{+lshift}
+{lshift}{9}>{speed9}{-lshift}{,}{+lshift}
+{0}>{speed9}{-lshift}{0}{+lshift}
+{lshift}{0}>{speed9}{-lshift}{.}{+lshift}
 
 *# right keypad row 0
 {kp-6}>{speed9}{-lshift}{6}{+lshift}
@@ -187,4 +189,3 @@
 *# no changes to down key
 [obrack]>[up]
 [cbrack]>[right]
-
