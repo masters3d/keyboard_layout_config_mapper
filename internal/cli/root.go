@@ -13,25 +13,28 @@ var (
 var rootCmd = &cobra.Command{
 	Use:   "klcm",
 	Short: "Keyboard Layout Configuration Mapper",
-	Long: `KLCM (Keyboard Layout Configuration Mapper) helps synchronize keyboard layouts
+	Long: `KLCM (Keyboard Layout Configuration Mapper) helps manage keyboard configuration files
 across different keyboard firmware systems including ZMK, QMK, and Kinesis.
 
 Priority focus on ZMK keyboards (Advantage360 & Glove80) with support for:
-- Automatic sync between compatible keyboards
-- Change detection and conflict resolution  
+- Pulling latest configurations from remote repository
+- Comparing local vs remote configurations  
 - GitHub PR automation for upstream changes
-- Interactive mode for complex mappings`,
-	Example: `  # Sync changes from Advantage360 to Glove80
-  klcm sync --from adv360 --to glove80
+- Configuration validation and formatting`,
+	Example: `  # Pull latest configurations for all keyboards
+  klcm pull
 
-  # Auto-detect and sync all changes
-  klcm sync
+  # Preview changes before pulling
+  klcm pull --preview
 
-  # Preview changes without applying
-  klcm sync --preview
+  # Pull specific keyboards
+  klcm pull adv360 glove80
 
-  # Create GitHub PRs for all changes
-  klcm pr create --all`,
+  # Compare local vs remote files
+  klcm compare-remote
+
+  # Download specific configurations
+  klcm download adv360`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

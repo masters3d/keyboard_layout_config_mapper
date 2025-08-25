@@ -116,13 +116,13 @@ var keyboards = []keyboardConfig{
 		name:     "glove80",
 		dir:      "configs/zmk_glove80",
 		filename: "glove80.keymap",
-		url:      "https://raw.githubusercontent.com/masters3d/glove80-zmk-config/cheyo/config/glove80.keymap",
+		url:      "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/v5_target/configs/zmk_glove80/glove80.keymap",
 	},
 	{
 		name:     "adv360",
 		dir:      "configs/zmk_adv360",
 		filename: "adv360.keymap",
-		url:      "https://raw.githubusercontent.com/masters3d/Adv360-Pro-ZMK/cheyo/config/adv360.keymap",
+		url:      "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/v5_target/configs/zmk_adv360/adv360.keymap",
 	},
 }
 
