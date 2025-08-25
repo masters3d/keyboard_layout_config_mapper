@@ -1,76 +1,193 @@
-# keyboard_layout_config_mapper
-A way to synchronize mapping across different keyboard layout configs
+# 🎹 KLCM (Keyboard Layout Configuration Mapper)
 
-## Building
-go build -o 'source/bin/' source/cmd/start.go
+A powerful CLI tool for managing keyboard configuration files across different firmware systems (ZMK, QMK, Kinesis) with a focus on ZMK keyboards like the Advantage360 and Glove80.
 
-## Running
+## ✨ Features
 
-./source/bin/start
+- **🔄 Pull configurations** from remote repositories (like `git pull`)
+- **🔍 Compare local vs remote** configurations with git-style diffs
+- **🔄 Sync changes** between different keyboards (cross-vendor)
+- **✅ Validate configurations** for syntax errors and compatibility
+- **🚀 GitHub PR automation** for contributing changes back
+- **🎯 Interactive workflow** guide for beginners
+- **🛡️ Safe preview mode** for all operations
 
-## Layout
+## 🚀 Quick Start
 
-We are going to base this layout on the ergodox but it also needs to overlap with glove80 and the kinesis360 as i have these on preorder (as of 2022) :). 
+### **Option 1: Interactive Workflow (Recommended for Beginners)**
+```bash
+# Start the interactive guide that walks you through everything
+klcm workflow
+```
 
+### **Option 2: Manual Commands (For Advanced Users)**
+```bash
+# 1. Update to latest configurations
+klcm pull --preview              # Preview changes
+klcm pull                        # Apply updates
 
-ROWS:
+# 2. Make your changes (edit .keymap files)
 
-For this we are going to add a sixth row when usually we would only need five rows since the glove80 has a function row. In addition I also have a kinesis advantage 2 which includes all the function keys. To support thumb clusters we are going to add another row at the bottom for a total of seven rows. 
+# 3. Validate your changes
+klcm validate
 
+# 4. Sync between keyboards (optional)
+klcm sync adv360 glove80 --preview
+klcm sync adv360 glove80
 
-COLUMNS:
-Initially there was going to be 8x2=16 columns since we need both sides. Six for the keys themselves, one column for the additional function keys that are supported by ergodox and kinesses 360, and one column to accomodate the thumb cluster overflow.
-I have seen decided that seven would be enough for our usecase which the advantage of this giving us a square grid. 
+# 5. Create pull requests
+klcm pr create --dry-run         # Preview PR creation
+klcm pr create --apply           # Create actual PRs
+```
 
-Total amount keys 7x7x2= 98
+## 📋 Complete Workflow Process
 
-## Keycodes
+For detailed step-by-step instructions, see **[WORKFLOW.md](WORKFLOW.md)** - this contains the complete guide for making, validating, and contributing keyboard configuration changes.
 
-These are all the keycodes that are compatible with the HID spec
-https://github.com/qmk/qmk_firmware/blob/master/quantum/keycode.h
+## 🛠️ Commands
 
+### **Core Commands**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `pull` | Update local files from remote (like git pull) | `klcm pull --preview` |
+| `sync` | Copy changes between keyboards | `klcm sync adv360 glove80` |
+| `validate` | Check configurations for errors | `klcm validate adv360` |
+| `compare-remote` | Compare local vs remote files | `klcm compare-remote` |
 
-Additional alias which builds on top of keycode. These is there unshifted keys are defined
-https://github.com/qmk/qmk_firmware/blob/master/quantum/quantum_keycodes.h
+### **GitHub Integration**  
+| Command | Description | Example |
+|---------|-------------|---------|
+| `pr create` | Create pull requests for your changes | `klcm pr create --dry-run` |
+| `pr status` | Check status of your PRs | `klcm pr status` |
+| `pr workflow` | Interactive PR workflow guide | `klcm pr workflow` |
 
-See the HID defined ones used hex. Fox example define KC_A has a HID of hex 0x04
+### **Workflow Helpers**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `workflow` | Interactive guide for complete process | `klcm workflow` |
+| `download` | Download specific configurations | `klcm download adv360` |
 
-https://github.com/qmk/libqmk/blob/master/include/qmk/keycodes/basic.h
-https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes.md
-https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes_basic.md
+## 💡 Common Use Cases
 
+### **Making Your First Change**
+```bash
+# Interactive guide walks you through everything
+klcm workflow
+```
 
-These are from ZMK
-https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/keys.h
-https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/hid_usage.h
+### **Updating to Latest Remote Configurations**
+```bash
+# See what would change
+klcm pull --preview
 
-These are not part of the HID spec but are used by qmk to depict different features.
-KC_NO                  == 0x0000
-KC_TRANSPARENT         == 0x0001
+# Apply the updates
+klcm pull
+```
 
+### **Syncing Same Layout to Both Keyboards**
+```bash
+# Edit configs/zmk_adv360/adv360.keymap
+klcm validate adv360
 
+# Copy changes to Glove80
+klcm sync adv360 glove80 --preview
+klcm sync adv360 glove80
 
-Some other cool keyboards:
+# Validate both
+klcm validate
+```
 
-http://xahlee.info/kbd/fancy_keyboards.html
-https://www.reddit.com/r/MechanicalKeyboards/comments/91wwse/gmk_9009_ortho_just_arrived_today/?st=JK219TUF&sh=297dd81e
-https://www.allthingsergo.com/dyi-ergonomic-keyboard/
-https://trulyergonomic.com/ergonomic-keyboards/best-truly-ergonomic-mechanical-keyboard/
-https://x-bows.com/collections/keyboards/products/x-bows-lite-ergonomic-mechanical-keyboard // The light is not using open source software to program
-https://x-bows.com/products/x-bows-nature-ergonomic-mechanical-keyboard // this uses qmc
-https://www.reddit.com/r/MechanicalKeyboards/comments/dk9b34/tractyl_split_keyboard_with_trackball/?utm_source=ifttt
-https://drop.com/buy/x-bows-knight-plus-ergonomic-mechanical-keyboard
-https://www.maltron.com/store/p20/Maltron_L90_dual_hand_fully_ergonomic_%283D%29_keyboard_-_US_English.html
-https://geekhack.org/index.php?topic=46015.0 // Maniform
+### **Contributing Changes Back**
+```bash
+# See what PRs would be created
+klcm pr create --dry-run
 
-Very cool ready made keyboards
-https://bastardkb.com/
+# Create the actual PRs
+klcm pr create --apply
 
-Almost Cool:
-https://www.zergotech.com/products/zergotech-freedom-mechanical-ergonomic-keyboard
-https://www.pcbway.com/project/shareproject/ErgoDox_Creation___Infinity_ErgoDox_Mod.html
+# Check PR status later
+klcm pr status
+```
 
-Some old keyboards:
-http://xahlee.info/kbd/nec_ergofit_keyboard.html
-http://xahlee.info/kbd/Truly_Ergonomic_keyboard.html
-http://xahlee.info/kbd/ergonomic_keyboard_history_index.html
+## 🔧 Installation
+
+```bash
+# Clone this repository
+git clone <repository-url>
+cd keyboard_layout_config_mapper
+
+# Build the tool
+go build -o klcm cmd/klcm/main.go
+
+# Run commands
+./klcm --help
+```
+
+## 📁 Supported Keyboards
+
+### **ZMK Keyboards (Primary Focus)**
+- **Advantage360 Pro** (`configs/zmk_adv360/`)
+- **Glove80** (`configs/zmk_glove80/`)
+
+### **Future Support**
+- QMK keyboards
+- Kinesis keyboards  
+- Additional ZMK keyboards
+
+## 🎯 Key Benefits
+
+### **🛡️ Safety First**
+- Preview all changes before applying
+- Interactive confirmations for destructive operations
+- Git-style diffs show exactly what will change
+- Validation catches errors before you commit
+
+### **🚀 Productivity**
+- Sync layouts between keyboards with one command
+- Automated PR creation saves manual GitHub work
+- Interactive workflow guides beginners
+- Batch operations for multiple keyboards
+
+### **🔧 Professional Workflow**
+- Git-style commands (`pull`, `diff`, etc.)
+- Proper branch management for PRs
+- Descriptive commit messages
+- Upstream contribution automation
+
+## 🆘 Getting Help
+
+### **Command Help**
+```bash
+klcm --help                    # General help
+klcm pull --help              # Command-specific help
+klcm pr create --help         # PR creation help
+```
+
+### **Verbose Output**
+Add `--verbose` to any command for detailed information:
+```bash
+klcm pull --verbose --preview
+klcm validate --verbose
+```
+
+### **Workflow Guide**
+- **📖 Complete guide**: [WORKFLOW.md](WORKFLOW.md)
+- **🎯 Interactive guide**: `klcm workflow`
+- **🚀 PR guide**: `klcm pr workflow`
+
+## 🤝 Contributing
+
+1. Make your keyboard configuration changes
+2. Run `klcm validate` to ensure they're correct
+3. Use `klcm pr create` to submit pull requests
+4. Monitor your PRs with `klcm pr status`
+
+For contributing to this tool itself, see the standard GitHub workflow.
+
+## 📝 License
+
+[Add your license here]
+
+---
+
+**🎉 Happy keyboard customizing!** This tool makes it easy to manage configurations across multiple keyboards while safely contributing back to the community.
