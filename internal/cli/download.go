@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -25,9 +26,55 @@ Supported keyboards:
 Examples:
   klcm download                    # Download all configurations
   klcm download adv360 glove80     # Download only ZMK keyboards
-  klcm download --force ergodx     # Force re-download even if file exists`,
+  klcm download --force ergodx     # Force re-download even if file exists
+  klcm download --preview          # Preview changes before downloading`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		force, _ := cmd.Flags().GetBool("force")
+		preview, _ := cmd.Flags().GetBool("preview")
+		
+		// Handle preview mode
+		if preview {
+			fmt.Println("🔍 Previewing changes before download...")
+			
+			keyboardsToPreview := args
+			if len(args) == 0 {
+				// Preview all keyboards
+				keyboardsToPreview = make([]string, 0, len(keyboards))
+				for _, kb := range keyboards {
+					keyboardsToPreview = append(keyboardsToPreview, kb.name)
+				}
+			}
+			
+			hasChanges := false
+			for _, keyboard := range keyboardsToPreview {
+				changed, err := previewKeyboardChanges(keyboard)
+				if err != nil {
+					return fmt.Errorf("failed to preview %s: %w", keyboard, err)
+				}
+				if changed {
+					hasChanges = true
+				}
+			}
+			
+			if !hasChanges {
+				fmt.Println("\n✅ All local files are up to date. No download needed.")
+				return nil
+			}
+			
+			fmt.Print("\n❓ Proceed with download? (y/N): ")
+			var response string
+			fmt.Scanln(&response)
+			
+			if strings.ToLower(response) != "y" && strings.ToLower(response) != "yes" {
+				fmt.Println("📦 Download cancelled.")
+				return nil
+			}
+			
+			fmt.Println("🚀 Starting download...")
+			
+			// Force download after preview confirmation
+			force = true
+		}
 		
 		if len(args) == 0 {
 			// Download all if no specific keyboards specified
@@ -175,7 +222,87 @@ func printSummary() {
 	fmt.Println("  - Advantage360: masters3d/Adv360-Pro-ZMK/cheyo/config/adv360.keymap")
 }
 
+func previewKeyboardChanges(name string) (bool, error) {
+	var kb *keyboardConfig
+	for _, k := range keyboards {
+		if k.name == name {
+			kb = &k
+			break
+		}
+	}
+	
+	if kb == nil {
+		return false, fmt.Errorf("unknown keyboard: %s", name)
+	}
+	
+	filePath := filepath.Join(kb.dir, kb.filename)
+	
+	// Check if local file exists
+	localContent, err := os.ReadFile(filePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			fmt.Printf("\n📁 %s/%s\n", kb.dir, kb.filename)
+			fmt.Printf("  🆕 Local file does not exist - would be created\n")
+			return true, nil
+		}
+		return false, fmt.Errorf("failed to read local file %s: %w", filePath, err)
+	}
+	
+	// Fetch remote content
+	fmt.Printf("\n📁 %s/%s\n", kb.dir, kb.filename)
+	fmt.Printf("  📡 Checking remote version...\n")
+	
+	client := &http.Client{
+		Timeout: 30 * time.Second,
+	}
+	
+	resp, err := client.Get(kb.url)
+	if err != nil {
+		return false, fmt.Errorf("failed to fetch remote content from %s: %w", kb.url, err)
+	}
+	defer resp.Body.Close()
+	
+	if resp.StatusCode != http.StatusOK {
+		return false, fmt.Errorf("failed to fetch remote content: HTTP %d", resp.StatusCode)
+	}
+	
+	remoteContent, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false, fmt.Errorf("failed to read remote content: %w", err)
+	}
+	
+	// Compare content
+	localStr := strings.TrimSpace(string(localContent))
+	remoteStr := strings.TrimSpace(string(remoteContent))
+	
+	if localStr == remoteStr {
+		fmt.Printf("  ✅ Up to date\n")
+		return false, nil
+	}
+	
+	// Show differences
+	fmt.Printf("  ⚠️  Changes detected:\n")
+	
+	localLines := strings.Split(localStr, "\n")
+	remoteLines := strings.Split(remoteStr, "\n")
+	
+	// Simple summary
+	fmt.Printf("    📊 Local: %d lines, Remote: %d lines\n", len(localLines), len(remoteLines))
+	
+	if len(localLines) != len(remoteLines) {
+		diff := len(remoteLines) - len(localLines)
+		if diff > 0 {
+			fmt.Printf("    📈 Remote has %d more lines\n", diff)
+		} else {
+			fmt.Printf("    📉 Remote has %d fewer lines\n", -diff)
+		}
+	}
+	
+	return true, nil
+}
+
 func init() {
 	rootCmd.AddCommand(downloadCmd)
 	downloadCmd.Flags().BoolP("force", "f", false, "Force re-download even if files exist")
+	downloadCmd.Flags().BoolP("preview", "p", false, "Preview changes before downloading")
 }

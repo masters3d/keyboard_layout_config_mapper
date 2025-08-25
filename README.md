@@ -35,6 +35,12 @@ go build -o klcm cmd/klcm/main.go
 # Download all keyboard configurations
 ./klcm download
 
+# Compare local changes with remote before downloading  
+./klcm compare-remote
+
+# Download with preview (shows changes and asks confirmation)
+./klcm download --preview
+
 # Validate configurations
 ./klcm validate --all
 
@@ -66,6 +72,7 @@ go build -o klcm cmd/klcm/main.go
 - 📊 **Layout Comparison**: Detailed diff reports between keyboards
 - 📥 **GitHub Integration**: Download configs and create PRs automatically
 - 🛡️ **Safe Operations**: Preview mode and change detection
+- 🔍 **Remote Comparison**: Compare local files with remote versions before downloading
 - 🎯 **Priority Support**: Optimized for ZMK keyboards (Advantage360 ↔ Glove80)
 
 ## Layout
