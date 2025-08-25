@@ -13,6 +13,23 @@ go build -o klcm cmd/klcm/main.go
 go install ./cmd/klcm
 ```
 
+### Installation
+
+**Prerequisites:** Go 1.21+ required
+
+**Build the CLI tool:**
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/keyboard_layout_config_mapper.git
+cd keyboard_layout_config_mapper
+
+# Build the CLI tool
+go build -o klcm cmd/klcm/main.go
+
+# Verify installation
+./klcm --help
+```
+
 ### Usage
 ```bash
 # Download all keyboard configurations
