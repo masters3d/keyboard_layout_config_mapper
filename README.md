@@ -1,6 +1,6 @@
 # KLCM - Keyboard Layout Configuration Mapper
 
-A unified CLI tool to synchronize keyboard configurations across different firmware systems (ZMK, QMK, Kinesis). Priority focus on ZMK keyboards (Advantage360 & Glove80) with automatic sync, change detection, and GitHub PR automation.
+A unified CLI tool to manage keyboard configurations across different firmware systems (ZMK, QMK, Kinesis). Priority focus on ZMK keyboards (Advantage360 & Glove80) with automatic updates, change detection, and GitHub PR automation.
 
 ## Quick Start
 
@@ -38,30 +38,30 @@ go build -o klcm cmd/klcm/main.go
 # Compare local changes with remote before downloading  
 ./klcm compare-remote
 
+# Pull latest configurations (like git pull)
+./klcm pull
+
+# Preview what changes would be applied
+./klcm pull --preview
+
+# Pull specific keyboards
+./klcm pull adv360 glove80
+
 # Download with preview (shows changes and asks confirmation)
 ./klcm download --preview
 
 # Validate configurations
 ./klcm validate --all
 
-# Compare keyboards  
-./klcm diff adv360 glove80
-
-# Preview sync changes with detailed diffs
-./klcm sync --preview
-
 # Compare local configs with remote versions  
 ./klcm compare-remote
 
 # Preview download changes before applying
-./klcm download --preview
-
-# Apply sync changes
-./klcm sync --from adv360 --to glove80
+./klcm download --preview adv360
 
 # Get help for any command
 ./klcm --help
-./klcm sync --help
+./klcm pull --help
 ```
 
 ## Supported Keyboards
@@ -73,11 +73,11 @@ go build -o klcm cmd/klcm/main.go
 
 ## Features
 
-- 🔄 **Automatic Sync**: Bidirectional configuration synchronization
+- 🔄 **Pull Updates**: Download latest configurations from remote repositories (like git pull)
 - 🔍 **Smart Validation**: Syntax checking and compatibility analysis
-- 📊 **Layout Comparison**: Detailed diff reports between keyboards
+- 📊 **Git-Style Diffs**: Detailed comparison between local and remote configurations
 - 📥 **GitHub Integration**: Download configs and create PRs automatically
-- 🛡️ **Safe Operations**: Preview mode and change detection
+- 🛡️ **Safe Operations**: Preview mode and change detection with confirmation prompts
 - 🔍 **Remote Comparison**: Compare local files with remote versions before downloading
 - 🎯 **Priority Support**: Optimized for ZMK keyboards (Advantage360 ↔ Glove80)
 - ⚡ **Git-Style Diffs**: Professional unified diff output with context lines and change highlighting
