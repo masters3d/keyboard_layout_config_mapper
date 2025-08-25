@@ -1,12 +1,55 @@
-# keyboard_layout_config_mapper
-A way to synchronize mapping across different keyboard layout configs
+# KLCM - Keyboard Layout Configuration Mapper
 
-## Building
-go build -o 'source/bin/' source/cmd/start.go
+A unified CLI tool to synchronize keyboard configurations across different firmware systems (ZMK, QMK, Kinesis). Priority focus on ZMK keyboards (Advantage360 & Glove80) with automatic sync, change detection, and GitHub PR automation.
 
-## Running
+## Quick Start
 
-./source/bin/start
+### Installation
+```bash
+# Build the CLI tool
+go build -o klcm cmd/klcm/main.go
+
+# Or build and install to PATH
+go install ./cmd/klcm
+```
+
+### Usage
+```bash
+# Download all keyboard configurations
+./klcm download
+
+# Validate configurations
+./klcm validate --all
+
+# Compare keyboards  
+./klcm diff adv360 glove80
+
+# Preview sync changes
+./klcm sync --preview
+
+# Apply sync changes
+./klcm sync --from adv360 --to glove80
+
+# Get help for any command
+./klcm --help
+./klcm sync --help
+```
+
+## Supported Keyboards
+
+- **ZMK Advantage360**: `configs/zmk_adv360/adv360.keymap`
+- **ZMK Glove80**: `configs/zmk_glove80/glove80.keymap`  
+- **QMK ErgoDox**: `configs/qmk_ergodox/keymap.c`
+- **Kinesis Advantage 2**: `configs/kinesis2/1_qwerty.txt`
+
+## Features
+
+- 🔄 **Automatic Sync**: Bidirectional configuration synchronization
+- 🔍 **Smart Validation**: Syntax checking and compatibility analysis
+- 📊 **Layout Comparison**: Detailed diff reports between keyboards
+- 📥 **GitHub Integration**: Download configs and create PRs automatically
+- 🛡️ **Safe Operations**: Preview mode and change detection
+- 🎯 **Priority Support**: Optimized for ZMK keyboards (Advantage360 ↔ Glove80)
 
 ## Layout
 
