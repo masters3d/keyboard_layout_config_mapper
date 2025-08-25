@@ -152,56 +152,31 @@ func showDiff(localLines, remoteLines []string) {
 	// Show summary stats
 	fmt.Printf("    📊 Local: %d lines, Remote: %d lines\n", len(localLines), len(remoteLines))
 	
-	// Show first few differences
-	maxLines := len(localLines)
-	if len(remoteLines) > maxLines {
-		maxLines = len(remoteLines)
-	}
+	// Generate git-style diff
+	localContent := strings.Join(localLines, "\n")
+	remoteContent := strings.Join(remoteLines, "\n")
 	
-	diffCount := 0
-	maxDiffs := 5 // Limit output
+	opts := DefaultDiffOptions()
+	opts.ShowHeader = false // We'll show our own header
+	opts.MaxWidth = 100     // Slightly smaller for indented output
 	
-	for i := 0; i < maxLines && diffCount < maxDiffs; i++ {
-		var localLine, remoteLine string
-		
-		if i < len(localLines) {
-			localLine = strings.TrimSpace(localLines[i])
-		}
-		if i < len(remoteLines) {
-			remoteLine = strings.TrimSpace(remoteLines[i])
-		}
-		
-		if localLine != remoteLine {
-			diffCount++
-			fmt.Printf("    📝 Line %d:\n", i+1)
-			
-			if localLine != "" {
-				fmt.Printf("      - %s\n", truncateLine(localLine))
+	diff := UnifiedDiff("local", "remote", localContent, remoteContent, opts)
+	
+	if diff != "" {
+		// Indent the diff output
+		diffLines := strings.Split(strings.TrimSpace(diff), "\n")
+		for _, line := range diffLines {
+			if strings.HasPrefix(line, "@@") {
+				fmt.Printf("    %s\n", line)
 			} else {
-				fmt.Printf("      - (empty)\n")
-			}
-			
-			if remoteLine != "" {
-				fmt.Printf("      + %s\n", truncateLine(remoteLine))
-			} else {
-				fmt.Printf("      + (empty)\n")
+				fmt.Printf("    %s\n", line)
 			}
 		}
 	}
 	
-	if diffCount == maxDiffs {
-		fmt.Printf("    ... (showing first %d differences)\n", maxDiffs)
-	}
-	
-	// Helpful summary
-	if len(localLines) != len(remoteLines) {
-		diff := len(remoteLines) - len(localLines)
-		if diff > 0 {
-			fmt.Printf("    📈 Remote has %d more lines\n", diff)
-		} else {
-			fmt.Printf("    📉 Remote has %d fewer lines\n", -diff)
-		}
-	}
+	// Show summary
+	summary := SimpleDiffSummary(localLines, remoteLines)
+	fmt.Printf("    📈 Summary: %s\n", summary)
 }
 
 func truncateLine(line string) string {

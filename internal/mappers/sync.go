@@ -2,6 +2,8 @@ package mappers
 
 import (
 	"fmt"
+	"os"
+	"strings"
 
 	"masters3d.com/keyboard_layout_config_mapper/internal/models"
 	"masters3d.com/keyboard_layout_config_mapper/internal/parsers"
@@ -127,11 +129,36 @@ func (sm *SyncManager) syncToAll(sourceLayout *models.KeyboardLayout, preview bo
 
 func (sm *SyncManager) previewSync(from, to models.KeyboardType) error {
 	fmt.Printf("📋 Preview: Changes from %s to %s\n", from, to)
-	fmt.Println("   - Thumb cluster mappings: IDENTICAL (no changes needed)")
-	fmt.Println("   - Layer 0 main area: 3 potential changes")
-	fmt.Println("   - Layer 1 symbols: 1 potential change") 
-	fmt.Println("   - Custom behaviors: COMPATIBLE (no changes needed)")
-	fmt.Println("\n💡 Use --apply to make these changes")
+	
+	// Parse both layouts to get actual content for diff
+	fromPath, err := parsers.GetConfigPath(from)
+	if err != nil {
+		return fmt.Errorf("failed to get source path: %v", err)
+	}
+	
+	toPath, err := parsers.GetConfigPath(to)
+	if err != nil {
+		return fmt.Errorf("failed to get target path: %v", err)
+	}
+	
+	// Read file contents
+	fromContent, err := os.ReadFile(fromPath)
+	if err != nil {
+		return fmt.Errorf("failed to read source file: %v", err)
+	}
+	
+	toContent, err := os.ReadFile(toPath)
+	if err != nil {
+		return fmt.Errorf("failed to read target file: %v", err)
+	}
+	
+	// Generate preview diff
+	err = sm.showConfigDiff(string(fromContent), string(toContent), string(from), string(to))
+	if err != nil {
+		return err
+	}
+	
+	fmt.Println("\n💡 Use 'klcm sync --from " + string(from) + " --to " + string(to) + "' to apply these changes")
 	return nil
 }
 
@@ -222,4 +249,162 @@ func (d *Differ) showSemanticDiff(k1, k2 models.KeyboardType) error {
 	fmt.Printf("   Functional differences between %s and %s:\n", k1, k2)
 	fmt.Println("   📋 This feature will analyze what functionality changes between layouts")
 	return nil
+}
+
+// showConfigDiff displays a git-style diff between two configuration files
+func (sm *SyncManager) showConfigDiff(fromContent, toContent, fromName, toName string) error {
+	fromLines := strings.Split(strings.TrimSpace(fromContent), "\n")
+	toLines := strings.Split(strings.TrimSpace(toContent), "\n")
+	
+	// Handle empty files
+	if len(fromLines) == 1 && fromLines[0] == "" {
+		fromLines = []string{}
+	}
+	if len(toLines) == 1 && toLines[0] == "" {
+		toLines = []string{}
+	}
+	
+	// Check if files are identical
+	if sm.equalLines(fromLines, toLines) {
+		fmt.Println("✅ No differences found - files are identical")
+		return nil
+	}
+	
+	// Show file headers
+	fmt.Printf("--- %s\n", fromName)
+	fmt.Printf("+++ %s\n", toName)
+	
+	// Show diff summary
+	fmt.Printf("📊 Source: %d lines, Target: %d lines\n", len(fromLines), len(toLines))
+	
+	// Simple diff algorithm - show context around changes
+	contextLines := 3
+	maxDisplayDiffs := 10
+	diffCount := 0
+	
+	maxLines := len(fromLines)
+	if len(toLines) > maxLines {
+		maxLines = len(toLines)
+	}
+	
+	// Find all differences first
+	var diffs []int
+	for i := 0; i < maxLines; i++ {
+		var fromLine, toLine string
+		
+		if i < len(fromLines) {
+			fromLine = strings.TrimSpace(fromLines[i])
+		}
+		if i < len(toLines) {
+			toLine = strings.TrimSpace(toLines[i])
+		}
+		
+		if fromLine != toLine {
+			diffs = append(diffs, i)
+		}
+	}
+	
+	if len(diffs) == 0 {
+		fmt.Println("✅ No meaningful differences found")
+		return nil
+	}
+	
+	// Show first few differences with context
+	for _, diffIdx := range diffs {
+		if diffCount >= maxDisplayDiffs {
+			fmt.Printf("... (%d more differences not shown)\n", len(diffs)-diffCount)
+			break
+		}
+		
+		// Show chunk header
+		start := diffIdx - contextLines
+		if start < 0 {
+			start = 0
+		}
+		end := diffIdx + contextLines
+		if end >= maxLines {
+			end = maxLines - 1
+		}
+		
+		// Only show if we haven't shown this area already
+		if diffCount == 0 || diffIdx > diffs[diffCount-1]+contextLines*2 {
+			fmt.Printf("@@ -%d,%d +%d,%d @@\n", start+1, end-start+1, start+1, end-start+1)
+			
+			// Show lines with context
+			for i := start; i <= end && i < maxLines; i++ {
+				var fromLine, toLine string
+				hasFrom := i < len(fromLines)
+				hasTo := i < len(toLines)
+				
+				if hasFrom {
+					fromLine = fromLines[i]
+				}
+				if hasTo {
+					toLine = toLines[i]
+				}
+				
+				if hasFrom && hasTo && strings.TrimSpace(fromLine) == strings.TrimSpace(toLine) {
+					// Context line
+					fmt.Printf(" %s\n", sm.truncateLine(fromLine))
+				} else {
+					// Difference
+					if hasFrom {
+						fmt.Printf("-%s\n", sm.truncateLine(fromLine))
+					}
+					if hasTo {
+						fmt.Printf("+%s\n", sm.truncateLine(toLine))
+					}
+				}
+			}
+			fmt.Println() // Empty line between chunks
+		}
+		diffCount++
+	}
+	
+	// Show summary
+	added := 0
+	removed := 0
+	for _, diffIdx := range diffs {
+		hasFrom := diffIdx < len(fromLines)
+		hasTo := diffIdx < len(toLines)
+		
+		if !hasFrom && hasTo {
+			added++
+		} else if hasFrom && !hasTo {
+			removed++
+		}
+	}
+	
+	if added > 0 || removed > 0 {
+		var summary []string
+		if added > 0 {
+			summary = append(summary, fmt.Sprintf("+%d lines", added))
+		}
+		if removed > 0 {
+			summary = append(summary, fmt.Sprintf("-%d lines", removed))
+		}
+		fmt.Printf("📈 Summary: %s\n", strings.Join(summary, ", "))
+	}
+	
+	return nil
+}
+
+// Helper methods for diff functionality
+func (sm *SyncManager) equalLines(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func (sm *SyncManager) truncateLine(line string) string {
+	if len(line) <= 100 {
+		return line
+	}
+	return line[:97] + "..."
 }

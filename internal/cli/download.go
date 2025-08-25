@@ -280,22 +280,43 @@ func previewKeyboardChanges(name string) (bool, error) {
 		return false, nil
 	}
 	
-	// Show differences
+	// Show differences using git-style diff
 	fmt.Printf("  ⚠️  Changes detected:\n")
 	
 	localLines := strings.Split(localStr, "\n")
 	remoteLines := strings.Split(remoteStr, "\n")
 	
-	// Simple summary
-	fmt.Printf("    📊 Local: %d lines, Remote: %d lines\n", len(localLines), len(remoteLines))
+	// Generate git-style diff
+	opts := DefaultDiffOptions()
+	opts.ShowHeader = false // We'll show our own header
+	opts.MaxWidth = 100     // Slightly smaller for indented output
 	
-	if len(localLines) != len(remoteLines) {
-		diff := len(remoteLines) - len(localLines)
-		if diff > 0 {
-			fmt.Printf("    📈 Remote has %d more lines\n", diff)
-		} else {
-			fmt.Printf("    📉 Remote has %d fewer lines\n", -diff)
+	diff := UnifiedDiff("local", "remote", localStr, remoteStr, opts)
+	
+	if diff != "" {
+		// Show summary first
+		fmt.Printf("    📊 Local: %d lines, Remote: %d lines\n", len(localLines), len(remoteLines))
+		
+		// Show truncated diff (first few chunks only)
+		diffLines := strings.Split(strings.TrimSpace(diff), "\n")
+		chunkCount := 0
+		maxChunks := 3 // Limit preview chunks
+		
+		for _, line := range diffLines {
+			if strings.HasPrefix(line, "@@") {
+				chunkCount++
+				if chunkCount > maxChunks {
+					fmt.Printf("    ... (%d more changes not shown in preview)\n", 
+						strings.Count(diff, "@@")-maxChunks)
+					break
+				}
+			}
+			fmt.Printf("    %s\n", line)
 		}
+		
+		// Show summary
+		summary := SimpleDiffSummary(localLines, remoteLines)
+		fmt.Printf("    📈 Summary: %s\n", summary)
 	}
 	
 	return true, nil
