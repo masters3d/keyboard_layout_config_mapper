@@ -47,8 +47,14 @@ go build -o klcm cmd/klcm/main.go
 # Compare keyboards  
 ./klcm diff adv360 glove80
 
-# Preview sync changes
+# Preview sync changes with detailed diffs
 ./klcm sync --preview
+
+# Compare local configs with remote versions  
+./klcm compare-remote
+
+# Preview download changes before applying
+./klcm download --preview
 
 # Apply sync changes
 ./klcm sync --from adv360 --to glove80
@@ -74,6 +80,30 @@ go build -o klcm cmd/klcm/main.go
 - 🛡️ **Safe Operations**: Preview mode and change detection
 - 🔍 **Remote Comparison**: Compare local files with remote versions before downloading
 - 🎯 **Priority Support**: Optimized for ZMK keyboards (Advantage360 ↔ Glove80)
+- ⚡ **Git-Style Diffs**: Professional unified diff output with context lines and change highlighting
+
+### Enhanced Diff Functionality
+
+All comparison operations now include git-style unified diffs showing:
+
+- **Line-by-line changes** with proper context (3 lines before/after)
+- **Professional formatting** with `+` (additions) and `-` (removals)  
+- **Chunk headers** showing exact line ranges affected
+- **Summary statistics** displaying impact (e.g., "+5 -2 ~3 lines")
+- **Truncated output** for large changes to keep output manageable
+- **Color-coded display** for improved readability
+
+```bash
+# Example diff output
+@@ -182,4 +182,4 @@
+         };
+ 
+     };
+-};// Local change
++};
+
+📈 Summary: ~1 lines
+```
 
 ## Layout
 
