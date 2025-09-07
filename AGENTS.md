@@ -274,11 +274,99 @@ Error: Pin assignment conflict
 
 ### Next Actions
 
-1. **Immediate**: Create zmk_adv_mod configuration in KLCM
-2. **Setup**: Create zmk-adv-mod-config repository
-3. **Integration**: Test build pipeline end-to-end
-4. **Validation**: Flash and test firmware on actual hardware
-5. **Documentation**: Complete setup and usage documentation
+**PHASE 1: ✅ COMPLETED - KLCM Core Integration**
+- [x] Create zmk_adv_mod configuration in KLCM ✅
+- [x] Update all parser and CLI components ✅ 
+- [x] Create base keymap configuration ✅
+- [x] Test KLCM tool recognition and validation ✅
+
+**PHASE 2: 🚧 IN PROGRESS - ZMK Config Repository Setup**
+
+#### Step 1: Create zmk-adv-mod-config Repository
+```bash
+# Create new repository on GitHub
+gh repo create zmk-adv-mod-config --public --description "ZMK configuration for Kinesis Advantage keyboards using Pillz Mod with Nice!Nano"
+
+# Clone and set up locally  
+git clone https://github.com/masters3d/zmk-adv-mod-config.git
+cd zmk-adv-mod-config
+
+# Copy template files (available in /tmp/zmk-adv-mod-config-template)
+cp -r /tmp/zmk-adv-mod-config-template/* .
+
+# Initial commit
+git add .
+git commit -m "Initial ZMK config setup for Advanced Mod
+
+- GitHub Actions build workflow
+- Custom zmk-adv-mod shield definition  
+- Nice!Nano v2 build configuration
+- Base keymap with HOME key positioning
+- Shield files: Kconfig, overlay, keymap, conf"
+
+git push origin main
+```
+
+#### Step 2: Test Initial Build
+1. **Push repository** - Triggers GitHub Actions build
+2. **Check build results** - Should produce `.uf2` artifacts
+3. **Download artifacts** - Test firmware files are generated
+4. **Fix any build issues** - Adjust pin mappings or configurations
+
+#### Step 3: Hardware Validation (CRITICAL)
+⚠️ **PIN MAPPING VERIFICATION REQUIRED**
+
+The template overlay uses reasonable pin assignments, but **MUST BE VERIFIED** against actual Pillz Mod Pro PCB:
+
+1. **Check PCB schematic** or Pillz Mod documentation for Nice!Nano pin mapping
+2. **Verify row/column assignments** match physical PCB traces  
+3. **Confirm LED pin assignments** for status indicators
+4. **Test matrix scanning** - ensure all keys register correctly
+
+**Pin Assignment Notes:**
+- Rows: Uses pro_micro pins 0-10, 14-16, 18 (15 total)
+- Columns: Uses pro_micro pins 19-21 + A0-A3 (7 total)  
+- LEDs: Commented out - requires PCB verification
+
+#### Step 4: Keymap Integration Testing
+1. **Update KLCM download.go** to point to new repository
+2. **Test keymap sync** from KLCM to ZMK config repo  
+3. **Verify PR automation** works with new repository
+4. **Test build trigger** on keymap changes
+
+**PHASE 3: 📋 PLANNED - Production Validation**
+- [ ] Flash firmware to actual hardware
+- [ ] Test all keys and matrix positions  
+- [ ] Verify wireless connectivity
+- [ ] Test battery management
+- [ ] Validate status LEDs
+- [ ] Document flashing and usage process
+
+**PHASE 4: 📋 PLANNED - Documentation & Maintenance**
+- [ ] Complete hardware assembly documentation
+- [ ] Create troubleshooting guides
+- [ ] Set up automated testing workflow
+- [ ] Create release management process
+
+### Critical Dependencies
+
+#### Hardware Requirements
+- **Pillz Mod Pro PCB** with Nice!Nano socket installation
+- **Nice!Nano v2** controller board
+- **Mill-Max 310 sockets** (thin pins required)
+- **3.7V LiPo battery** (2000mAh recommended)
+- **Status LEDs and resistors** (per Pillz Mod BOM)
+
+#### Software Dependencies
+- **ZMK main branch** (no fork required with custom shield approach)
+- **GitHub Actions** for automated builds
+- **KLCM tool** for keymap management
+
+#### Unknown/To Be Verified
+1. **Exact pin mapping** for Nice!Nano on Pillz Mod Pro PCB
+2. **LED pin assignments** for status indicators
+3. **Matrix scan reliability** with Nice!Nano timing
+4. **Power management** configuration specifics
 
 ---
 
