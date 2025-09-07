@@ -8,6 +8,7 @@ type KeyboardType string
 const (
 	KeyboardZMKAdv360   KeyboardType = "adv360"
 	KeyboardZMKGlove80  KeyboardType = "glove80" 
+	KeyboardZMKAdvMod   KeyboardType = "adv_mod"
 	KeyboardQMKErgoDox  KeyboardType = "qmk_ergodox"
 	KeyboardKinesis2    KeyboardType = "kinesis2"
 )

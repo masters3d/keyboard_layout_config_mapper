@@ -153,13 +153,15 @@ func pullKeyboard(keyboardType models.KeyboardType, configPath string, preview b
 }
 
 func getRemoteURL(keyboardType models.KeyboardType) (string, error) {
-	baseURL := "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/v5_target/configs"
+	baseURL := "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/v7_target/configs"
 	
 	switch keyboardType {
 	case models.KeyboardZMKAdv360:
 		return baseURL + "/zmk_adv360/adv360.keymap", nil
 	case models.KeyboardZMKGlove80:
 		return baseURL + "/zmk_glove80/glove80.keymap", nil
+	case models.KeyboardZMKAdvMod:
+		return baseURL + "/zmk_adv_mod/adv_mod.keymap", nil
 	default:
 		return "", fmt.Errorf("unsupported keyboard type: %s", keyboardType)
 	}
