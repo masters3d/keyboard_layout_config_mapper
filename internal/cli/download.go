@@ -128,7 +128,7 @@ var keyboards = []keyboardConfig{
 		name:     "adv_mod",
 		dir:      "configs/zmk_adv_mod",
 		filename: "adv_mod.keymap",
-		url:      "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/v7_target/configs/zmk_adv_mod/adv_mod.keymap",
+		url:      "https://raw.githubusercontent.com/masters3d/zmk-config-pillzmod-nicenano/main/config/adv_mod.keymap",
 	},
 }
 

@@ -125,7 +125,7 @@ func (v *Validator) ValidateKeyboard(keyboard string, compileCheck bool) error {
 // validateCompilation attempts to validate that the configuration can be compiled
 func (v *Validator) validateCompilation(keyboardType models.KeyboardType, configPath string) error {
 	switch keyboardType {
-	case models.KeyboardZMKAdv360, models.KeyboardZMKGlove80:
+	case models.KeyboardZMKAdv360, models.KeyboardZMKGlove80, models.KeyboardZMKAdvMod:
 		// For ZMK, we could potentially set up a docker container to test compilation
 		// For now, just do syntax validation
 		fmt.Printf("⚠️  Compilation check not yet implemented for %s\n", keyboardType)
