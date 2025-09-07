@@ -83,16 +83,27 @@ func runPRCreate(cmd *cobra.Command, args []string) error {
 		fmt.Println("🚀 Creating GitHub pull requests...")
 	}
 
-	// Check for git changes first
-	hasChanges, changedRepos, err := detectChanges()
-	if err != nil {
-		return fmt.Errorf("failed to detect changes: %w", err)
-	}
+	var hasChanges bool
+	var changedRepos []RepoConfig
+	var err error
 
-	if !hasChanges {
-		fmt.Println("📭 No changes detected in any keyboard configurations")
-		fmt.Println("💡 Make some changes first, then run this command")
-		return nil
+	// If force flag is set, assume all repos have changes
+	if prForce {
+		fmt.Println("🔧 Force mode: Creating PRs for all configured keyboards...")
+		changedRepos = repoConfigs
+		hasChanges = true
+	} else {
+		// Check for git changes (uncommitted or recent commits)
+		hasChanges, changedRepos, err = detectChanges()
+		if err != nil {
+			return fmt.Errorf("failed to detect changes: %w", err)
+		}
+
+		if !hasChanges {
+			fmt.Println("📭 No changes detected in any keyboard configurations")
+			fmt.Println("💡 Make some changes first, or use --force to create PRs anyway")
+			return nil
+		}
 	}
 
 	fmt.Printf("📊 Found changes in %d keyboard configuration(s):\n", len(changedRepos))
@@ -117,8 +128,9 @@ func runPRCreate(cmd *cobra.Command, args []string) error {
 
 func detectChanges() (bool, []RepoConfig, error) {
 	var changedRepos []RepoConfig
+	changedPaths := make(map[string]bool)
 	
-	// Check git status for changes
+	// First check git status for uncommitted changes
 	cmd := exec.Command("git", "status", "--porcelain")
 	output, err := cmd.Output()
 	if err != nil {
@@ -126,20 +138,71 @@ func detectChanges() (bool, []RepoConfig, error) {
 	}
 
 	changes := strings.TrimSpace(string(output))
-	if changes == "" {
-		return false, changedRepos, nil
+	if changes != "" {
+		// Parse uncommitted changes
+		lines := strings.Split(changes, "\n")
+		for _, line := range lines {
+			if len(line) < 3 {
+				continue
+			}
+			path := strings.TrimSpace(line[3:])
+			changedPaths[path] = true
+		}
 	}
 
-	// Parse which repos have changes
-	lines := strings.Split(changes, "\n")
-	changedPaths := make(map[string]bool)
-	
-	for _, line := range lines {
-		if len(line) < 3 {
-			continue
+	// If no uncommitted changes, check recent commits (last 5 commits)
+	if len(changedPaths) == 0 {
+		cmd = exec.Command("git", "diff", "--name-only", "HEAD~5..HEAD")
+		output, err = cmd.Output()
+		if err != nil {
+			// If we can't get recent commits, just continue (might be a new repo)
+			if verbose {
+				fmt.Printf("⚠️  Could not check recent commits: %v\n", err)
+			}
+		} else {
+			recentChanges := strings.TrimSpace(string(output))
+			if recentChanges != "" {
+				lines := strings.Split(recentChanges, "\n")
+				for _, line := range lines {
+					path := strings.TrimSpace(line)
+					if path != "" {
+						changedPaths[path] = true
+					}
+				}
+				if verbose && len(changedPaths) > 0 {
+					fmt.Printf("📊 Found changes in recent commits (%d files)\n", len(changedPaths))
+				}
+			}
 		}
-		path := strings.TrimSpace(line[3:])
-		changedPaths[path] = true
+	}
+
+	// If still no changes, check if current branch is ahead of origin
+	if len(changedPaths) == 0 {
+		cmd = exec.Command("git", "rev-list", "--count", "HEAD", "--not", "--remotes")
+		output, err = cmd.Output()
+		if err == nil {
+			unpushedCommits := strings.TrimSpace(string(output))
+			if unpushedCommits != "0" && unpushedCommits != "" {
+				// We have unpushed commits, check what files they touch
+				cmd = exec.Command("git", "diff", "--name-only", "@{upstream}..HEAD")
+				output, err = cmd.Output()
+				if err == nil {
+					unpushedChanges := strings.TrimSpace(string(output))
+					if unpushedChanges != "" {
+						lines := strings.Split(unpushedChanges, "\n")
+						for _, line := range lines {
+							path := strings.TrimSpace(line)
+							if path != "" {
+								changedPaths[path] = true
+							}
+						}
+						if verbose && len(changedPaths) > 0 {
+							fmt.Printf("📊 Found changes in unpushed commits (%d files)\n", len(changedPaths))
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// Match changed paths to repo configs
@@ -262,25 +325,51 @@ func createPRForRepo(repo RepoConfig, branchName string) (string, error) {
 	}
 	defer os.Chdir(currentDir)
 
-	// Create branch
-	if err := runGitCommand("checkout", "-b", branchName); err != nil {
-		return "", fmt.Errorf("failed to create branch: %w", err)
+	// Check if we're already on a different branch
+	currentBranch, err := getCurrentBranch()
+	if err != nil {
+		return "", fmt.Errorf("failed to get current branch: %w", err)
 	}
 
-	// Add changes
-	if err := runGitCommand("add", "."); err != nil {
-		return "", fmt.Errorf("failed to add changes: %w", err)
+	// If we're not on main/master, we may already have our changes
+	if currentBranch != "main" && currentBranch != "master" {
+		if verbose {
+			fmt.Printf("   📋 Currently on branch: %s\n", currentBranch)
+		}
+		// Use current branch instead of creating new one
+		branchName = currentBranch
+	} else {
+		// Create new branch from current state
+		if err := runGitCommand("checkout", "-b", branchName); err != nil {
+			return "", fmt.Errorf("failed to create branch: %w", err)
+		}
 	}
 
-	// Create commit message
-	commitMsg := fmt.Sprintf("Update %s keyboard layout configuration\n\nGenerated by KLCM (Keyboard Layout Configuration Mapper)", repo.Name)
-	
-	// Commit changes
-	if err := runGitCommand("commit", "-m", commitMsg); err != nil {
-		return "", fmt.Errorf("failed to commit changes: %w", err)
+	// Check if there are uncommitted changes to add and commit
+	cmd := exec.Command("git", "status", "--porcelain")
+	output, err := cmd.Output()
+	hasUncommitted := err == nil && strings.TrimSpace(string(output)) != ""
+
+	if hasUncommitted {
+		// Add and commit uncommitted changes
+		if err := runGitCommand("add", "."); err != nil {
+			return "", fmt.Errorf("failed to add changes: %w", err)
+		}
+
+		// Create commit message
+		commitMsg := fmt.Sprintf("Update %s keyboard layout configuration\n\nGenerated by KLCM (Keyboard Layout Configuration Mapper)", repo.Name)
+		
+		// Commit changes
+		if err := runGitCommand("commit", "-m", commitMsg); err != nil {
+			return "", fmt.Errorf("failed to commit changes: %w", err)
+		}
+	} else {
+		if verbose {
+			fmt.Printf("   📋 No uncommitted changes, using existing commits\n")
+		}
 	}
 
-	// Push branch
+	// Push branch (this will push whatever commits we have)
 	if err := runGitCommand("push", "-u", "origin", branchName); err != nil {
 		return "", fmt.Errorf("failed to push branch: %w", err)
 	}
@@ -304,12 +393,12 @@ This PR contains keyboard layout configuration updates generated by KLCM (Keyboa
 Please review the changes and test the configuration before merging.`, repo.Name, time.Now().Format("2006-01-02"), branchName)
 
 	// Create PR
-	cmd := exec.Command("gh", "pr", "create", 
+	cmd = exec.Command("gh", "pr", "create", 
 		"--title", prTitle,
 		"--body", prBody,
 		"--head", branchName)
 	
-	output, err := cmd.Output()
+	output, err = cmd.Output()
 	if err != nil {
 		return "", fmt.Errorf("failed to create PR: %w", err)
 	}
@@ -323,6 +412,15 @@ func runGitCommand(args ...string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
+}
+
+func getCurrentBranch() (string, error) {
+	cmd := exec.Command("git", "branch", "--show-current")
+	output, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(output)), nil
 }
 
 func isGitHubCLIAvailable() bool {
