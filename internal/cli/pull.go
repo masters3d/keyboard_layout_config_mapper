@@ -50,7 +50,7 @@ func runPull(cmd *cobra.Command, args []string) error {
 	keyboards := args
 	if len(keyboards) == 0 || pullAll {
 		// Default to all supported keyboards
-		keyboards = []string{"adv360", "glove80"}
+		keyboards = []string{"adv360", "glove80", "adv_mod"}
 	}
 
 	if pullPreview {
@@ -161,7 +161,7 @@ func getRemoteURL(keyboardType models.KeyboardType) (string, error) {
 	case models.KeyboardZMKGlove80:
 		return baseURL + "/zmk_glove80/glove80.keymap", nil
 	case models.KeyboardZMKAdvMod:
-		return baseURL + "/zmk_adv_mod/adv_mod.keymap", nil
+		return "https://raw.githubusercontent.com/masters3d/zmk-config-pillzmod-nicenano/cheyo/config/adv_mod.keymap", nil
 	default:
 		return "", fmt.Errorf("unsupported keyboard type: %s", keyboardType)
 	}

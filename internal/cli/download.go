@@ -22,11 +22,12 @@ Supported keyboards:
   ergodox   - QMK ErgoDox keymap  
   glove80   - Glove80 ZMK keymap
   adv360    - Advantage360 ZMK keymap
+  adv_mod   - Kinesis Advantage (Pillz Mod) ZMK keymap
 
 Examples:
   klcm download                    # Download all configurations
   klcm download adv360 glove80     # Download only ZMK keyboards
-  klcm download --force ergodx     # Force re-download even if file exists
+  klcm download --force adv_mod    # Force re-download Pillz Mod keymap
   klcm download --preview          # Preview changes before downloading`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		force, _ := cmd.Flags().GetBool("force")
@@ -128,7 +129,7 @@ var keyboards = []keyboardConfig{
 		name:     "adv_mod",
 		dir:      "configs/zmk_adv_mod",
 		filename: "adv_mod.keymap",
-		url:      "https://raw.githubusercontent.com/masters3d/zmk-config-pillzmod-nicenano/main/config/adv_mod.keymap",
+		url:      "https://raw.githubusercontent.com/masters3d/zmk-config-pillzmod-nicenano/cheyo/config/adv_mod.keymap",
 	},
 }
 
@@ -217,7 +218,7 @@ func downloadFile(dir, filename, url string, force bool) error {
 func printSummary() {
 	fmt.Println("\n📋 Summary:")
 	fmt.Println("  - configs/kinesis2/: Kinesis Advantage 2 reference configuration (1_qwerty.txt)")
-	fmt.Println("  - configs/qmk_ergodox/: QMK ErgoDox keymap (keymap.c)")
+	fmt.Println("  - configs/qmk_ergodx/: QMK ErgoDox keymap (keymap.c)")
 	fmt.Println("  - configs/zmk_glove80/: Glove80 ZMK keymap (glove80.keymap)")
 	fmt.Println("  - configs/zmk_adv360/: Advantage360 ZMK keymap (adv360.keymap)")
 	fmt.Println("  - configs/zmk_adv_mod/: Kinesis Advantage (Pillz Mod) ZMK keymap (adv_mod.keymap)")
@@ -227,6 +228,7 @@ func printSummary() {
 	fmt.Println("  - QMK ErgoDox: masters3d/qmk_firmware/masters3d/keyboards/ergodox_ez/keymaps/masters3d/keymap.c")
 	fmt.Println("  - Glove80: masters3d/glove80-zmk-config/cheyo/config/glove80.keymap")
 	fmt.Println("  - Advantage360: masters3d/Adv360-Pro-ZMK/cheyo/config/adv360.keymap")
+	fmt.Println("  - Advantage Mod: masters3d/zmk-config-pillzmod-nicenano/cheyo/config/adv_mod.keymap")
 }
 
 func previewKeyboardChanges(name string) (bool, error) {
