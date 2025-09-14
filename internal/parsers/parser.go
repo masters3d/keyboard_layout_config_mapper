@@ -22,6 +22,8 @@ func NewParser(keyboardType models.KeyboardType) (Parser, error) {
 		return NewZMKParser(keyboardType), nil
 	case models.KeyboardZMKGlove80:
 		return NewZMKParser(keyboardType), nil
+	case models.KeyboardZMKAdvMod:
+		return NewZMKParser(keyboardType), nil
 	case models.KeyboardQMKErgoDox:
 		return NewQMKParser(), nil
 	case models.KeyboardKinesis2:
@@ -40,6 +42,8 @@ func GetConfigPath(keyboardType models.KeyboardType) (string, error) {
 		return filepath.Join(configsDir, "zmk_adv360", "adv360.keymap"), nil
 	case models.KeyboardZMKGlove80:
 		return filepath.Join(configsDir, "zmk_glove80", "glove80.keymap"), nil
+	case models.KeyboardZMKAdvMod:
+		return filepath.Join(configsDir, "zmk_adv_mod", "adv_mod.keymap"), nil
 	case models.KeyboardQMKErgoDox:
 		return filepath.Join(configsDir, "qmk_ergodox", "keymap.c"), nil
 	case models.KeyboardKinesis2:
@@ -62,6 +66,7 @@ func (v *Validator) ValidateAll(compileCheck bool) error {
 	keyboards := []models.KeyboardType{
 		models.KeyboardZMKAdv360,
 		models.KeyboardZMKGlove80,
+		models.KeyboardZMKAdvMod,
 		models.KeyboardQMKErgoDox,
 		models.KeyboardKinesis2,
 	}
@@ -120,7 +125,7 @@ func (v *Validator) ValidateKeyboard(keyboard string, compileCheck bool) error {
 // validateCompilation attempts to validate that the configuration can be compiled
 func (v *Validator) validateCompilation(keyboardType models.KeyboardType, configPath string) error {
 	switch keyboardType {
-	case models.KeyboardZMKAdv360, models.KeyboardZMKGlove80:
+	case models.KeyboardZMKAdv360, models.KeyboardZMKGlove80, models.KeyboardZMKAdvMod:
 		// For ZMK, we could potentially set up a docker container to test compilation
 		// For now, just do syntax validation
 		fmt.Printf("⚠️  Compilation check not yet implemented for %s\n", keyboardType)
