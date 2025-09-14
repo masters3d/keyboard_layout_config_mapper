@@ -55,6 +55,7 @@ func showAvailableKeyboards() error {
 	fmt.Println("📋 Available keyboards for syncing:")
 	fmt.Println("  • adv360    - Kinesis Advantage360 (ZMK)")
 	fmt.Println("  • glove80   - MoErgo Glove80 (ZMK)")
+	fmt.Println("  • adv_mod   - Kinesis Advantage (Pillz Mod, ZMK)")
 	fmt.Println("  • qmk_ergodox - ErgoDox (QMK)")
 	fmt.Println("  • kinesis2  - Kinesis2 (Kinesis)")
 	fmt.Println()
@@ -158,7 +159,8 @@ func getKeyboardConfigPath(keyboard string) string {
 	paths := map[string]string{
 		"adv360":     "configs/zmk_adv360/adv360.keymap",
 		"glove80":    "configs/zmk_glove80/glove80.keymap",
-		"qmk_ergodx": "configs/qmk_ergodox/keymap.c",
+		"adv_mod":    "configs/zmk_adv_mod/adv_mod.keymap",
+		"qmk_ergodox": "configs/qmk_ergodox/keymap.c",
 		"kinesis2":   "configs/kinesis2/1_qwerty.txt",
 	}
 	return paths[keyboard]
