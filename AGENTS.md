@@ -279,6 +279,60 @@ Error: Pin assignment conflict
 - [x] Update all parser and CLI components ✅ 
 - [x] Create base keymap configuration ✅
 - [x] Test KLCM tool recognition and validation ✅
+- [x] **Sync adv360 configuration to adv_mod.keymap** ✅
+
+**PHASE 1.5: ✅ COMPLETED - Configuration Sync**
+- [x] Sync QWERTY layer from adv360 to adv_mod ✅
+- [x] Sync keypad layer from adv360 to adv_mod ✅
+- [x] Sync CMD/FN layer from adv360 to adv_mod ✅
+- [x] Add macros (brackets, braces, parens, angle brackets) ✅
+- [x] Add mod-morph behaviors (dot→colon, comma→semicolon, etc.) ✅
+- [x] Preserve hardware-specific top row (F1-F12) ✅
+- [x] Preserve bootloader layer (system_layer) ✅
+
+#### Configuration Sync Summary
+
+**Synced from adv360 to adv_mod:**
+
+1. **Default Layer Changes:**
+   - Number row replaced with morphed special characters
+   - QWERTY layout with mod-morph keys (. → :, , → ;)
+   - Parentheses morph to angle brackets when shifted
+   - Quote keys with grave/tilde morphs
+   - Control key positions synced (HOME, BSPC, LC(BSPC), DEL, ENTER, TAB)
+
+2. **Keypad Layer (LAYER_KEYPAD = 1):**
+   - F13-F24 function keys on left side
+   - Number pad 1-9, 0 on right side
+   - Symbols: %, $, #, @ (left); ^, &, *, |, dot, comma (right)
+   - Macro shortcuts for brackets/braces in top right
+
+3. **CMD Layer (LAYER_CMD = 2) - NEW:**
+   - Control key combinations for all QWERTY keys
+   - Uses RC() (Right Control) instead of RG() (Right GUI/Command)
+   - Matches glove80 implementation for cross-keyboard consistency
+
+4. **System Layer (LAYER_SYSTEM = 3):**
+   - **PRESERVED** - bootloader access is hardware-specific
+   - Bluetooth configuration unchanged
+   - Critical for firmware updates and system functions
+
+5. **Behaviors Added:**
+   - `morph_dot` - Period → Colon when shifted
+   - `morph_comma` - Comma → Semicolon when shifted
+   - `morph_parens_left/right` - Parentheses → Angle brackets when shifted
+   - `morph_exclamation` - Backslash → Exclamation when shifted
+   - `morph_quote_single/double` - Quote morphing with grave/tilde
+
+6. **Macros Added:**
+   - `macro_brackets` - Types [] with cursor in middle
+   - `macro_braces` - Types {} with cursor in middle
+   - `macro_parens` - Types () with cursor in middle
+   - `macro_angle_brackets` - Types <> with cursor in middle
+
+**Hardware-Specific Preservation:**
+- Top function key row (18 keys: HOME, F1-F12, PSCRN, SLCK, PAUSE, Layer toggle, System) kept as-is
+- System layer bootloader access unchanged (critical for Nice!Nano firmware updates)
 
 **PHASE 2: 🚧 IN PROGRESS - ZMK Config Repository Setup**
 
@@ -370,5 +424,35 @@ The template overlay uses reasonable pin assignments, but **MUST BE VERIFIED** a
 
 ---
 
-*Last Updated: 2025-01-06*  
-*Version: v7_target*
+*Last Updated: 2025-01-08*  
+*Version: v8_synced*
+
+## Sync Workflow Documentation
+
+For future agents working on keyboard configuration syncing:
+
+### Manual Sync Process Used
+
+The sync from adv360 to adv_mod was done manually by:
+
+1. **Analyzing layer structure** - Understanding physical layout differences
+2. **Mapping behaviors** - Adding morphs and macros from source keyboard
+3. **Layer-by-layer sync** - Syncing default, keypad, and CMD layers
+4. **Hardware preservation** - Keeping keyboard-specific top row and bootloader
+5. **Validation** - Using `klcm validate` to ensure syntax correctness
+
+### Key Learnings
+
+- **Physical layout matters**: adv_mod has 18-key function row that adv360 doesn't have
+- **Layer numbering**: Must update LAYER_* defines when adding new layers
+- **Bootloader layers**: Never sync bootloader/system layers - they're hardware-specific
+- **Modifier choices**: Use RC() (Control) not RG() (GUI) for CMD layer to match glove80
+- **Morphs vs Macros**: Morphs change behavior with modifiers, macros type sequences
+
+### Automation Opportunities
+
+The current `sync.go` only syncs default layer. Future enhancements:
+- Multi-layer sync support
+- Behavior/macro detection and copying
+- Layer mapping configuration
+- Physical layout awareness (preserve hardware-specific keys)
