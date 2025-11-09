@@ -149,7 +149,7 @@
             // | BSPC  |  A   |  S   |  D   |  F   |  G   |                           |  H   |  J   |  K   |  L   | .(;) | ENTER|
             // |C-BSPC |  Z   |  X   |  C   |  V   |  B   |                           |  N   |  M   |  ,   |  .   | ,(;) | TAB  |
             //         | WIN  | PGDN | ALT  |KYPAD |      |                           |      | LEFT | DOWN |  UP  |RIGHT |
-            //                                    | CTRL | TAB  |               | CMD  | SHFT |
+            //                                    | CTRL | ALT  |               | CMD  | SHFT |
             //                                           | ESC  |               | ALT  |
             //                              | SPC  | SHFT | WIN  |               |KYPAD | SHFT | SPC  |
             //
@@ -168,7 +168,7 @@
     &kp BSPC    &kp A     &kp S     &kp D     &kp F     &kp G                                                                                     &kp H     &kp J     &kp K     &kp L     &morph_dot  &kp ENTER
     &kp LC(BSPC)  &kp Z   &kp X     &kp C     &kp V     &kp B                                                                                     &kp N     &kp M     &kp COMMA &kp DOT   &morph_comma  &kp TAB
                &kp LEFT_WIN &kp PAGE_DOWN &kp LEFT_ALT &mo LAYER_KEYPAD                                                                                   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT
-                                                      &kp LEFT_CONTROL  &kp TAB                                        &mo LAYER_CMD  &kp RIGHT_SHIFT
+                                                      &kp LEFT_CONTROL  &kp LEFT_ALT                                   &mo LAYER_CMD  &kp RIGHT_SHIFT
                                                                  &kp ESCAPE                                              &kp LEFT_ALT
                                         &kp SPACE   &kp LEFT_SHIFT  &kp LEFT_WIN                                       &mo LAYER_KEYPAD  &kp RIGHT_SHIFT &kp SPACE
             >;
