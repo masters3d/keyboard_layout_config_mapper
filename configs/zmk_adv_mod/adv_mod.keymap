@@ -137,13 +137,26 @@
 
         default_layer {
             // -----------------------------------------------------------------------------------------
-            // TOP ROW: Hardware-specific function keys - PRESERVED AS-IS
+            // CUSTOMIZED LAYOUT - Synced from adv360 with hardware-specific top row preserved
+            // -----------------------------------------------------------------------------------------
             // |  HOME |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |     |  F9  |  F10 |  F11 |  F12 | PSCRN| SLCK | PAUSE| Layer| SYS  |
-            // 
-            // SYNCED FROM adv360 default layer:
-            // Number row with special characters (morphed from adv360 top row)
-            // QWERTY layout with mod-morphed keys (. → :, , → ;)
-            // Control key positions synced from adv360
+            // |   '   |  "   |  -   |  =   |  /   |C-A-DEL                           |  !\  |  [   |  ]   | (<)  | (>)  |  -   |
+            // | HOME  |  Q   |  W   |  E   |  R   |  T   |                           |  Y   |  U   |  I   |  O   |  P   | DEL  |
+            // | BSPC  |  A   |  S   |  D   |  F   |  G   |                           |  H   |  J   |  K   |  L   | .(;) | ENTER|
+            // |C-BSPC |  Z   |  X   |  C   |  V   |  B   |                           |  N   |  M   |  ,   |  .   | ,(;) | TAB  |
+            //         | WIN  | PGDN | ALT  |KYPAD |      |                           |      | LEFT | DOWN |  UP  |RIGHT |
+            //                                    | CTRL | TAB  |               | CMD  | SHFT |
+            //                                           | ESC  |               | ALT  |
+            //                              | SPC  | SHFT | WIN  |               |KYPAD | SHFT | SPC  |
+            //
+            // Notes: 
+            //   .(;) = morph_dot (Period → Colon when shifted)
+            //   ,(;) = morph_comma (Comma → Semicolon when shifted)
+            //   (<) = morph_parens_left (Left paren → Less than when shifted)
+            //   (>) = morph_parens_right (Right paren → Greater than when shifted)
+            //   !\  = morph_exclamation (Backslash → Exclamation when shifted)
+            //   '   = morph_quote_single (Single quote → Grave when shifted)
+            //   "   = morph_quote_double (Double quote → Tilde when shifted)
             bindings = <
     &kp HOME   &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6    &kp F7    &kp F8         &kp F9    &kp F10   &kp F11   &kp F12   &kp PSCRN  &kp SLCK  &kp PAUSE_BREAK  &tog LAYER_KEYPAD  &mo LAYER_SYSTEM
     &morph_quote_single  &morph_quote_double  &kp MINUS  &kp EQUAL  &kp SLASH  &kp LC(LA(DEL))                                      &morph_exclamation  &kp LBKT  &kp RBKT  &morph_parens_left  &morph_parens_right  &kp MINUS
