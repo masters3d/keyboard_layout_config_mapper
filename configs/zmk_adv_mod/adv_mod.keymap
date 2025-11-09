@@ -9,8 +9,6 @@
  * Hardware: Kinesis Advantage with Pillz Mod Pro + Nice!Nano v2
  * Repository: https://github.com/masters3d/zmk-config-pillzmod-nicenano
  * Branch: cheyo
- * 
- * Synced from adv360 configuration - QWERTY, Keypad, and CMD layers
  */
 
 #include <behaviors.dtsi>
@@ -74,7 +72,7 @@
             bindings = <&kp>, <&kp>;
         };
 
-        // Mod-morph behaviors from adv360
+        // &dot_override,
         morph_dot: morph_dot {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_DOT";
@@ -83,6 +81,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        // &comma_override,
         morph_comma: morph_comma {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_COMMA";
@@ -91,6 +90,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        // &parens_left_override,
         morph_parens_left: morph_parens_left {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_PARENS_LEFT";
@@ -99,6 +99,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        // &parens_right_override,
         morph_parens_right: morph_parens_right {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_PARENS_RIGHT";
@@ -107,6 +108,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        // &exclamation_override,
         morph_exclamation: morph_exclamation {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_EXCLAMATION";
@@ -115,6 +117,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        // &quote_single_override,
         morph_quote_single: morph_quote_single {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_QUOTE_SINGLE";
@@ -123,6 +126,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        // &quote_double_override,
         morph_quote_double: morph_quote_double {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_QUOTE_DOUBLE";
