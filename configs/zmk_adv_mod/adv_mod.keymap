@@ -151,7 +151,7 @@
             //         | WIN  | PGDN | ALT  |KYPAD |      |                           |      | LEFT | DOWN |  UP  |RIGHT |
             //                                    | CTRL | ALT  |               | CMD  | SHFT |
             //                                           | ESC  |               | ALT  |
-            //                              | SPC  | SHFT | WIN  |               |KYPAD | SHFT | SPC  |
+            //                              | SPC  | SHFT | ALT  |               | CMD  | SHFT | SPC  |
             //
             // Notes: 
             //   .(;) = morph_dot (Period → Colon when shifted)
@@ -170,7 +170,7 @@
                &kp LEFT_WIN &kp PAGE_DOWN &kp LEFT_ALT &mo LAYER_KEYPAD                                                                                   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT
                                                       &kp LEFT_CONTROL  &kp LEFT_ALT                                   &mo LAYER_CMD  &kp RIGHT_SHIFT
                                                                  &kp ESCAPE                                              &kp LEFT_ALT
-                                        &kp SPACE   &kp LEFT_SHIFT  &kp LEFT_WIN                                       &mo LAYER_KEYPAD  &kp RIGHT_SHIFT &kp SPACE
+                                        &kp SPACE   &kp LEFT_SHIFT  &kp LEFT_ALT                                       &mo LAYER_CMD  &kp RIGHT_SHIFT &kp SPACE
             >;
         };
         
