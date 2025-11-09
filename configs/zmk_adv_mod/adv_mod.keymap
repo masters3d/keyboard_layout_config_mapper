@@ -176,8 +176,7 @@
         
         keypad_layer {
             // -----------------------------------------------------------------------------------------
-            // Keypad layer - Synced from adv360 layer6_keypad
-            // Number pad with symbols and macros for brackets/braces
+            // Keypad layer - Number pad with symbols and macros for brackets/braces
             bindings = <
     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
     &trans  &trans  &trans  &trans  &trans  &kp PERCENT                                                              &kp CARET  &macro_brackets  &macro_braces  &macro_parens  &macro_angle_brackets  &trans
@@ -193,8 +192,7 @@
 
         cmd_layer {
             // -----------------------------------------------------------------------------------------
-            // CMD/FN layer - Synced from adv360 layer7_fn
-            // Control/Command key combinations for all keys
+            // CMD/FN layer - Control/Command key combinations for all keys
             bindings = <
     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
     &trans  &trans  &trans  &kp RC(MINUS)  &kp RC(EQUAL)  &kp RC(SLASH)                                      &kp RC(BACKSLASH)  &kp RC(LEFT_BRACKET)  &kp RC(RIGHT_BRACKET)  &trans  &trans  &trans
@@ -210,9 +208,7 @@
 
         system_layer {
             // -----------------------------------------------------------------------------------------
-            // System layer: Bluetooth, output selection, bootloader access
-            // PRESERVED AS-IS - keyboard-specific bootloader and system functions
-            // No ZMK Studio features - clean, compatible implementation
+            // System layer - Bluetooth, output selection, bootloader access
             bindings = <
     &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &trans  &trans  &trans  &trans       &bt BT_CLR  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
     &trans  &trans  &trans  &trans  &trans  &trans                                                                   &trans  &trans  &trans  &trans  &trans  &bootloader
