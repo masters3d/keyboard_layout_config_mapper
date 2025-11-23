@@ -59,13 +59,13 @@ func (p *ZMKParser) Parse(filePath string) (*models.KeyboardLayout, error) {
 		}
 
 		// Detect sections
-		if strings.Contains(line, "keymap {") {
-			currentSection = "keymap"
-			continue
-		}
-
 		if strings.Contains(line, "behaviors {") {
 			currentSection = "behaviors"
+			continue
+		}
+		
+		if strings.Contains(line, "keymap {") {
+			currentSection = "keymap"
 			continue
 		}
 
@@ -73,43 +73,57 @@ func (p *ZMKParser) Parse(filePath string) (*models.KeyboardLayout, error) {
 			currentSection = "combos"
 			continue
 		}
+		
+		// Exit sections when we hit a closing brace at the beginning
+		if line == "}" || line == "};" {
+			if currentSection == "behaviors" {
+				currentSection = ""
+			}
+			continue
+		}
 
 		// Parse based on current section
 		switch currentSection {
 		case "keymap":
-			if strings.Contains(line, "default_layer") || strings.Contains(line, "_layer") {
-				// Starting a new layer
-				if inBindings && len(bindingsBuffer) > 0 {
-					// Process previous layer's bindings
-					err := p.processLayerBindings(layout, layerIndex, bindingsBuffer)
-					if err != nil {
-						return nil, fmt.Errorf("error processing layer %d: %v", layerIndex, err)
+			// Match layer declarations: layer0_default, layer1_qwerty, etc.
+			if (strings.Contains(line, "layer") && strings.Contains(line, "{")) {
+				// Starting a new layer (but not a behavior definition or bindings)
+				if !strings.Contains(line, ":") && !strings.Contains(line, "behavior") && !strings.Contains(line, "bindings") {
+					if inBindings && len(bindingsBuffer) > 0 {
+						// Process previous layer's bindings
+						if layerIndex >= 0 {
+							err := p.processLayerBindings(layout, layerIndex, bindingsBuffer)
+							if err != nil {
+								return nil, fmt.Errorf("error processing layer %d: %v", layerIndex, err)
+							}
+						}
+						bindingsBuffer = []string{}
 					}
-					bindingsBuffer = []string{}
+					
+					layerIndex++
+					inBindings = false
+					
+					// Extract layer name
+					layerName := p.extractLayerName(line)
+					layer := models.Layer{
+						Index:    layerIndex,
+						Name:     layerName,
+						Bindings: []models.KeyBinding{},
+						Metadata: make(map[string]interface{}),
+					}
+					layout.Layers = append(layout.Layers, layer)
 				}
-				
-				layerIndex++
-				inBindings = false
-				
-				// Extract layer name
-				layerName := p.extractLayerName(line)
-				layer := models.Layer{
-					Index:    layerIndex,
-					Name:     layerName,
-					Bindings: []models.KeyBinding{},
-					Metadata: make(map[string]interface{}),
-				}
-				layout.Layers = append(layout.Layers, layer)
 			}
 
-			if strings.Contains(line, "bindings") && strings.Contains(line, "<") {
+			// Only process bindings if we're in a layer (layerIndex >= 0)
+			if layerIndex >= 0 && strings.Contains(line, "bindings") && strings.Contains(line, "<") {
 				inBindings = true
 				// Extract bindings from this line if they exist
 				bindingsLine := p.extractBindingsFromLine(line)
 				if bindingsLine != "" {
 					bindingsBuffer = append(bindingsBuffer, bindingsLine)
 				}
-			} else if inBindings {
+			} else if inBindings && layerIndex >= 0 {
 				// Collect bindings lines
 				if strings.Contains(line, ">;") {
 					// End of bindings
@@ -118,9 +132,11 @@ func (p *ZMKParser) Parse(filePath string) (*models.KeyboardLayout, error) {
 						bindingsBuffer = append(bindingsBuffer, bindingsLine)
 					}
 					// Process the collected bindings
-					err := p.processLayerBindings(layout, layerIndex, bindingsBuffer)
-					if err != nil {
-						return nil, fmt.Errorf("error processing layer %d: %v", layerIndex, err)
+					if layerIndex >= 0 {
+						err := p.processLayerBindings(layout, layerIndex, bindingsBuffer)
+						if err != nil {
+							return nil, fmt.Errorf("error processing layer %d: %v", layerIndex, err)
+						}
 					}
 					bindingsBuffer = []string{}
 					inBindings = false
@@ -149,7 +165,7 @@ func (p *ZMKParser) Parse(filePath string) (*models.KeyboardLayout, error) {
 	}
 
 	// Process any remaining bindings
-	if inBindings && len(bindingsBuffer) > 0 {
+	if inBindings && len(bindingsBuffer) > 0 && layerIndex >= 0 {
 		err := p.processLayerBindings(layout, layerIndex, bindingsBuffer)
 		if err != nil {
 			return nil, fmt.Errorf("error processing final layer %d: %v", layerIndex, err)
@@ -197,12 +213,35 @@ func (p *ZMKParser) Validate(filePath string) error {
 // Helper methods for parsing
 
 func (p *ZMKParser) extractLayerName(line string) string {
-	// Extract layer name from lines like "default_layer {" or "lower_layer {"
-	re := regexp.MustCompile(`(\w+)_layer\s*{`)
+	// Extract layer name from lines like "layer0_default {" or "default_layer {"
+	// First try layer0_name format
+	re := regexp.MustCompile(`layer\d+_(\w+)\s*{`)
 	matches := re.FindStringSubmatch(line)
 	if len(matches) > 1 {
 		return matches[1]
 	}
+	
+	// Try name_layer format
+	re = regexp.MustCompile(`(\w+)_layer\s*{`)
+	matches = re.FindStringSubmatch(line)
+	if len(matches) > 1 {
+		return matches[1]
+	}
+	
+	// Extract whole name before {
+	parts := strings.Split(strings.TrimSpace(line), "{")
+	if len(parts) > 0 {
+		name := strings.TrimSpace(parts[0])
+		// Remove "layer" prefix if exists
+		name = strings.TrimPrefix(name, "layer")
+		// Remove leading digits and underscore
+		re = regexp.MustCompile(`^\d+_`)
+		name = re.ReplaceAllString(name, "")
+		if name != "" {
+			return name
+		}
+	}
+	
 	return "unnamed"
 }
 
@@ -229,15 +268,32 @@ func (p *ZMKParser) processLayerBindings(layout *models.KeyboardLayout, layerInd
 		return fmt.Errorf("invalid layer index: %d", layerIndex)
 	}
 
-	// Join all bindings lines and split by whitespace and commas
+	// Join all bindings lines and split by whitespace
 	allBindings := strings.Join(bindingsLines, " ")
 	allBindings = strings.ReplaceAll(allBindings, ",", " ")
+	
+	// Remove common non-binding words
+	allBindings = strings.ReplaceAll(allBindings, "bindings", "")
+	allBindings = strings.ReplaceAll(allBindings, "=", "")
+	
 	bindings := strings.Fields(allBindings)
+	
+	// Filter out invalid bindings
+	validBindings := make([]string, 0, len(bindings))
+	for _, binding := range bindings {
+		binding = strings.TrimSpace(binding)
+		// Skip empty, < , >, ;, and other syntax elements
+		if binding == "" || binding == "<" || binding == ">" || binding == ";" || 
+		   binding == "=>" || binding == "bindings" {
+			continue
+		}
+		validBindings = append(validBindings, binding)
+	}
 
-	for i, binding := range bindings {
+	for i, binding := range validBindings {
 		keyBinding := models.KeyBinding{
 			Position: p.getPositionForIndex(i),
-			Value:    strings.TrimSpace(binding),
+			Value:    binding,
 			Layer:    layerIndex,
 			Type:     p.determineBindingType(binding),
 			Metadata: make(map[string]interface{}),

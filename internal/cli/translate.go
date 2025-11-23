@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"masters3d.com/keyboard_layout_config_mapper/internal/generators"
 	"masters3d.com/keyboard_layout_config_mapper/internal/mappers"
 	"masters3d.com/keyboard_layout_config_mapper/internal/models"
 	"masters3d.com/keyboard_layout_config_mapper/internal/parsers"
@@ -29,6 +30,11 @@ different keyboard types that share similar layout structures.
 
 The intermediate representation uses a universal 10x10 grid per hand that can map 
 to most keyboard layouts, making it easy to port layouts between keyboards.
+
+NOTE: The translation system is currently in beta. While it successfully translates
+layouts structurally, some ZMK-specific behaviors (like &kp with arguments) may need
+manual review. The generated keymap provides a solid starting point that typically
+requires minor adjustments.
 
 Examples:
   # Translate from Advantage360 to Glove80
@@ -174,16 +180,33 @@ func saveLayout(layout *models.KeyboardLayout, outputFile string) error {
 		return err
 	}
 
-	// For now, save as JSON. In the future, we could generate the actual keymap format
-	file, err := os.Create(outputFile)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
+	// Generate keymap content based on keyboard type
+	var content string
+	var err error
+	
+	switch layout.Type {
+	case models.KeyboardZMKAdv360, models.KeyboardZMKGlove80, models.KeyboardZMKAdvMod:
+		// Use ZMK generator for ZMK keyboards
+		generator := generators.NewZMKGenerator(layout.Type)
+		content, err = generator.Generate(layout)
+		if err != nil {
+			return fmt.Errorf("failed to generate ZMK keymap: %w", err)
+		}
+	default:
+		// Fallback to JSON for unsupported types
+		file, err := os.Create(outputFile)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
 
-	encoder := json.NewEncoder(file)
-	encoder.SetIndent("", "  ")
-	return encoder.Encode(layout)
+		encoder := json.NewEncoder(file)
+		encoder.SetIndent("", "  ")
+		return encoder.Encode(layout)
+	}
+	
+	// Write generated content
+	return os.WriteFile(outputFile, []byte(content), 0644)
 }
 
 // saveIRToFile saves intermediate representation to a JSON file
