@@ -117,13 +117,13 @@ var keyboards = []keyboardConfig{
 		name:     "glove80",
 		dir:      "configs/zmk_glove80",
 		filename: "glove80.keymap",
-		url:      "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/v7_target/configs/zmk_glove80/glove80.keymap",
+		url:      "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/main/configs/zmk_glove80/glove80.keymap",
 	},
 	{
 		name:     "adv360",
 		dir:      "configs/zmk_adv360",
 		filename: "adv360.keymap",
-		url:      "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/v7_target/configs/zmk_adv360/adv360.keymap",
+		url:      "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/main/configs/zmk_adv360/adv360.keymap",
 	},
 	{
 		name:     "adv_mod",

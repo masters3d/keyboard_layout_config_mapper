@@ -1,12 +1,13 @@
 # 🎹 KLCM (Keyboard Layout Configuration Mapper)
 
-A powerful CLI tool for managing keyboard configuration files across different firmware systems (ZMK, QMK, Kinesis) with a focus on ZMK keyboards like the Advantage360 and Glove80.
+A powerful CLI tool for managing keyboard configuration files across different firmware systems (ZMK, QMK, Kinesis) with a robust intermediate representation system for seamless layout translation between keyboards.
 
 ## ✨ Features
 
 - **🔄 Pull configurations** from remote repositories (like `git pull`)
 - **🔍 Compare local vs remote** configurations with git-style diffs
 - **🔄 Sync changes** between different keyboards (cross-vendor)
+- **🌐 Universal layout translation** via intermediate representation (IR)
 - **✅ Validate configurations** for syntax errors and compatibility
 - **🚀 GitHub PR automation** for contributing changes back
 - **🎯 Interactive workflow** guide for beginners
@@ -51,6 +52,7 @@ For detailed step-by-step instructions, see **[WORKFLOW.md](WORKFLOW.md)** - thi
 |---------|-------------|---------|
 | `pull` | Update local files from remote (like git pull) | `klcm pull --preview` |
 | `sync` | Copy changes between keyboards | `klcm sync adv360 glove80` |
+| `translate` | Translate layouts between keyboards via IR | `klcm translate --from adv360 --to glove80` |
 | `validate` | Check configurations for errors | `klcm validate adv360` |
 | `compare-remote` | Compare local vs remote files | `klcm compare-remote` |
 
@@ -97,6 +99,18 @@ klcm sync adv360 glove80
 klcm validate
 ```
 
+### **Translating Layouts Between Keyboards**
+```bash
+# Translate from Advantage360 to Glove80 using IR system
+klcm translate --from adv360 --to glove80
+
+# Save to specific file
+klcm translate --from glove80 --to adv_mod --output my_layout.keymap
+
+# View the intermediate representation
+klcm translate --from adv360 --show-ir
+```
+
 ### **Contributing Changes Back**
 ```bash
 # See what PRs would be created
@@ -128,14 +142,42 @@ go build -o klcm cmd/klcm/main.go
 ### **ZMK Keyboards (Primary Focus)**
 - **Advantage360 Pro** (`configs/zmk_adv360/`)
 - **Glove80** (`configs/zmk_glove80/`)
-- **Pillz Mod Pro** (`configs/zmk_adv_mod/`) - Nice!Nano with ZMK
-
-### **Native Firmware**
-- **Kinesis Advantage 2** (`configs/kinesis2/`) - SmartSet configuration
+- **Kinesis Advantage with Pillz Mod** (`configs/zmk_adv_mod/`)
 
 ### **Future Support**
 - QMK keyboards
+- Kinesis keyboards  
 - Additional ZMK keyboards
+
+## 🌐 Intermediate Representation (IR) System
+
+KLCM includes a powerful intermediate representation system that enables seamless layout translation between different keyboard types.
+
+### **Key Features**
+- **Universal 10x10 grid per hand**: Standardized coordinate system for all keyboards
+- **Zone-based mapping**: Logical grouping of keys (main, thumb, function, etc.)
+- **Automatic translation**: Convert layouts between any supported keyboards
+- **Key code normalization**: Handles firmware-specific syntax differences
+
+### **Translation Examples**
+```bash
+# Convert Advantage360 layout to Glove80
+klcm translate --from adv360 --to glove80
+
+# Port Glove80 layout to Advanced Mod
+klcm translate --from glove80 --to adv_mod
+
+# Analyze layout structure
+klcm translate --from adv360 --show-ir
+```
+
+### **Benefits**
+- **Easy keyboard migration**: Keep your layout when switching keyboards
+- **Cross-vendor compatibility**: Works between different manufacturers
+- **Layout experimentation**: Try your layout on different keyboards
+- **Consistent mapping**: Similar keys always map to the same positions
+
+For detailed information, see **[docs/INTERMEDIATE_REPRESENTATION.md](docs/INTERMEDIATE_REPRESENTATION.md)**.
 
 ## 🎯 Key Benefits
 

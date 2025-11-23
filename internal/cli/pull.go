@@ -153,7 +153,7 @@ func pullKeyboard(keyboardType models.KeyboardType, configPath string, preview b
 }
 
 func getRemoteURL(keyboardType models.KeyboardType) (string, error) {
-	baseURL := "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/v7_target/configs"
+	baseURL := "https://raw.githubusercontent.com/masters3d/keyboard_layout_config_mapper/main/configs"
 	
 	switch keyboardType {
 	case models.KeyboardZMKAdv360:
