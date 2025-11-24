@@ -268,7 +268,7 @@ func (p *ZMKParser) processLayerBindings(layout *models.KeyboardLayout, layerInd
 		return fmt.Errorf("invalid layer index: %d", layerIndex)
 	}
 
-	// Join all bindings lines and split by whitespace
+	// Join all bindings lines
 	allBindings := strings.Join(bindingsLines, " ")
 	allBindings = strings.ReplaceAll(allBindings, ",", " ")
 	
@@ -276,19 +276,8 @@ func (p *ZMKParser) processLayerBindings(layout *models.KeyboardLayout, layerInd
 	allBindings = strings.ReplaceAll(allBindings, "bindings", "")
 	allBindings = strings.ReplaceAll(allBindings, "=", "")
 	
-	bindings := strings.Fields(allBindings)
-	
-	// Filter out invalid bindings
-	validBindings := make([]string, 0, len(bindings))
-	for _, binding := range bindings {
-		binding = strings.TrimSpace(binding)
-		// Skip empty, < , >, ;, and other syntax elements
-		if binding == "" || binding == "<" || binding == ">" || binding == ";" || 
-		   binding == "=>" || binding == "bindings" {
-			continue
-		}
-		validBindings = append(validBindings, binding)
-	}
+	// Parse bindings as semantic units (handles &kp LS(LG(S)) correctly)
+	validBindings := p.parseZMKBindings(allBindings)
 
 	for i, binding := range validBindings {
 		keyBinding := models.KeyBinding{
@@ -303,6 +292,82 @@ func (p *ZMKParser) processLayerBindings(layout *models.KeyboardLayout, layerInd
 	}
 
 	return nil
+}
+
+// parseZMKBindings parses ZMK bindings as semantic units
+// Handles compound behaviors like &kp LS(LG(S)) correctly by treating
+// &behavior + arguments as a single unit instead of splitting on whitespace
+func (p *ZMKParser) parseZMKBindings(text string) []string {
+	var bindings []string
+	text = strings.TrimSpace(text)
+	
+	i := 0
+	for i < len(text) {
+		// Skip whitespace
+		for i < len(text) && (text[i] == ' ' || text[i] == '\t' || text[i] == '\n') {
+			i++
+		}
+		if i >= len(text) {
+			break
+		}
+		
+		// Check if this is a binding (starts with &)
+		if text[i] == '&' {
+			start := i
+			i++ // Skip the &
+			
+			// Read behavior name (until space or &)
+			for i < len(text) && text[i] != ' ' && text[i] != '\t' && text[i] != '&' {
+				i++
+			}
+			
+			// Skip whitespace between behavior and args
+			for i < len(text) && (text[i] == ' ' || text[i] == '\t') {
+				// Peek ahead - if next char is &, we're done with this binding
+				if i+1 < len(text) && text[i+1] == '&' {
+					break
+				}
+				i++
+			}
+			
+			// Read arguments (until next & or end)
+			// This captures things like LS(LG(S)) or LAYER_KEYPAD as part of the binding
+			for i < len(text) {
+				// Stop if we hit the start of next binding
+				if text[i] == '&' {
+					break
+				}
+				// Check for space followed by & (end of this binding's args)
+				if text[i] == ' ' || text[i] == '\t' {
+					// Look ahead for &
+					j := i + 1
+					for j < len(text) && (text[j] == ' ' || text[j] == '\t') {
+						j++
+					}
+					if j < len(text) && text[j] == '&' {
+						// Next binding starts soon, trim trailing space
+						break
+					}
+				}
+				i++
+			}
+			
+			// Build the complete binding with arguments
+			binding := text[start:i]
+			binding = strings.TrimSpace(binding)
+			
+			// Filter out syntax elements
+			if binding != "" && binding != "<" && binding != ">" && binding != ";" && 
+			   binding != "=>" && !strings.HasPrefix(binding, "bindings") {
+				bindings = append(bindings, binding)
+			}
+		} else {
+			// Skip non-binding characters
+			i++
+		}
+	}
+	
+	return bindings
 }
 
 func (p *ZMKParser) getPositionForIndex(index int) models.Position {

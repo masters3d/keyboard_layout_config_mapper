@@ -49,6 +49,14 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        morph_comma: morph_comma {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MORPH_COMMA";
+            #binding-cells = <0>;
+            bindings = <&kp COMMA>, <&kp SEMICOLON>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
         morph_parens_left: morph_parens_left {
             compatible = "zmk,behavior-mod-morph";
             label = "MORPH_PARENS_LEFT";
@@ -125,12 +133,12 @@
         layer0_default {
             // Layer 0: default
             bindings = <
-    &kp  LS(LG(S))  &morph_quote_single  &morph_quote_double  &kp  MINUS  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-    &kp  LC(LA(DEL))  &morph_exclamation  &kp  LBKT  &kp                                                     RBKT  &morph_parens_left  &morph_parens_right  &kp  MINUS  &kp
-    HOME  &kp  Q  &kp  W  &trans                                                     E  &kp  R  &kp  T  &to
-    1  &to  1  &kp  Y  &trans                                                     U  &kp  I  &kp  O  &kp
-    P  &kp  DEL  &kp  BSPC  &trans                                                     A  &kp  S  &kp  D  &trans
-    F  &kp  G  &to  &trans  &trans                                                     LAYER_KEYPAD  &kp  LEFT_WIN  &kp  &trans  &trans
+    &kp LS(LG(S))  &morph_quote_single  &morph_quote_double  &kp MINUS  &kp EQUAL  &kp SLASH  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+    &morph_parens_right  &kp MINUS  home  q  w  e                                                     r  t  &to 1  &to 1  y  u
+    i  o  p  delete  backspace  &trans                                                     s  d  f  g  &to 0  &mo LAYER_KEYPAD
+    &kp LEFT_WIN  &kp ESCAPE  &mo LAYER_KEYPAD  &to 0  h  &trans                                                     k  l  &morph_dot  enter  &kp LC(BSPC)  z
+    x  c  v  b  &kp LEFT_CONTROL  &trans                                                     n  m  &kp COMMA  &kp DOT  &morph_comma  &trans
+    &mo LAYER_MOD  home  &kp PAGE_DOWN  &mo 5  &trans  &trans                                                     &kp LEFT_SHIFT  &kp LEFT_ALT  &mo LAYER_CMD  &kp RIGHT_SHIFT  &trans  &trans
             &trans  &trans  &trans  &trans                                                                    &trans  &trans  &trans  &trans
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                      &trans
@@ -142,11 +150,11 @@
             // Layer 1: qwerty
             bindings = <
     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-    &trans  &trans  &trans  &kp  Q  &kp                                                     W  &kp  E  &kp  R  &kp
-    T  &trans  &trans  &kp  Y  &trans                                                     U  &kp  I  &kp  O  &kp
-    P  &trans  &trans  &kp  A  &trans                                                     S  &kp  D  &kp  F  &kp
-    G  &trans  &trans  &trans  &trans  &trans                                                     &trans  &kp  H  &kp  J  &trans
-    K  &kp  L  &morph_dot  &trans  &trans                                                     &kp  Z  &kp  X  &trans  &trans
+    &trans  &trans  &trans  q  w  e                                                     r  t  &trans  &trans  y  u
+    i  o  p  &trans  &trans  &trans                                                     s  d  f  g  &trans  &trans
+    &trans  &trans  &trans  &trans  h  &trans                                                     k  l  &morph_dot  &trans  &trans  z
+    x  c  v  b  &trans  &trans                                                     n  m  &kp COMMA  &kp DOT  &morph_comma  &trans
+    &trans  &trans  &trans  &trans  &trans  &trans                                                     &trans  &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans  &trans                                                                    &trans  &trans  &trans  &trans
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                      &trans
@@ -157,12 +165,12 @@
         layer2_padding {
             // Layer 2: padding
             bindings = <
-    &kp  N0  &kp  N1  &kp  N2  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-    &kp  N6  &kp  N0  &kp  N1                                                     &kp  N2  &kp  N3  &kp  N4
-    &kp  N5  &kp  N6  &kp  &trans                                                     &kp  N1  &kp  N2  &kp  N3
-    &kp  N4  &kp  N5  &kp  &trans                                                     &kp  N0  &kp  N1  &kp  N2
-    &kp  N3  &kp  N4  &kp  &trans                                                     &kp  N6  &kp  N0  &kp  &trans
-    &kp  N2  &kp  N3  &trans  &trans                                                     &kp  N5  &kp  N6  &trans  &trans
+    0  1  2  3  4  5  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+    5  6  0  1  2  3                                                     4  5  6  0  1  2
+    3  4  5  6  0  &trans                                                     2  3  4  5  6  7
+    8  7  8  0  1  &trans                                                     3  4  5  6  0  1
+    2  3  4  5  9  &trans                                                     1  2  3  4  5  &trans
+    0  1  2  3  &trans  &trans                                                     6  7  5  6  &trans  &trans
             &trans  &trans  &trans  &trans                                                                    &trans  &trans  &trans  &trans
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                      &trans
@@ -173,12 +181,12 @@
         layer3_padding {
             // Layer 3: padding
             bindings = <
-    &kp  N0  &kp  N1  &kp  N2  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-    &kp  N6  &kp  N0  &kp  N1                                                     &kp  N2  &kp  N3  &kp  N4
-    &kp  N5  &kp  N6  &kp  &trans                                                     &kp  N1  &kp  N2  &kp  N3
-    &kp  N4  &kp  N5  &kp  &trans                                                     &kp  N0  &kp  N1  &kp  N2
-    &kp  N3  &kp  N4  &kp  &trans                                                     &kp  N6  &kp  N0  &kp  &trans
-    &kp  N2  &kp  N3  &trans  &trans                                                     &kp  N5  &kp  N6  &trans  &trans
+    0  1  2  3  4  5  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+    5  6  0  1  2  3                                                     4  5  6  0  1  2
+    3  4  5  6  0  &trans                                                     2  3  4  5  6  7
+    8  7  8  0  1  &trans                                                     3  4  5  6  0  1
+    2  3  4  5  9  &trans                                                     1  2  3  4  5  &trans
+    0  1  2  3  &trans  &trans                                                     6  7  5  6  &trans  &trans
             &trans  &trans  &trans  &trans                                                                    &trans  &trans  &trans  &trans
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                      &trans
@@ -208,9 +216,9 @@
     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
     &trans  &trans  &trans  &trans  &trans  &trans                                                     &trans  &trans  &trans  &trans  &trans  &trans
     &trans  &trans  &trans  &trans  &trans  &trans                                                     &trans  &trans  &trans  &trans  &trans  &trans
-    &trans  &trans  &trans  &trans  &trans  &trans                                                     PIPE  &kp  STAR  &kp  AMPERSAND  &kp
-    CARET  &trans  &trans  &trans  &trans  &trans                                                     &trans  &trans  &trans  &trans  &trans  &trans
-    AT_SIGN  &kp  POUND  &kp  &trans  &trans                                                     PERCENT  &trans  &trans  &trans  &trans  &trans
+    &trans  &trans  &trans  &trans  &trans  &trans                                                     &kp STAR  &kp AMPERSAND  &kp CARET  &trans  &trans  &trans
+    &trans  &trans  &trans  &trans  &trans  &trans                                                     &trans  &kp AT_SIGN  &kp POUND  &kp DOLLAR  &kp PERCENT  &trans
+    &trans  &trans  &trans  &trans  &trans  &trans                                                     &trans  &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans  &trans                                                                    &trans  &trans  &trans  &trans
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                      &trans
@@ -221,12 +229,12 @@
         layer6_keypad {
             // Layer 6: keypad
             bindings = <
-    &trans  &trans  &trans  &trans  &trans  &kp  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-    &macro_braces  &macro_parens  &macro_angle_brackets  &trans  &trans  &kp                                                     F13  &kp  F14  &kp  F15  &kp
-    F16  &kp  DOLLAR  &trans  &trans  &trans                                                     AMPERSAND  &kp  N1  &kp  N2  &kp
-    N3  &trans  &trans  &trans  &kp  &trans                                                     &kp  F18  &kp  F19  &kp  F20
-    &kp  POUND  &trans  &trans  &trans  &trans                                                     &trans  &trans  &kp  STAR  &kp  &trans
-    &kp  N5  &kp  N6  &trans  &trans                                                     &trans  &trans  &kp  F21  &trans  &trans
+    &trans  &trans  &trans  &trans  &trans  &kp PERCENT  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+    &macro_angle_brackets  &trans  &trans  &kp F13  &kp F14  &kp F15                                                     &kp F16  &kp DOLLAR  &trans  &trans  &kp AMPERSAND  1
+    2  3  &trans  &trans  &trans  &trans                                                     &kp F18  &kp F19  &kp F20  &kp POUND  &trans  &trans
+    &trans  &trans  &trans  &trans  &kp STAR  &trans                                                     5  6  &kp DOT  &trans  &trans  &kp F21
+    &kp F22  &kp F23  &kp F24  &kp AT_SIGN  &trans  &trans                                                     &kp PIPE  7  8  9  &kp COMMA  &trans
+    &trans  &trans  &trans  &trans  &trans  &trans                                                     &trans  &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans  &trans                                                                    &trans  &trans  &trans  &trans
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                      &trans
@@ -237,12 +245,12 @@
         layer7_fn {
             // Layer 7: fn
             bindings = <
-    &trans  &kp  F1  &kp  F2  &kp  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-    &trans  &kp  RG(BACKSLASH)  &kp  RG(LEFT_BRACKET)  &kp                                                     RG(RIGHT_BRACKET)  &kp  F3  &kp  F4  &trans
-    &trans  &kp  RG(Q)  &kp  RG(W)  &trans                                                     RG(E)  &kp  RG(R)  &kp  RG(T)  &trans
-    &trans  &kp  RG(Y)  &kp  RG(U)  &trans                                                     RG(I)  &kp  RG(O)  &kp  RG(P)  &trans
-    &trans  &kp  RG(A)  &kp  RG(S)  &trans                                                     RG(D)  &kp  RG(F)  &kp  RG(G)  &trans
-    &trans  &trans  &trans  &trans  &trans  &trans                                                     RG(H)  &kp  RG(J)  &kp  &trans  &trans
+    &trans  &kp F1  &kp F2  &kp RG(MINUS)  &kp RG(EQUAL)  &kp RG(SLASH)  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+    &kp F4  &trans  &trans  &kp RG(Q)  &kp RG(W)  &kp RG(E)                                                     &kp RG(R)  &kp RG(T)  &trans  &trans  &kp RG(Y)  &kp RG(U)
+    &kp RG(I)  &kp RG(O)  &kp RG(P)  &trans  &trans  &trans                                                     &kp RG(S)  &kp RG(D)  &kp RG(F)  &kp RG(G)  &trans  &trans
+    &trans  &trans  &trans  &trans  &kp RG(H)  &trans                                                     &kp RG(K)  &kp RG(L)  &none  &trans  &trans  &kp RG(Z)
+    &kp RG(X)  &kp RG(C)  &kp RG(V)  &kp RG(B)  &trans  &trans                                                     &kp RG(N)  &kp RG(M)  &none  &none  &none  &trans
+    &trans  &none  &none  &none  &trans  &trans                                                     &trans  &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans  &trans                                                                    &trans  &trans  &trans  &trans
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                      &trans
@@ -253,12 +261,12 @@
         layer8_mod {
             // Layer 8: mod
             bindings = <
-    &bootloader  &bt  BT_SEL  0  &bt  BT_SEL  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-    3  &bt  BT_SEL  4  &none  &trans                                                     &none  &none  &none  &none  &none  &bootloader
-    &none  &none  &none  &none  &none  &trans                                                     &bootloader  &bootloader  &none  &none  &none  &none
-    &none  &none  &bootloader  &none  &none  &trans                                                     &none  &none  &none  &none  &none  &bt
-    BT_CLR  &none  &rgb_ug  RGB_MEFS_CMD  5  &trans                                                     &none  &none  &none  &none  &bootloader  &trans
-    &none  &none  &none  &none  &trans  &trans                                                     &none  &none  &none  &none  &trans  &trans
+    &bootloader  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+    &none  &bootloader  &none  &none  &none  &none                                                     &none  &none  &bootloader  &bootloader  &none  &none
+    &none  &none  &none  &none  &bootloader  &trans                                                     &none  &none  &none  &none  &none  &none
+    &none  &bt BT_CLR  &none  &rgb_ug RGB_MEFS_CMD 5  &none  &trans                                                     &none  &none  &none  &bootloader  &none  &none
+    &none  &none  &none  &none  &none  &trans                                                     &none  &none  &none  &none  &none  &trans
+    &none  &none  &none  &none  &trans  &trans                                                     &none  &none  &none  &bl BL_TOG  &trans  &trans
             &trans  &trans  &trans  &trans                                                                    &trans  &trans  &trans  &trans
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                      &trans
