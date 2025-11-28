@@ -7,8 +7,9 @@
 *#{rp-kpent}>{speed5}{-rwin}{-lshift}{s}{+rwin}{+lshift}
 
 *# left thumb cluster column 0
-[bspace]>[null]
-[kp-bspace]>[null]
+*# SPACE (matches ZMK)
+[bspace]>[space]
+[kp-bspace]>[space]
 
 *# left thumb cluster column 1
 [lctrl]>[kpshft]
@@ -25,12 +26,16 @@
 [kp-end]>[ralt]
 
 *# right thumb cluster column 3
-[rwin]>[delete]
-[kp-rwin]>[delete]
-[pup]>[tab]
-[kp-pup]>[tab]
-[pdown]>[rwin]
-[kp-pdown]>[rwin]
+*# Top: ESC (matches ZMK)
+[rwin]>[escape]
+[kp-rwin]>[escape]
+*# Mid: LCTRL (matches ZMK - LEFT_CONTROL on right side)
+[pup]>[lctrl]
+[kp-pup]>[lctrl]
+*# Bot: RCTRL - using rctrl as default so Mac works out of the box
+*# (previously was rwin, overridden to rctrl in Windows)
+[pdown]>[rctrl]
+[kp-pdown]>[rctrl]
 
 *# right thumb cluster column 4
 [rctrl]>[kpshft]
