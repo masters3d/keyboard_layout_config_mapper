@@ -510,3 +510,66 @@ When updating SmartSet configs:
 - [ ] Comments explain non-obvious mappings
 - [ ] Configuration aligns with ZMK source of truth
 - [ ] Modifier macros use correct `{-mod}...{+mod}` syntax
+
+---
+
+## Session Context - 2025-01-28
+
+### Key Learnings from This Session
+
+#### 1. ZMK is the Source of Truth
+- All keyboard configs (adv360, glove80, pillzmod_pro) should be kept in sync
+- SmartSet (kinesis2) mirrors ZMK where hardware allows
+- The user upgraded their Kinesis Advantage 2 to run ZMK via Pillz Mod, so SmartSet config is now backup/reference only
+
+#### 2. Repositories Structure
+- **zmk-config-pillzmod-nicenano**: Actual ZMK firmware config (in `/Volumes/ExternalCheyo/source/`)
+- **keyboard_layout_config_mapper**: KLCM tool with configs in `configs/` subdirectory
+- The `pillzmod_pro.keymap` exists in BOTH locations - keep them in sync
+
+#### 3. SmartSet Macro Pattern (CRITICAL)
+When defining macros in SmartSet, you MUST use this pattern:
+```
+[key]>[null]           # Suppress default key output
+{key}>{macro_sequence} # Define the macro
+```
+Without `[key]>[null]`, the key outputs its default character before/instead of the macro.
+
+#### 4. F13-F24 Strategy
+- Left keypad rows 1-3 use F13-F24 for software override (Karabiner, BetterTouchTool)
+- This allows custom per-app shortcuts without changing firmware
+- SmartSet and ZMK are aligned on this
+
+#### 5. Thumb Cluster Unified Mapping
+All keyboards use identical logical positions:
+```
+L1=SPACE  L2=LSHIFT  L3=LALT  L4=LCTRL  L5=LWIN  L6=mo_KEYPAD
+R1=SPACE  R2=RSHIFT  R3=mo_CMD  R4=LCTRL  R5=ESC  R6=mo_KEYPAD
+```
+See `configs/THUMB_CLUSTER_MAPPING.md` for full documentation.
+
+#### 6. CMD Layer has Vim-style Navigation
+Right nav cluster in cmd_layer: `RC(LEFT) RC(DOWN) RC(UP) RC(RIGHT)`
+This enables word-by-word navigation on Mac (Cmd+arrows).
+
+#### 7. Morph Behaviors
+Custom shifted outputs (same across all ZMK configs):
+- `.` → `:` (morph_dot)
+- `,` → `;` (morph_comma)
+- `(` → `<` (morph_parens_left)
+- `)` → `>` (morph_parens_right)
+- `\` → `!` (morph_exclamation)
+- `'` → `` ` `` (morph_quote_single)
+- `"` → `~` (morph_quote_double)
+
+#### 8. Hardware Context
+- User has Kinesis Advantage 2 upgraded with Pillz Mod Pro + Nice!Nano v2
+- Running ZMK firmware (not SmartSet anymore)
+- SmartSet config kept for reference/backup in case needed
+
+#### 9. Key Files to Keep in Sync
+1. `zmk-config-pillzmod-nicenano/config/pillzmod_pro.keymap` (actual firmware)
+2. `keyboard_layout_config_mapper/configs/zmk_adv_mod/pillzmod_pro.keymap` (KLCM copy)
+3. `keyboard_layout_config_mapper/configs/zmk_adv360/adv360.keymap`
+4. `keyboard_layout_config_mapper/configs/zmk_glove80/glove80.keymap`
+5. `keyboard_layout_config_mapper/configs/kinesis2/1_qwerty.txt` (SmartSet backup)
