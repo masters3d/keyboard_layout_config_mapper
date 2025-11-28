@@ -344,61 +344,46 @@ Error: Pin assignment conflict
 - [x] Add translate CLI command ✅
 - [x] Create comprehensive documentation ✅
 
-**PHASE 4: 🚧 IN PROGRESS - ZMK Config Repository Setup**
+**PHASE 4: ✅ COMPLETED - ZMK Config Repository Setup**
+- [x] Repository created: `masters3d/zmk-config-pillzmod-nicenano` ✅
+- [x] GitHub Actions build workflow configured ✅
+- [x] Uses official dcpedit `pillzmod_pro` shield ✅
+- [x] Firmware builds successfully (.uf2 artifacts generated) ✅
+- [x] KLCM download.go points to correct repository/branch ✅
 
-#### Step 1: Create zmk-adv-mod-config Repository
+**Repository Details:**
+- **URL**: https://github.com/masters3d/zmk-config-pillzmod-nicenano
+- **Branch**: `cheyo` (production branch)
+- **Shield**: `pillzmod_pro` (official dcpedit shield)
+- **Board**: `nice_nano_v2`
+
+**PHASE 5: 🚧 IN PROGRESS - Keymap Sync to Remote**
+
+The local KLCM source of truth (`configs/zmk_adv_mod/adv_mod.keymap`) has been enhanced with:
+- [x] Macros (brackets, braces, parens, angle_brackets)
+- [x] Mod-morph behaviors (dot→colon, comma→semicolon, etc.)
+- [x] CMD layer with RC() control key combinations
+- [x] Synced default layer from adv360
+
+**Remaining Task:**
+- [ ] **Push updated keymap to remote repository** - The local KLCM keymap needs to be synced to `masters3d/zmk-config-pillzmod-nicenano` cheyo branch
+
+To sync, use the PR command or manual push:
 ```bash
-# Create new repository on GitHub
-gh repo create zmk-adv-mod-config --public --description "ZMK configuration for Kinesis Advantage keyboards using Pillz Mod with Nice!Nano"
+# Option 1: Use KLCM PR workflow
+klcm pr adv_mod
 
-# Clone and set up locally  
-git clone https://github.com/masters3d/zmk-adv-mod-config.git
-cd zmk-adv-mod-config
-
-# Copy template files (available in /tmp/zmk-adv-mod-config-template)
-cp -r /tmp/zmk-adv-mod-config-template/* .
-
-# Initial commit
-git add .
-git commit -m "Initial ZMK config setup for Advanced Mod
-
-- GitHub Actions build workflow
-- Custom zmk-adv-mod shield definition  
-- Nice!Nano v2 build configuration
-- Base keymap with HOME key positioning
-- Shield files: Kconfig, overlay, keymap, conf"
-
-git push origin main
+# Option 2: Manual sync
+gh repo clone masters3d/zmk-config-pillzmod-nicenano /tmp/zmk-adv-mod
+cd /tmp/zmk-adv-mod
+git checkout cheyo
+cp /path/to/keyboard_layout_config_mapper/configs/zmk_adv_mod/adv_mod.keymap config/adv_mod.keymap
+git add config/adv_mod.keymap
+git commit -m "Sync keymap with KLCM source of truth - Add macros and mod-morphs"
+git push origin cheyo
 ```
 
-#### Step 2: Test Initial Build
-1. **Push repository** - Triggers GitHub Actions build
-2. **Check build results** - Should produce `.uf2` artifacts
-3. **Download artifacts** - Test firmware files are generated
-4. **Fix any build issues** - Adjust pin mappings or configurations
-
-#### Step 3: Hardware Validation (CRITICAL)
-⚠️ **PIN MAPPING VERIFICATION REQUIRED**
-
-The template overlay uses reasonable pin assignments, but **MUST BE VERIFIED** against actual Pillz Mod Pro PCB:
-
-1. **Check PCB schematic** or Pillz Mod documentation for Nice!Nano pin mapping
-2. **Verify row/column assignments** match physical PCB traces  
-3. **Confirm LED pin assignments** for status indicators
-4. **Test matrix scanning** - ensure all keys register correctly
-
-**Pin Assignment Notes:**
-- Rows: Uses pro_micro pins 0-10, 14-16, 18 (15 total)
-- Columns: Uses pro_micro pins 19-21 + A0-A3 (7 total)  
-- LEDs: Commented out - requires PCB verification
-
-#### Step 4: Keymap Integration Testing
-1. **Update KLCM download.go** to point to new repository
-2. **Test keymap sync** from KLCM to ZMK config repo  
-3. **Verify PR automation** works with new repository
-4. **Test build trigger** on keymap changes
-
-**PHASE 3: 📋 PLANNED - Production Validation**
+**PHASE 6: 📋 PLANNED - Production Validation**
 - [ ] Flash firmware to actual hardware
 - [ ] Test all keys and matrix positions  
 - [ ] Verify wireless connectivity
@@ -406,7 +391,7 @@ The template overlay uses reasonable pin assignments, but **MUST BE VERIFIED** a
 - [ ] Validate status LEDs
 - [ ] Document flashing and usage process
 
-**PHASE 4: 📋 PLANNED - Documentation & Maintenance**
+**PHASE 7: 📋 PLANNED - Documentation & Maintenance**
 - [ ] Complete hardware assembly documentation
 - [ ] Create troubleshooting guides
 - [ ] Set up automated testing workflow
