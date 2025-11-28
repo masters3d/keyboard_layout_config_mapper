@@ -419,8 +419,170 @@ git push origin cheyo
 
 ---
 
-*Last Updated: 2025-01-08*  
-*Version: v8_automated*
+*Last Updated: 2025-11-28*  
+*Version: v8_mapping_layer*
+
+## Mapping Layer Translation System
+
+### Current State (v8_mapping_layer)
+
+The translation system now uses **mapping layers** embedded in each keyboard's keymap file. Each key's binding VALUE in the mapping layer defines its logical identity (KeyID), enabling accurate translation between keyboards.
+
+### Mapping Layer Structure
+
+Each keyboard has a `layer2_mapping` or `mapping_layer` that defines key identities:
+
+```zmk
+layer2_mapping {
+  bindings = <
+    &kp GRAVE  &kp N1    &kp N2    ...  // Number row
+    &kp TAB    &kp Q     &kp W     ...  // QWERTY row
+    &kp ESC    &kp A     &kp S     ...  // Home row
+    &kp LSHFT  &kp Z     &kp X     ...  // Bottom row
+    &kp KP_N3  &kp KP_N4 &kp KP_N5 ...  // Thumb keys (use KP_N* for unique IDs)
+  >;
+};
+```
+
+### Thumb Key Identifiers
+
+Thumb keys use keypad numbers as unique identifiers (since they don't conflict with main keyboard):
+
+| KeyID | Function | Notes |
+|-------|----------|-------|
+| KP_N1 | LAYER_KEYPAD (left) | Inner thumb |
+| KP_N2 | WIN/GUI (left) | |
+| KP_N3 | SPACE (left) | Outer thumb |
+| KP_N4 | SHIFT (left) | |
+| KP_N5 | ALT (left) | |
+| KP_N7 | ESC (right) | Inner thumb |
+| KP_N8 | LAYER_KEYPAD (right) | |
+| KP_N9 | LAYER_CMD (right) | Outer thumb |
+| KP_N0 | SHIFT (right) | |
+| KP_PLUS | SPACE (right) | |
+| LCTRL | CTRL key | Center |
+| KP_DIVIDE | TAB key | Center |
+
+### Translation Coverage
+
+| Source → Target | Keys Matched | Coverage |
+|----------------|--------------|----------|
+| adv360 → adv_mod | 70/76 | 92% |
+| adv360 → glove80 | 70/80 | 88% |
+| glove80 → adv_mod | 75/86 | 87% |
+
+## Glove80 Generator Requirements
+
+### Current Limitation
+
+The glove80 output uses `writeGenericBindings` which doesn't preserve the proper row structure. To generate valid glove80 keymaps, we need a dedicated `writeGlove80Bindings` function.
+
+### Required Implementation
+
+**File**: `internal/generators/zmk_generator.go`
+
+Add a new function `writeGlove80Bindings` that outputs the proper glove80 format:
+
+```go
+// writeGlove80Bindings writes bindings in Glove80 format
+func (g *ZMKGenerator) writeGlove80Bindings(sb *strings.Builder, layer *models.Layer) {
+    // Glove80 layout: 80 keys total
+    // Row 0: 5 left + 5 right = 10 (function row)
+    // Row 1: 6 left + 6 right = 12 (number row)
+    // Row 2: 6 left + 6 right = 12 (QWERTY)
+    // Row 3: 6 left + 6 right = 12 (home row)
+    // Row 4: 6 left + 6 inner + 6 right = 18 (bottom + inner thumb)
+    // Row 5: 5 left + 3 outer + 3 outer + 5 right = 16 (modifier + outer thumb)
+    
+    bindingMap := make(map[string]string)
+    for _, binding := range layer.Bindings {
+        key := fmt.Sprintf("%s_%d_%d", binding.Position.Side, binding.Position.Row, binding.Position.Col)
+        bindingMap[key] = binding.Value
+    }
+    
+    // Row 0: Function row (5+5)
+    writeRow(sb, bindingMap, 0, 5, 5, "")
+    
+    // Rows 1-3: Main alpha rows (6+6 each)
+    for row := 1; row <= 3; row++ {
+        writeRow(sb, bindingMap, row, 6, 6, "")
+    }
+    
+    // Row 4: Bottom + inner thumb (6 left + 6 inner + 6 right)
+    // Format: 6 left main, 6 inner thumb, 6 right main
+    writeRowWithThumb(sb, bindingMap, 4, 6, 6, 6)
+    
+    // Row 5: Modifier + outer thumb
+    // Format: 5 left, 3 left thumb, 3 right thumb, 5 right
+    writeModifierRow(sb, bindingMap, 5)
+}
+```
+
+### Position Calculation for Glove80
+
+Add `indexToPositionGlove80` function:
+
+```go
+func indexToPositionGlove80(index, totalKeys int) models.Position {
+    // Glove80: 80 keys
+    // Row 0: 10 keys (5+5 function)
+    // Row 1-3: 12 keys each (6+6)
+    // Row 4: 18 keys (6+6+6 with inner thumb)
+    // Row 5: 16 keys (5+3+3+5 with outer thumb)
+    
+    var row, col int
+    var side string
+    
+    switch {
+    case index < 10:
+        // Function row
+        row = 0
+        if index < 5 {
+            side = "left"
+            col = index
+        } else {
+            side = "right"
+            col = index - 5
+        }
+    case index < 22:
+        // Number row
+        row = 1
+        idx := index - 10
+        // ... similar logic
+    // ... remaining rows
+    }
+    
+    return models.Position{Row: row, Col: col, Side: side}
+}
+```
+
+### Generator Selection
+
+Update `writeBindings` to select the correct generator:
+
+```go
+func (g *ZMKGenerator) writeBindings(sb *strings.Builder, layer *models.Layer) {
+    switch g.keyboardType {
+    case models.KeyboardZMKAdvMod:
+        g.writeAdvModBindings(sb, layer)
+    case models.KeyboardZMKGlove80:
+        g.writeGlove80Bindings(sb, layer)  // NEW
+    case models.KeyboardZMKAdv360:
+        g.writeAdv360Bindings(sb, layer)   // NEW (optional)
+    default:
+        g.writeGenericBindings(sb, layer)
+    }
+}
+```
+
+### Testing Checklist
+
+- [ ] `klcm translate --from adv360 --to glove80` produces valid glove80 format
+- [ ] Row structure matches original glove80.keymap
+- [ ] All 80 positions are correctly filled
+- [ ] Thumb cluster keys in proper positions
+- [ ] Inner thumb (row 4) formatted correctly with 18 keys
+- [ ] Outer thumb (row 5) formatted correctly with 16 keys
 
 ## Sync Workflow Documentation
 
