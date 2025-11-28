@@ -274,14 +274,22 @@ bindings = <
 >;
 };
 
-layer2_padding {
+layer2_mapping {
+// MAPPING LAYER: Each key's VALUE defines its logical identity for translation.
+// Glove80 layout: 80 keys (10+12+12+12+18+16)
 bindings = <
-&trans  &trans  &trans  &trans  &trans                                                             &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                                             &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                                             &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                                             &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans &trans &trans &trans &trans &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans          &trans &trans &trans &trans &trans &trans          &trans  &trans  &trans  &trans  &trans
+// Row 0: Function row (5 left + 5 right = 10)
+&kp F1     &kp F2     &kp F3    &kp F4    &kp F5                                                                       &kp F6     &kp F7     &kp F8     &kp F9     &kp F10
+// Row 1: Number/symbol row (6 left + 6 right = 12)
+&kp GRAVE  &kp N1     &kp N2    &kp N3    &kp N4    &kp N5                                                     &kp N6  &kp N7     &kp N8     &kp N9     &kp N0     &kp BSPC
+// Row 2: QWERTY row (6 left + 6 right = 12)
+&kp TAB    &kp Q      &kp W     &kp E     &kp R     &kp T                                                      &kp Y   &kp U      &kp I      &kp O      &kp P      &kp BSLH
+// Row 3: Home row (6 left + 6 right = 12)
+&kp ESC    &kp A      &kp S     &kp D     &kp F     &kp G                                                      &kp H   &kp J      &kp K      &kp L      &kp SEMI   &kp SQT
+// Row 4: Bottom row + inner thumb (6 left + 6 inner + 6 right = 18)
+&kp LSHFT  &kp Z      &kp X     &kp C     &kp V     &kp B     &kp KP_N1  &kp KP_N2  &kp LCTRL  &kp RCTRL  &kp KP_N7  &kp KP_N8  &kp N      &kp M      &kp COMMA  &kp DOT    &kp SLASH  &kp RSHFT
+// Row 5: Modifier row + outer thumb (5 left + 3 outer + 3 outer + 5 right = 16)
+&kp LGUI   &kp HOME   &kp LALT  &none     &none               &kp KP_N3  &kp KP_N4  &kp KP_N5  &kp KP_N9  &kp KP_N0  &kp KP_PLUS            &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT  &kp RGUI
 >;
 };
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"masters3d.com/keyboard_layout_config_mapper/internal/generators"
@@ -121,14 +122,33 @@ func runTranslate(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	// Convert from IR to target using UnifiedMapper
+	// Convert from IR to target using UnifiedMapper with mapping layers
 	targetType := models.KeyboardType(translateTargetType)
-	fmt.Printf("🔄 Converting to %s using KeyID-based mapping...\n", targetType)
+	fmt.Printf("🔄 Converting to %s using mapping layer translation...\n", targetType)
 	
-	// Use the new UnifiedMapper for KeyID-based translation
+	// Load target layout to get its mapping layer
+	targetLayoutForMapping, err := loadLayout(targetType)
+	if err != nil {
+		return fmt.Errorf("failed to load target layout: %w", err)
+	}
+	
+	// Extract mapping layer bindings from both layouts
+	sourceMappingBindings := extractMappingLayerBindings(sourceLayout)
+	targetMappingBindings := extractMappingLayerBindings(targetLayoutForMapping)
+	
+	// Create unified mapper with mapping layer data
 	unifiedMapper, err := mappers.NewUnifiedMapper(sourceType, targetType)
 	if err != nil {
 		return fmt.Errorf("failed to create unified mapper: %w", err)
+	}
+	
+	// If we have mapping layers, use them
+	if len(sourceMappingBindings) > 0 && len(targetMappingBindings) > 0 {
+		fmt.Printf("   📋 Using mapping layers: source=%d keys, target=%d keys\n", 
+			len(sourceMappingBindings), len(targetMappingBindings))
+		unifiedMapper.SetMappingLayers(sourceMappingBindings, targetMappingBindings)
+	} else {
+		fmt.Printf("   ⚠️  No mapping layers found, using physical layout fallback\n")
 	}
 	
 	targetLayout, err := unifiedMapper.TranslateLayout(sourceLayout)
@@ -291,6 +311,29 @@ func isValidKeyboardType(keyboardType models.KeyboardType) bool {
 	default:
 		return false
 	}
+}
+
+// extractMappingLayerBindings extracts binding values from the mapping layer
+// Looks for layers named "layer2_mapping", "mapping_layer", or "layer_mapping"
+func extractMappingLayerBindings(layout *models.KeyboardLayout) []string {
+	mappingLayerNames := []string{"layer2_mapping", "mapping_layer", "layer_mapping", "mapping"}
+	
+	for _, layer := range layout.Layers {
+		layerNameLower := strings.ToLower(layer.Name)
+		for _, mappingName := range mappingLayerNames {
+			if strings.Contains(layerNameLower, strings.ToLower(mappingName)) || 
+			   strings.Contains(layerNameLower, "mapping") {
+				// Found the mapping layer - extract binding values
+				bindings := make([]string, len(layer.Bindings))
+				for i, binding := range layer.Bindings {
+					bindings[i] = binding.Value
+				}
+				return bindings
+			}
+		}
+	}
+	
+	return nil
 }
 
 // getMapper returns the appropriate mapper for a keyboard type
