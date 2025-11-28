@@ -43,7 +43,7 @@ func GetConfigPath(keyboardType models.KeyboardType) (string, error) {
 	case models.KeyboardZMKGlove80:
 		return filepath.Join(configsDir, "zmk_glove80", "glove80.keymap"), nil
 	case models.KeyboardZMKAdvMod:
-		return filepath.Join(configsDir, "zmk_adv_mod", "adv_mod.keymap"), nil
+		return filepath.Join(configsDir, "zmk_adv_mod", "pillzmod_pro.keymap"), nil
 	case models.KeyboardQMKErgoDox:
 		return filepath.Join(configsDir, "qmk_ergodox", "keymap.c"), nil
 	case models.KeyboardKinesis2:

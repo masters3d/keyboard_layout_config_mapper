@@ -161,7 +161,7 @@ func getRemoteURL(keyboardType models.KeyboardType) (string, error) {
 	case models.KeyboardZMKGlove80:
 		return baseURL + "/zmk_glove80/glove80.keymap", nil
 	case models.KeyboardZMKAdvMod:
-		return "https://raw.githubusercontent.com/masters3d/zmk-config-pillzmod-nicenano/cheyo/config/adv_mod.keymap", nil
+		return "https://raw.githubusercontent.com/masters3d/zmk-config-pillzmod-nicenano/cheyo/config/pillzmod_pro.keymap", nil
 	default:
 		return "", fmt.Errorf("unsupported keyboard type: %s", keyboardType)
 	}

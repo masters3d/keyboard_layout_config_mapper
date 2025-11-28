@@ -128,8 +128,8 @@ var keyboards = []keyboardConfig{
 	{
 		name:     "adv_mod",
 		dir:      "configs/zmk_adv_mod",
-		filename: "adv_mod.keymap",
-		url:      "https://raw.githubusercontent.com/masters3d/zmk-config-pillzmod-nicenano/cheyo/config/adv_mod.keymap",
+		filename: "pillzmod_pro.keymap",
+		url:      "https://raw.githubusercontent.com/masters3d/zmk-config-pillzmod-nicenano/cheyo/config/pillzmod_pro.keymap",
 	},
 }
 
@@ -221,14 +221,14 @@ func printSummary() {
 	fmt.Println("  - configs/qmk_ergodx/: QMK ErgoDox keymap (keymap.c)")
 	fmt.Println("  - configs/zmk_glove80/: Glove80 ZMK keymap (glove80.keymap)")
 	fmt.Println("  - configs/zmk_adv360/: Advantage360 ZMK keymap (adv360.keymap)")
-	fmt.Println("  - configs/zmk_adv_mod/: Kinesis Advantage (Pillz Mod) ZMK keymap (adv_mod.keymap)")
+	fmt.Println("  - configs/zmk_adv_mod/: Kinesis Advantage (Pillz Mod) ZMK keymap (pillzmod_pro.keymap)")
 	
 	fmt.Println("\n🔗 Repository mapping:")
 	fmt.Println("  - Kinesis Advantage 2: masters3d/supportfiles/master/1_qwerty.txt")
 	fmt.Println("  - QMK ErgoDox: masters3d/qmk_firmware/masters3d/keyboards/ergodox_ez/keymaps/masters3d/keymap.c")
 	fmt.Println("  - Glove80: masters3d/glove80-zmk-config/cheyo/config/glove80.keymap")
 	fmt.Println("  - Advantage360: masters3d/Adv360-Pro-ZMK/cheyo/config/adv360.keymap")
-	fmt.Println("  - Advantage Mod: masters3d/zmk-config-pillzmod-nicenano/cheyo/config/adv_mod.keymap")
+	fmt.Println("  - Advantage Mod: masters3d/zmk-config-pillzmod-nicenano/cheyo/config/pillzmod_pro.keymap")
 }
 
 func previewKeyboardChanges(name string) (bool, error) {
