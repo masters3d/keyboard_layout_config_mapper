@@ -24,8 +24,6 @@ var (
 type RepoConfig struct {
 	Name        string
 	Owner       string
-	Repo        string // GitHub repo name (e.g., "Adv360-Pro-ZMK")
-	BaseBranch  string // Target branch for PRs (e.g., "cheyo", "main")
 	LocalPath   string
 	RemoteURL   string
 	DefaultFile string
@@ -35,8 +33,6 @@ var repoConfigs = []RepoConfig{
 	{
 		Name:        "adv360",
 		Owner:       "masters3d",
-		Repo:        "Adv360-Pro-ZMK",
-		BaseBranch:  "cheyo",
 		LocalPath:   "configs/zmk_adv360",
 		RemoteURL:   "https://github.com/masters3d/Adv360-Pro-ZMK",
 		DefaultFile: "adv360.keymap",
@@ -44,8 +40,6 @@ var repoConfigs = []RepoConfig{
 	{
 		Name:        "glove80", 
 		Owner:       "masters3d",
-		Repo:        "glove80-zmk-config",
-		BaseBranch:  "cheyo",
 		LocalPath:   "configs/zmk_glove80",
 		RemoteURL:   "https://github.com/masters3d/glove80-zmk-config",
 		DefaultFile: "glove80.keymap",
@@ -53,11 +47,9 @@ var repoConfigs = []RepoConfig{
 	{
 		Name:        "adv_mod",
 		Owner:       "masters3d",
-		Repo:        "zmk-config-pillzmod-nicenano",
-		BaseBranch:  "cheyo",
 		LocalPath:   "configs/zmk_adv_mod",
 		RemoteURL:   "https://github.com/masters3d/zmk-config-pillzmod-nicenano",
-		DefaultFile: "pillzmod_pro.keymap",
+		DefaultFile: "adv_mod.keymap",
 	},
 }
 
@@ -284,7 +276,7 @@ func createActualPRs(repos []RepoConfig) error {
 		return fmt.Errorf("not authenticated with GitHub")
 	}
 
-	timestamp := time.Now().Format("20060102-150405")
+	timestamp := time.Now().Format("20060102")
 	branchPrefix := "klcm-sync"
 	if prBranch != "" {
 		branchPrefix = prBranch
@@ -327,77 +319,64 @@ func createActualPRs(repos []RepoConfig) error {
 }
 
 func createPRForRepo(repo RepoConfig, branchName string) (string, error) {
-	// Get current directory (KLCM root)
-	klcmRoot, err := os.Getwd()
+	// Get current directory
+	currentDir, err := os.Getwd()
 	if err != nil {
 		return "", err
 	}
 
-	// Create temp directory for cloning
-	tempDir, err := os.MkdirTemp("", "klcm-pr-*")
-	if err != nil {
-		return "", fmt.Errorf("failed to create temp directory: %w", err)
-	}
-	defer os.RemoveAll(tempDir)
-
-	// Clone the remote repo (clone the target base branch)
-	repoDir := filepath.Join(tempDir, repo.Name)
-	cloneCmd := exec.Command("git", "clone", "--depth", "1", "--branch", repo.BaseBranch, repo.RemoteURL, repoDir)
-	if output, err := cloneCmd.CombinedOutput(); err != nil {
-		return "", fmt.Errorf("failed to clone repo: %s", string(output))
-	}
-
-	// Change to cloned repo directory
-	if err := os.Chdir(repoDir); err != nil {
+	// Change to repo directory
+	repoPath := filepath.Join(currentDir, repo.LocalPath)
+	if err := os.Chdir(repoPath); err != nil {
 		return "", fmt.Errorf("failed to change to repo directory: %w", err)
 	}
-	defer os.Chdir(klcmRoot)
+	defer os.Chdir(currentDir)
 
-	// Create new branch
-	if err := runGitCommand("checkout", "-b", branchName); err != nil {
-		return "", fmt.Errorf("failed to create branch: %w", err)
-	}
-
-	// Copy the local keymap file to the cloned repo's config directory
-	localFile := filepath.Join(klcmRoot, repo.LocalPath, repo.DefaultFile)
-	
-	// Determine destination path in cloned repo (usually config/<filename>)
-	destFile := filepath.Join(repoDir, "config", repo.DefaultFile)
-	
-	// Ensure config directory exists
-	if err := os.MkdirAll(filepath.Dir(destFile), 0755); err != nil {
-		return "", fmt.Errorf("failed to create config directory: %w", err)
-	}
-
-	// Read local file
-	content, err := os.ReadFile(localFile)
+	// Check if we're already on a different branch
+	currentBranch, err := getCurrentBranch()
 	if err != nil {
-		return "", fmt.Errorf("failed to read local config: %w", err)
+		return "", fmt.Errorf("failed to get current branch: %w", err)
 	}
 
-	// Write to destination
-	if err := os.WriteFile(destFile, content, 0644); err != nil {
-		return "", fmt.Errorf("failed to write config: %w", err)
+	// If we're not on main/master, we may already have our changes
+	if currentBranch != "main" && currentBranch != "master" {
+		if verbose {
+			fmt.Printf("   📋 Currently on branch: %s\n", currentBranch)
+		}
+		// Use current branch instead of creating new one
+		branchName = currentBranch
+	} else {
+		// Create new branch from current state
+		if err := runGitCommand("checkout", "-b", branchName); err != nil {
+			return "", fmt.Errorf("failed to create branch: %w", err)
+		}
 	}
 
-	// Check if there are changes
-	statusCmd := exec.Command("git", "status", "--porcelain")
-	output, err := statusCmd.Output()
-	if err != nil || strings.TrimSpace(string(output)) == "" {
-		return "", fmt.Errorf("no changes detected after copying file")
+	// Check if there are uncommitted changes to add and commit
+	cmd := exec.Command("git", "status", "--porcelain")
+	output, err := cmd.Output()
+	hasUncommitted := err == nil && strings.TrimSpace(string(output)) != ""
+
+	if hasUncommitted {
+		// Add and commit uncommitted changes
+		if err := runGitCommand("add", "."); err != nil {
+			return "", fmt.Errorf("failed to add changes: %w", err)
+		}
+
+		// Create commit message
+		commitMsg := fmt.Sprintf("Update %s keyboard layout configuration\n\nGenerated by KLCM (Keyboard Layout Configuration Mapper)", repo.Name)
+		
+		// Commit changes
+		if err := runGitCommand("commit", "-m", commitMsg); err != nil {
+			return "", fmt.Errorf("failed to commit changes: %w", err)
+		}
+	} else {
+		if verbose {
+			fmt.Printf("   📋 No uncommitted changes, using existing commits\n")
+		}
 	}
 
-	// Add and commit
-	if err := runGitCommand("add", "."); err != nil {
-		return "", fmt.Errorf("failed to add changes: %w", err)
-	}
-
-	commitMsg := fmt.Sprintf("Update %s keyboard layout configuration\n\nGenerated by KLCM (Keyboard Layout Configuration Mapper)", repo.Name)
-	if err := runGitCommand("commit", "-m", commitMsg); err != nil {
-		return "", fmt.Errorf("failed to commit changes: %w", err)
-	}
-
-	// Push branch
+	// Push branch (this will push whatever commits we have)
 	if err := runGitCommand("push", "-u", "origin", branchName); err != nil {
 		return "", fmt.Errorf("failed to push branch: %w", err)
 	}
@@ -421,19 +400,17 @@ This PR contains keyboard layout configuration updates generated by KLCM (Keyboa
 Please review the changes and test the configuration before merging.`, repo.Name, time.Now().Format("2006-01-02"), branchName)
 
 	// Create PR
-	prCmd := exec.Command("gh", "pr", "create",
-		"--repo", fmt.Sprintf("%s/%s", repo.Owner, repo.Repo),
-		"--base", repo.BaseBranch,
+	cmd = exec.Command("gh", "pr", "create", 
 		"--title", prTitle,
 		"--body", prBody,
 		"--head", branchName)
-
-	prOutput, err := prCmd.CombinedOutput()
+	
+	output, err = cmd.Output()
 	if err != nil {
-		return "", fmt.Errorf("failed to create PR: %s", string(prOutput))
+		return "", fmt.Errorf("failed to create PR: %w", err)
 	}
 
-	prURL := strings.TrimSpace(string(prOutput))
+	prURL := strings.TrimSpace(string(output))
 	return prURL, nil
 }
 
