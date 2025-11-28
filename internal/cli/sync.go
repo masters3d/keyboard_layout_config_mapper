@@ -159,7 +159,7 @@ func getKeyboardConfigPath(keyboard string) string {
 	paths := map[string]string{
 		"adv360":     "configs/zmk_adv360/adv360.keymap",
 		"glove80":    "configs/zmk_glove80/glove80.keymap",
-		"adv_mod":    "configs/zmk_adv_mod/adv_mod.keymap",
+		"adv_mod":    "configs/zmk_adv_mod/pillzmod_pro.keymap",
 		"qmk_ergodox": "configs/qmk_ergodox/keymap.c",
 		"kinesis2":   "configs/kinesis2/1_qwerty.txt",
 	}
