@@ -614,3 +614,87 @@ The IR translation system provides:
 - Layer mapping configuration ✅
 - Physical layout awareness (preserve hardware-specific keys) ✅
 - Zone-based intelligent key mapping ✅
+
+---
+
+## Translation Tool Issues (2025-11-28)
+
+### Current Problems with `klcm translate`
+
+When running `klcm translate --from adv360 --to adv_mod`, the generated output has several critical issues:
+
+#### Issue 1: Wrong Layer Structure
+**Problem**: Generated output has 9 layers with wrong numbering (LAYER_KEYPAD=6, LAYER_FN=7, LAYER_MOD=8)
+**Expected**: 4 functional layers (LAYER_KEYPAD=1, LAYER_CMD=2, LAYER_SYSTEM=3) + mapping_layer
+**Root Cause**: The translation copies all source layers verbatim without filtering or renumbering
+**Fix Location**: `internal/mappers/unified_mapper.go` - `TranslateLayout()` needs layer filtering
+
+#### Issue 2: Macros in Wrong Section
+**Problem**: Macros are embedded in the behaviors section instead of a separate macros section
+**Expected**: ZMK format requires `macros { }` block before `behaviors { }`
+**Fix Location**: `internal/generators/zmk_generator.go` - `writeBehaviors()` should not include macros
+
+#### Issue 3: Missing Morph Behaviors
+**Problem**: `morph_parens_left`, `morph_parens_right`, `macro_parens`, `macro_angle_brackets` are missing
+**Expected**: All morph behaviors from source should be detected and included
+**Fix Location**: `internal/generators/zmk_generator.go` - `writeMorphBehaviors()` needs to check for all morph types
+
+#### Issue 4: Wrong Layer Names
+**Problem**: Generated uses `layer0_default`, `layer7_fn` instead of `default_layer`, `cmd_layer`
+**Expected**: Use semantic names that match the source keymap naming conventions
+**Fix Location**: `internal/generators/zmk_generator.go` - `writeLayer()` should use proper names
+
+#### Issue 5: Uses RG() Instead of RC()
+**Problem**: The CMD layer uses `RG(Q)` (Right GUI/Command) instead of `RC(Q)` (Right Control)
+**Expected**: adv_mod should use RC() for the CMD layer to match glove80 behavior
+**Fix Location**: Either in translation or as a configurable option per keyboard
+
+#### Issue 6: Source Metadata Shows `%!s(<nil>)`
+**Problem**: The header shows `Source: %!s(<nil>)` instead of proper source info
+**Fix Location**: `internal/generators/zmk_generator.go` - `writeHeader()` needs nil check
+
+#### Issue 7: Padding Layers Included
+**Problem**: Empty padding layers (3, 4, 5) are included in output
+**Expected**: Padding layers should be filtered out during translation
+**Fix Location**: `internal/mappers/unified_mapper.go` - filter layers by name/content
+
+### Fix Priority Order
+
+1. ✅ **Layer filtering** - Remove padding layers, only include functional layers
+2. ✅ **Layer renumbering** - Update LAYER_* defines to match target expectations
+3. ✅ **Macros section** - Move macros to separate section before behaviors
+4. ✅ **Missing behaviors** - Ensure all morph/macro types are detected
+5. ✅ **Layer names** - Use semantic names (`default_layer`, `keypad_layer`, etc.)
+6. ✅ **Header metadata** - Fix nil source reference with proper keyboard-specific headers
+7. ⏳ **RG→RC conversion** - Add per-keyboard modifier mapping (optional, documented)
+
+### Fixes Implemented (2025-11-28)
+
+**Generator improvements:**
+- Header now shows keyboard-specific info (repo URL, branch for adv_mod)
+- Macros section is separate from behaviors section (ZMK format requirement)
+- All morph behaviors include comment hints (e.g., `// &dot_override,`)
+- Semantic layer names: `default_layer`, `keypad_layer`, `cmd_layer`, `system_layer`
+- Descriptive layer comments
+- Padding layers are filtered out during generation
+- Fixed layer defines for adv_mod: LAYER_KEYPAD=1, LAYER_CMD=2, LAYER_SYSTEM=3
+
+**Remaining items:**
+- RG()→RC() conversion for CMD layer (optional, adv360 uses RG, glove80 uses RC)
+- Per-keyboard modifier preference configuration
+
+### Files to Modify
+
+1. `internal/mappers/unified_mapper.go`
+   - Add layer filtering (remove padding)
+   - Add layer renumbering based on target layout
+
+2. `internal/generators/zmk_generator.go`
+   - Separate macros section from behaviors
+   - Fix layer naming convention
+   - Fix header metadata nil check
+   - Add all morph behavior types
+
+3. `internal/cli/translate.go`
+   - Pass target layer configuration to mapper
+   - Support layer mapping (source layer X → target layer Y)
