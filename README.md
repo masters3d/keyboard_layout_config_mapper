@@ -128,10 +128,13 @@ go build -o klcm cmd/klcm/main.go
 ### **ZMK Keyboards (Primary Focus)**
 - **Advantage360 Pro** (`configs/zmk_adv360/`)
 - **Glove80** (`configs/zmk_glove80/`)
+- **Pillz Mod Pro** (`configs/zmk_adv_mod/`) - Nice!Nano with ZMK
+
+### **Native Firmware**
+- **Kinesis Advantage 2** (`configs/kinesis2/`) - SmartSet configuration
 
 ### **Future Support**
 - QMK keyboards
-- Kinesis keyboards  
 - Additional ZMK keyboards
 
 ## 🎯 Key Benefits

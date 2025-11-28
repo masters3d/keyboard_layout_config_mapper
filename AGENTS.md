@@ -372,3 +372,141 @@ The template overlay uses reasonable pin assignments, but **MUST BE VERIFIED** a
 
 *Last Updated: 2025-01-06*  
 *Version: v7_target*
+
+---
+
+## Kinesis Advantage 2 SmartSet Configuration Guide
+
+### Overview
+SmartSet is the native programming system for Kinesis Advantage 2 keyboards. Configuration files use a text-based syntax stored on the keyboard's internal drive. KLCM supports SmartSet through the `kinesis2` keyboard type.
+
+**Configuration Location**: `configs/kinesis2/1_qwerty.txt`
+
+### SmartSet Syntax Reference
+
+#### Basic Key Remapping
+```
+[source_key]>[target_key]
+```
+Example: `[caps]>[bspace]` - Remap Caps Lock to Backspace
+
+#### Keypad Layer Remapping
+Prefix with `kp-` for keypad layer:
+```
+[kp-caps]>[bspace]
+```
+
+#### Macro Definitions
+Use curly braces `{}` for macros:
+```
+{trigger_key}>{speed9}{key1}{key2}{key3}
+```
+Example: `{=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}` - Screenshot macro
+
+#### Modifier Syntax
+- `{-modifier}` = Press and hold modifier
+- `{+modifier}` = Release modifier
+- Modifiers: `lshift`, `rshift`, `lctrl`, `rctrl`, `lalt`, `ralt`, `lwin`, `rwin`
+
+Example: `{-lctrl}{bspace}{+lctrl}` = Ctrl+Backspace
+
+### ⚠️ Critical: Macro + Null Pattern
+
+**IMPORTANT FOR AI AGENTS**: When defining a macro `{key}>{...}`, you MUST also set `[key]>[null]` so the base key outputs nothing and the macro is triggered instead.
+
+**Without `[key]>[null]`**: The key outputs its default character before/instead of executing the macro.
+
+**Correct Pattern**:
+```
+*# Comment explaining the macro
+[key]>[null]
+{key}>{speed9}{macro_sequence}
+```
+
+**Example - Screenshot on `=` key**:
+```
+*# This will take a screenshot (matches ZMK LS(LG(S)))
+[=]>[null]
+[kp-=]>[null]
+{=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
+{kp-=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
+```
+
+**Example - Bracket macros**:
+```
+*# macro_brackets: []←
+[kp=]>[null]
+{kp=}>{speed9}{obrack}{cbrack}{left}
+
+*# macro_braces: {}←
+[kpdiv]>[null]
+{kpdiv}>{speed9}{-lshift}{obrack}{+lshift}{-lshift}{cbrack}{+lshift}{left}
+```
+
+### Speed Settings
+- `{speed1}` to `{speed9}` - Macro playback speed (9 = fastest)
+- Use `{speed9}` for simple key sequences
+- Use `{speed5}` for complex multi-key operations
+
+### Common Key Names
+
+| SmartSet Name | Key |
+|---------------|-----|
+| `lshift`, `rshift` | Shift keys |
+| `lctrl`, `rctrl` | Control keys |
+| `lalt`, `ralt` | Alt/Option keys |
+| `lwin`, `rwin` | Windows/Command keys |
+| `bspace` | Backspace |
+| `escape` | Escape |
+| `obrack`, `cbrack` | [ and ] |
+| `hyphen` | - (minus) |
+| `pup`, `pdown` | Page Up, Page Down |
+| `kpshft` | Keypad layer toggle |
+| `intl-\` | International backslash |
+| `null` | No output (for macro triggers) |
+
+### Comments
+Lines starting with `*#` are comments:
+```
+*# This is a comment
+*# Aligned with ZMK - description of what this does
+```
+
+### Layer System
+SmartSet has two layers:
+1. **Default Layer**: Normal key mappings
+2. **Keypad Layer**: Accessed via `kpshft`, prefixed with `kp-`
+
+Both layers should be configured together:
+```
+[caps]>[bspace]
+[kp-caps]>[bspace]
+```
+
+### Aligning SmartSet with ZMK
+
+When maintaining both SmartSet (Kinesis Advantage 2) and ZMK (Pillz Mod) configurations:
+
+1. **ZMK is the source of truth** for layout decisions
+2. **SmartSet should mirror ZMK** where hardware allows
+3. **Use F13-F24** for software-overridable keys
+4. **Document differences** with comments
+
+**Example - F13-F24 for software override**:
+```
+*# left keypad row 1
+*# Aligned with ZMK - F13-F16 for software override
+[kp-q]>[F13]
+[kp-w]>[F14]
+[kp-e]>[F15]
+[kp-r]>[F16]
+```
+
+### Validation Checklist
+
+When updating SmartSet configs:
+- [ ] All macros have corresponding `[key]>[null]` entries
+- [ ] Both default and keypad layer versions exist (`[key]` and `[kp-key]`)
+- [ ] Comments explain non-obvious mappings
+- [ ] Configuration aligns with ZMK source of truth
+- [ ] Modifier macros use correct `{-mod}...{+mod}` syntax
