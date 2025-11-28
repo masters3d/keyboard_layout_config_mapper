@@ -134,16 +134,18 @@
 {kp-b}>{speed9}{-lshift}{2}{+lshift}
 
 *# left keypad row 4 (only four keys)
-[kp-`]>[left]
-[kp-insert]>[down]
-[kp-left]>[up]
-[kp-right]>[right]
+*# Aligned with ZMK - HOME/PGDN/PGUP/END
+[kp-`]>[home]
+[kp-insert]>[pdown]
+[kp-left]>[pup]
+[kp-right]>[end]
 
 *# left row 4 (only four keys)
-[`]>[left]
-[intl-\]>[down]
-[left]>[up]
-*[right]>[right]
+*# Aligned with ZMK - HOME/PGDN/PGUP/END
+[`]>[home]
+[intl-\]>[pdown]
+[left]>[pup]
+*[right]>[end]
 
 *# right row 0
 [6]>[\]
