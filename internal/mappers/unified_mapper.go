@@ -273,7 +273,7 @@ func indexToPosition(index, totalKeys int) models.Position {
 			col = idx - 6
 		}
 	case index < 74:
-		// Modifier row
+		// Modifier row (row 5)
 		row = 5
 		idx := index - 66
 		if idx < 4 {
@@ -284,7 +284,8 @@ func indexToPosition(index, totalKeys int) models.Position {
 			col = idx - 4
 		}
 	case index < 78:
-		// Thumb top
+		// Thumb top (row 6): generator expects 4 cols per side, but we only have 2
+		// So use cols 0-1 for left, 0-1 for right
 		row = 6
 		idx := index - 74
 		if idx < 2 {
@@ -295,7 +296,8 @@ func indexToPosition(index, totalKeys int) models.Position {
 			col = idx - 2
 		}
 	case index < 80:
-		// Thumb middle
+		// Thumb middle (row 7): generator expects 2 cols per side, but we have 1
+		// Use col 0 for both
 		row = 7
 		idx := index - 78
 		if idx < 1 {
@@ -306,8 +308,8 @@ func indexToPosition(index, totalKeys int) models.Position {
 			col = 0
 		}
 	default:
-		// Thumb bottom
-		row = 8
+		// Thumb bottom (row 9 in generator): 3 cols per side
+		row = 9  // Changed from 8 to 9 to match generator
 		idx := index - 80
 		if idx < 3 {
 			side = "left"
