@@ -1,6 +1,6 @@
 # Thumb Cluster Mapping Documentation
 
-Last Updated: 2025-11-28
+Last Updated: 2025-01-28
 
 ## Physical Layout
 
@@ -21,23 +21,24 @@ All three keyboards (adv360, adv_mod/pillzmod_pro, glove80) share the same 6-key
 - Start from the key closest to your thumb (position 1)
 - Bottom row: 1, 2, 3 (thumb to far)
 - Top row: 4, 5, 6 (directly above 3, 2, 1 respectively)
+- So 4 is above 3 (farthest), 5 is above 2 (middle), 6 is above 1 (closest to thumb)
 
 ## Logical Mapping (Unified Layout)
 
 | Position | Key Binding | Notes |
 |----------|-------------|-------|
-| **L1** | `SPACE` | Primary space (left thumb) |
+| **L1** | `SPACE` | Primary space (left thumb, closest) |
 | **L2** | `LEFT_SHIFT` | Left shift modifier |
-| **L3** | `LEFT_ALT` | Alt/Option modifier |
-| **L4** | `LEFT_CONTROL` | Control modifier |
-| **L5** | `LEFT_WIN` | Win/GUI/Command modifier |
-| **L6** | `mo KEYPAD` | Momentary keypad layer |
-| **R1** | `SPACE` | Primary space (right thumb) |
+| **L3** | `LEFT_ALT` | Alt/Option modifier (farthest from thumb) |
+| **L4** | `LEFT_CONTROL` | Control modifier (above L3) |
+| **L5** | `LEFT_WIN` | Win/GUI/Command modifier (above L2) |
+| **L6** | `mo KEYPAD` | Momentary keypad layer (above L1, closest to thumb) |
+| **R1** | `SPACE` | Primary space (right thumb, closest) |
 | **R2** | `RIGHT_SHIFT` | Right shift modifier |
-| **R3** | `mo LAYER_CMD` | Momentary command layer |
-| **R4** | `LEFT_CONTROL` | Control modifier |
-| **R5** | `ESCAPE` | Escape key |
-| **R6** | `mo KEYPAD` | Momentary keypad layer |
+| **R3** | `mo LAYER_CMD` | Momentary command layer (farthest from thumb) |
+| **R4** | `LEFT_CONTROL` | Control modifier (above R3) |
+| **R5** | `ESCAPE` | Escape key (above R2) |
+| **R6** | `mo KEYPAD` | Momentary keypad layer (above R1, closest to thumb) |
 
 ## macOS Karabiner Configuration
 
@@ -55,20 +56,24 @@ For ZMK keymap parsing, thumb cluster keys appear in specific positions within t
 Each keyboard has a different matrix layout, but the logical positions map as follows:
 
 ### adv360 (7-column layout with extra inner columns)
-- Thumb keys span across rows 3-5 in the matrix
-- Row 3 (homerow level): L6, L5 ... R5, R6
-- Row 4 (below homerow): L4 ... R4
-- Row 5 (bottom): L1, L2, L3 ... R3, R2, R1
+```
+Row 3 (homerow level): ... [to 0] [L6:KEYPAD] [L5:WIN] ... [R5:ESC] [R6:KEYPAD] [to 0] ...
+Row 4 (below homerow): ...        [L4:CTRL]            ... [R4:CTRL]                  ...
+Row 5 (bottom):        ...        [L1:SPC] [L2:LSHFT] [L3:LALT] | [R3:CMD] [R2:RSHFT] [R1:SPC] ...
+```
 
 ### adv_mod/pillzmod_pro (Kinesis Advantage matrix)
-- Thumb keys in dedicated thumb cluster rows
-- Row after arrow keys: L6, L5 ... R5, R6
-- Single key row: L4 ... R4
-- Bottom row: L1, L2, L3 ... R3, R2, R1
+```
+Row 6 (after arrows): [L6:KEYPAD] [L5:WIN]            ... [R5:ESC] [R6:KEYPAD]
+Row 7 (single key):              [L4:CTRL]            ... [R4:CTRL]
+Row 8 (bottom):       [L1:SPC] [L2:LSHFT] [L3:LALT]   ... [R3:CMD] [R2:RSHFT] [R1:SPC]
+```
 
 ### glove80 (6-column main + 6 thumb inline)
-- Row 4 (Z row level): includes L6, L5, L4, R4, R5, R6 inline
-- Row 5 (bottom): L1, L2, L3 ... R3, R2, R1
+```
+Row 4 (Z row): ... [L6:KEYPAD] [L5:WIN] [L4:CTRL] [R4:CTRL] [R5:ESC] [R6:KEYPAD] ...
+Row 5 (bottom): ... [L1:SPC] [L2:LSHFT] [L3:LALT] | [R3:CMD] [R2:RSHFT] [R1:SPC] ...
+```
 
 ## Historical Differences (Now Unified)
 

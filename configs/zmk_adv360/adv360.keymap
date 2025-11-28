@@ -93,6 +93,27 @@
         compatible = "zmk,keymap";
 
     layer0_default {
+        // -----------------------------------------------------------------------------------------
+        // Thumb Cluster Layout (unified across all keyboards):
+        //
+        //     Left Thumb Cluster              Right Thumb Cluster
+        //     (Left hand)                     (Right hand)
+        //     ┌───┬───┬───┐                   ┌───┬───┬───┐
+        //     │L6 │L5 │L4 │                   │R4 │R5 │R6 │
+        //     ├───┼───┼───┤                   ├───┼───┼───┤
+        //     │L1 │L2 │L3 │                   │R3 │R2 │R1 │
+        //     └───┴───┴───┘                   └───┴───┴───┘
+        //    (thumb)  (far)                  (far)  (thumb)
+        //
+        // Position Mapping:
+        //   L1=SPACE  L2=LSHIFT  L3=LALT  L4=LCTRL  L5=LWIN  L6=mo_KEYPAD
+        //   R1=SPACE  R2=RSHIFT  R3=mo_CMD  R4=LCTRL  R5=ESC  R6=mo_KEYPAD
+        //
+        // adv360 Matrix Positions:
+        //   Row 3 (homerow): ... [to 0] [L6:KEYPAD] [L5:WIN] ... [R5:ESC] [R6:KEYPAD] [to 0] ...
+        //   Row 4 (below):   ...        [L4:CTRL]            ... [R4:CTRL]            ...
+        //   Row 5 (bottom):  ...        [L1:SPC] [L2:LSHFT] [L3:LALT] | [R3:CMD] [R2:RSHFT] [R1:SPC] ...
+        // -----------------------------------------------------------------------------------------
         bindings = <
         &kp LS(LG(S))   &morph_quote_single  &morph_quote_double  &kp MINUS  &kp EQUAL  &kp SLASH   &kp LC(LA(DEL))                                                                                              &kp LC(LA(DEL))  &morph_exclamation    &kp LBKT   &kp RBKT  &morph_parens_left  &morph_parens_right  &kp MINUS
         &kp HOME        &kp Q                &kp W                &kp E      &kp R      &kp T       &to 1                                                                                                        &to 1            &kp Y                 &kp U      &kp I     &kp O               &kp P                &kp DEL

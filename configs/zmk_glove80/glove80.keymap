@@ -234,6 +234,26 @@
         compatible = "zmk,keymap";
 
 layer0_default {
+// -----------------------------------------------------------------------------------------
+// Thumb Cluster Layout (unified across all keyboards):
+//
+//     Left Thumb Cluster              Right Thumb Cluster
+//     (Left hand)                     (Right hand)
+//     ┌───┬───┬───┐                   ┌───┬───┬───┐
+//     │L6 │L5 │L4 │                   │R4 │R5 │R6 │
+//     ├───┼───┼───┤                   ├───┼───┼───┤
+//     │L1 │L2 │L3 │                   │R3 │R2 │R1 │
+//     └───┴───┴───┘                   └───┴───┴───┘
+//    (thumb)  (far)                  (far)  (thumb)
+//
+// Position Mapping:
+//   L1=SPACE  L2=LSHIFT  L3=LALT  L4=LCTRL  L5=LWIN  L6=mo_KEYPAD
+//   R1=SPACE  R2=RSHIFT  R3=mo_CMD  R4=LCTRL  R5=ESC  R6=mo_KEYPAD
+//
+// glove80 Matrix Positions:
+//   Row 4 (Z row): ... [L6:KEYPAD] [L5:WIN] [L4:CTRL] [R4:CTRL] [R5:ESC] [R6:KEYPAD] ...
+//   Row 5 (bottom): ... [L1:SPC] [L2:LSHFT] [L3:LALT] | [R3:CMD] [R2:RSHFT] [R1:SPC] ...
+// -----------------------------------------------------------------------------------------
 bindings = <
 &kp LS(LG(S))       &kp F2                  &kp F3                  &kp F4          &kp F5                                                                                                                                                                &kp F6     &kp F7    &kp F8                 &kp F9                  &kp F10
 &kp LC(LA(DEL))     &morph_quote_single     &morph_quote_double     &kp MINUS       &kp EQUAL   &kp SLASH                                                                                                                      &morph_exclamation         &kp LBKT   &kp RBKT  &morph_parens_left     &morph_parens_right     &kp MINUS
