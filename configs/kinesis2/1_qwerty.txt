@@ -52,31 +52,34 @@
 *[space]>[space]
 
 *# right pinkey keys
-[hyphen]>[null]
-[kp-hyphen]>[null]
+*# Aligned with ZMK
+[hyphen]>[hyphen]
+[kp-hyphen]>[hyphen]
 [']>[enter]
 [kp-']>[enter]
-[\]>[null]
-[kp-\]>[null]
-[rshift]>[F19]
-[kp-rshift]>[F19]
+[\]>[hyphen]
+[kp-\]>[hyphen]
+[rshift]>[tab]
+[kp-rshift]>[tab]
 
 *# left pinkey keys
+*# Aligned with ZMK - Ctrl+Backspace
+[lshift]>{-lctrl}{bspace}{+lctrl}
+[kp-lshift]>{-lctrl}{bspace}{+lctrl}
+
 [=]>[null]
 [kp-=]>[null]
 
-*# This will take a screenshot
+*# This will take a screenshot (matches ZMK LS(LG(S)))
 {=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
 {kp-=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
 
+*# Aligned with ZMK
 [kp-tab]>[escape]
 [tab]>[escape]
 
 [kp-caps]>[bspace]
 [caps]>[bspace]
-
-[lshift]>[F18]
-[kp-lshift]>[F18]
 
 *# Advantage does not support modifier to have macros
 *# {lshift}>{speed5}{-lalt}{bspace}{+lalt}
