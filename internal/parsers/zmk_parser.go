@@ -7,18 +7,22 @@ import (
 	"regexp"
 	"strings"
 
+	"masters3d.com/keyboard_layout_config_mapper/internal/layouts"
 	"masters3d.com/keyboard_layout_config_mapper/internal/models"
 )
 
 // ZMKParser handles parsing of ZMK keymap files
 type ZMKParser struct {
-	keyboardType models.KeyboardType
+	keyboardType   models.KeyboardType
+	physicalLayout *layouts.PhysicalLayout
 }
 
 // NewZMKParser creates a new ZMK parser
 func NewZMKParser(keyboardType models.KeyboardType) *ZMKParser {
+	layout, _ := layouts.GetLayoutForKeyboard(keyboardType)
 	return &ZMKParser{
-		keyboardType: keyboardType,
+		keyboardType:   keyboardType,
+		physicalLayout: layout,
 	}
 }
 
@@ -371,8 +375,21 @@ func (p *ZMKParser) parseZMKBindings(text string) []string {
 }
 
 func (p *ZMKParser) getPositionForIndex(index int) models.Position {
-	// This is a simplified position mapping - should be enhanced with actual keyboard layout
-	row := index / 12 // Assuming roughly 12 keys per row
+	// Use physical layout if available
+	if p.physicalLayout != nil {
+		if irPos, ok := p.physicalLayout.GetIRPosition(index); ok {
+			return models.Position{
+				Row:   irPos.Row,
+				Col:   irPos.Col,
+				Side:  irPos.Hand,
+				Zone:  irPos.Zone,
+				KeyID: irPos.KeyID,
+			}
+		}
+	}
+	
+	// Fallback to generic position mapping
+	row := index / 12
 	col := index % 12
 	side := "left"
 	if col >= 6 {
@@ -381,7 +398,7 @@ func (p *ZMKParser) getPositionForIndex(index int) models.Position {
 	}
 
 	zone := "main"
-	if row >= 5 { // Thumb cluster typically at bottom
+	if row >= 5 {
 		zone = "thumb"
 	}
 

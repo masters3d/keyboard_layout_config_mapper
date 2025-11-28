@@ -121,11 +121,17 @@ func runTranslate(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	// Convert from IR to target
+	// Convert from IR to target using UnifiedMapper
 	targetType := models.KeyboardType(translateTargetType)
-	fmt.Printf("🔄 Converting IR to %s...\n", targetType)
+	fmt.Printf("🔄 Converting to %s using KeyID-based mapping...\n", targetType)
 	
-	targetLayout, err := translator.Translate(sourceLayout, targetType)
+	// Use the new UnifiedMapper for KeyID-based translation
+	unifiedMapper, err := mappers.NewUnifiedMapper(sourceType, targetType)
+	if err != nil {
+		return fmt.Errorf("failed to create unified mapper: %w", err)
+	}
+	
+	targetLayout, err := unifiedMapper.TranslateLayout(sourceLayout)
 	if err != nil {
 		return fmt.Errorf("failed to translate layout: %w", err)
 	}
