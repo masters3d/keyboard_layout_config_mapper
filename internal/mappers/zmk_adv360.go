@@ -306,59 +306,9 @@ func createAdv360ZoneMapping() map[string]models.IRZone {
 }
 
 // createZMKKeyCodeMapping creates key code mapping for ZMK keyboards
+// IR is format-preserving - no normalization needed
 func createZMKKeyCodeMapping() map[string]string {
-	return map[string]string{
-		// Common ZMK key codes to normalized IR codes
-		"&kp A":     "a",
-		"&kp B":     "b",
-		"&kp C":     "c",
-		"&kp D":     "d",
-		"&kp E":     "e",
-		"&kp F":     "f",
-		"&kp G":     "g",
-		"&kp H":     "h",
-		"&kp I":     "i",
-		"&kp J":     "j",
-		"&kp K":     "k",
-		"&kp L":     "l",
-		"&kp M":     "m",
-		"&kp N":     "n",
-		"&kp O":     "o",
-		"&kp P":     "p",
-		"&kp Q":     "q",
-		"&kp R":     "r",
-		"&kp S":     "s",
-		"&kp T":     "t",
-		"&kp U":     "u",
-		"&kp V":     "v",
-		"&kp W":     "w",
-		"&kp X":     "x",
-		"&kp Y":     "y",
-		"&kp Z":     "z",
-		"&kp N1":    "1",
-		"&kp N2":    "2",
-		"&kp N3":    "3",
-		"&kp N4":    "4",
-		"&kp N5":    "5",
-		"&kp N6":    "6",
-		"&kp N7":    "7",
-		"&kp N8":    "8",
-		"&kp N9":    "9",
-		"&kp N0":    "0",
-		"&kp SPACE": "space",
-		"&kp ENTER": "enter",
-		"&kp TAB":   "tab",
-		"&kp ESC":   "escape",
-		"&kp BSPC":  "backspace",
-		"&kp DEL":   "delete",
-		"&kp HOME":  "home",
-		"&kp END":   "end",
-		"&kp PG_UP": "page_up",
-		"&kp PG_DN": "page_down",
-		"&kp UP":    "up",
-		"&kp DOWN":  "down",
-		"&kp LEFT":  "left",
-		"&kp RIGHT": "right",
-		// Add more mappings as needed
-	}
+	// Return empty map - preserve original ZMK syntax in IR
+	// This allows compound behaviors like &kp LS(LG(S)) to pass through unchanged
+	return map[string]string{}
 }
