@@ -372,3 +372,204 @@ The template overlay uses reasonable pin assignments, but **MUST BE VERIFIED** a
 
 *Last Updated: 2025-01-06*  
 *Version: v7_target*
+
+---
+
+## Kinesis Advantage 2 SmartSet Configuration Guide
+
+### Overview
+SmartSet is the native programming system for Kinesis Advantage 2 keyboards. Configuration files use a text-based syntax stored on the keyboard's internal drive. KLCM supports SmartSet through the `kinesis2` keyboard type.
+
+**Configuration Location**: `configs/kinesis2/1_qwerty.txt`
+
+### SmartSet Syntax Reference
+
+#### Basic Key Remapping
+```
+[source_key]>[target_key]
+```
+Example: `[caps]>[bspace]` - Remap Caps Lock to Backspace
+
+#### Keypad Layer Remapping
+Prefix with `kp-` for keypad layer:
+```
+[kp-caps]>[bspace]
+```
+
+#### Macro Definitions
+Use curly braces `{}` for macros:
+```
+{trigger_key}>{speed9}{key1}{key2}{key3}
+```
+Example: `{=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}` - Screenshot macro
+
+#### Modifier Syntax
+- `{-modifier}` = Press and hold modifier
+- `{+modifier}` = Release modifier
+- Modifiers: `lshift`, `rshift`, `lctrl`, `rctrl`, `lalt`, `ralt`, `lwin`, `rwin`
+
+Example: `{-lctrl}{bspace}{+lctrl}` = Ctrl+Backspace
+
+### ⚠️ Critical: Macro + Null Pattern
+
+**IMPORTANT FOR AI AGENTS**: When defining a macro `{key}>{...}`, you MUST also set `[key]>[null]` so the base key outputs nothing and the macro is triggered instead.
+
+**Without `[key]>[null]`**: The key outputs its default character before/instead of executing the macro.
+
+**Correct Pattern**:
+```
+*# Comment explaining the macro
+[key]>[null]
+{key}>{speed9}{macro_sequence}
+```
+
+**Example - Screenshot on `=` key**:
+```
+*# This will take a screenshot (matches ZMK LS(LG(S)))
+[=]>[null]
+[kp-=]>[null]
+{=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
+{kp-=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
+```
+
+**Example - Bracket macros**:
+```
+*# macro_brackets: []←
+[kp=]>[null]
+{kp=}>{speed9}{obrack}{cbrack}{left}
+
+*# macro_braces: {}←
+[kpdiv]>[null]
+{kpdiv}>{speed9}{-lshift}{obrack}{+lshift}{-lshift}{cbrack}{+lshift}{left}
+```
+
+### Speed Settings
+- `{speed1}` to `{speed9}` - Macro playback speed (9 = fastest)
+- Use `{speed9}` for simple key sequences
+- Use `{speed5}` for complex multi-key operations
+
+### Common Key Names
+
+| SmartSet Name | Key |
+|---------------|-----|
+| `lshift`, `rshift` | Shift keys |
+| `lctrl`, `rctrl` | Control keys |
+| `lalt`, `ralt` | Alt/Option keys |
+| `lwin`, `rwin` | Windows/Command keys |
+| `bspace` | Backspace |
+| `escape` | Escape |
+| `obrack`, `cbrack` | [ and ] |
+| `hyphen` | - (minus) |
+| `pup`, `pdown` | Page Up, Page Down |
+| `kpshft` | Keypad layer toggle |
+| `intl-\` | International backslash |
+| `null` | No output (for macro triggers) |
+
+### Comments
+Lines starting with `*#` are comments:
+```
+*# This is a comment
+*# Aligned with ZMK - description of what this does
+```
+
+### Layer System
+SmartSet has two layers:
+1. **Default Layer**: Normal key mappings
+2. **Keypad Layer**: Accessed via `kpshft`, prefixed with `kp-`
+
+Both layers should be configured together:
+```
+[caps]>[bspace]
+[kp-caps]>[bspace]
+```
+
+### Aligning SmartSet with ZMK
+
+When maintaining both SmartSet (Kinesis Advantage 2) and ZMK (Pillz Mod) configurations:
+
+1. **ZMK is the source of truth** for layout decisions
+2. **SmartSet should mirror ZMK** where hardware allows
+3. **Use F13-F24** for software-overridable keys
+4. **Document differences** with comments
+
+**Example - F13-F24 for software override**:
+```
+*# left keypad row 1
+*# Aligned with ZMK - F13-F16 for software override
+[kp-q]>[F13]
+[kp-w]>[F14]
+[kp-e]>[F15]
+[kp-r]>[F16]
+```
+
+### Validation Checklist
+
+When updating SmartSet configs:
+- [ ] All macros have corresponding `[key]>[null]` entries
+- [ ] Both default and keypad layer versions exist (`[key]` and `[kp-key]`)
+- [ ] Comments explain non-obvious mappings
+- [ ] Configuration aligns with ZMK source of truth
+- [ ] Modifier macros use correct `{-mod}...{+mod}` syntax
+
+---
+
+## Session Context - 2025-01-28
+
+### Key Learnings from This Session
+
+#### 1. ZMK is the Source of Truth
+- All keyboard configs (adv360, glove80, pillzmod_pro) should be kept in sync
+- SmartSet (kinesis2) mirrors ZMK where hardware allows
+- The user upgraded their Kinesis Advantage 2 to run ZMK via Pillz Mod, so SmartSet config is now backup/reference only
+
+#### 2. Repositories Structure
+- **zmk-config-pillzmod-nicenano**: Actual ZMK firmware config (in `/Volumes/ExternalCheyo/source/`)
+- **keyboard_layout_config_mapper**: KLCM tool with configs in `configs/` subdirectory
+- The `pillzmod_pro.keymap` exists in BOTH locations - keep them in sync
+
+#### 3. SmartSet Macro Pattern (CRITICAL)
+When defining macros in SmartSet, you MUST use this pattern:
+```
+[key]>[null]           # Suppress default key output
+{key}>{macro_sequence} # Define the macro
+```
+Without `[key]>[null]`, the key outputs its default character before/instead of the macro.
+
+#### 4. F13-F24 Strategy
+- Left keypad rows 1-3 use F13-F24 for software override (Karabiner, BetterTouchTool)
+- This allows custom per-app shortcuts without changing firmware
+- SmartSet and ZMK are aligned on this
+
+#### 5. Thumb Cluster Unified Mapping
+All keyboards use identical logical positions:
+```
+L1=SPACE  L2=LSHIFT  L3=LALT  L4=LCTRL  L5=LWIN  L6=mo_KEYPAD
+R1=SPACE  R2=RSHIFT  R3=mo_CMD  R4=LCTRL  R5=ESC  R6=mo_KEYPAD
+```
+See `configs/THUMB_CLUSTER_MAPPING.md` for full documentation.
+
+#### 6. CMD Layer has Vim-style Navigation
+Right nav cluster in cmd_layer: `RC(LEFT) RC(DOWN) RC(UP) RC(RIGHT)`
+This enables word-by-word navigation on Mac (Cmd+arrows).
+
+#### 7. Morph Behaviors
+Custom shifted outputs (same across all ZMK configs):
+- `.` → `:` (morph_dot)
+- `,` → `;` (morph_comma)
+- `(` → `<` (morph_parens_left)
+- `)` → `>` (morph_parens_right)
+- `\` → `!` (morph_exclamation)
+- `'` → `` ` `` (morph_quote_single)
+- `"` → `~` (morph_quote_double)
+
+#### 8. Hardware Context
+- User has Kinesis Advantage 2 upgraded with Pillz Mod Pro + Nice!Nano v2
+- Running ZMK firmware (not SmartSet anymore)
+- SmartSet config kept for reference/backup in case needed
+
+#### 9. Key Files to Keep in Sync
+1. `zmk-config-pillzmod-nicenano/config/pillzmod_pro.keymap` (actual firmware)
+2. `keyboard_layout_config_mapper/configs/zmk_adv_mod/pillzmod_pro.keymap` (KLCM copy)
+3. `keyboard_layout_config_mapper/configs/zmk_adv360/adv360.keymap`
+4. `keyboard_layout_config_mapper/configs/zmk_glove80/glove80.keymap`
+5. `keyboard_layout_config_mapper/configs/kinesis2/1_qwerty.txt` (SmartSet backup)

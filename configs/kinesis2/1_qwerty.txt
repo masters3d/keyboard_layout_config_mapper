@@ -7,8 +7,9 @@
 *#{rp-kpent}>{speed5}{-rwin}{-lshift}{s}{+rwin}{+lshift}
 
 *# left thumb cluster column 0
-[bspace]>[null]
-[kp-bspace]>[null]
+*# SPACE (matches ZMK)
+[bspace]>[space]
+[kp-bspace]>[space]
 
 *# left thumb cluster column 1
 [lctrl]>[kpshft]
@@ -25,12 +26,16 @@
 [kp-end]>[ralt]
 
 *# right thumb cluster column 3
-[rwin]>[delete]
-[kp-rwin]>[delete]
-[pup]>[tab]
-[kp-pup]>[tab]
-[pdown]>[rwin]
-[kp-pdown]>[rwin]
+*# Top: ESC (matches ZMK)
+[rwin]>[escape]
+[kp-rwin]>[escape]
+*# Mid: LCTRL (matches ZMK - LEFT_CONTROL on right side)
+[pup]>[lctrl]
+[kp-pup]>[lctrl]
+*# Bot: RCTRL - using rctrl as default so Mac works out of the box
+*# (previously was rwin, overridden to rctrl in Windows)
+[pdown]>[rctrl]
+[kp-pdown]>[rctrl]
 
 *# right thumb cluster column 4
 [rctrl]>[kpshft]
@@ -47,31 +52,40 @@
 *[space]>[space]
 
 *# right pinkey keys
-[hyphen]>[null]
-[kp-hyphen]>[null]
+*# Aligned with ZMK
+[hyphen]>[hyphen]
+[kp-hyphen]>[hyphen]
 [']>[enter]
 [kp-']>[enter]
-[\]>[null]
-[kp-\]>[null]
-[rshift]>[F19]
-[kp-rshift]>[F19]
+[\]>[hyphen]
+[kp-\]>[hyphen]
+[rshift]>[tab]
+[kp-rshift]>[tab]
 
 *# left pinkey keys
+*# Aligned with ZMK - Ctrl+Backspace
+[lshift]>{-lctrl}{bspace}{+lctrl}
+[kp-lshift]>{-lctrl}{bspace}{+lctrl}
+
+*# SMARTSET MACRO PATTERN:
+*# When defining a macro {key}>{...}, you must also set [key]>[null]
+*# so the base key outputs nothing and the macro is triggered instead.
+*# Without [key]>[null], the key would output its default character
+*# before/instead of executing the macro.
+
 [=]>[null]
 [kp-=]>[null]
 
-*# This will take a screenshot
+*# This will take a screenshot (matches ZMK LS(LG(S)))
 {=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
 {kp-=}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
 
+*# Aligned with ZMK
 [kp-tab]>[escape]
 [tab]>[escape]
 
 [kp-caps]>[bspace]
 [caps]>[bspace]
-
-[lshift]>[F18]
-[kp-lshift]>[F18]
 
 *# Advantage does not support modifier to have macros
 *# {lshift}>{speed5}{-lalt}{bspace}{+lalt}
@@ -95,74 +109,85 @@
 {kp-5}>{speed9}{-lshift}{5}{+lshift}
 
 *# left keypad row 1
-{kp-q}>{speed9}{-lshift}{9}{+lshift}{-lshift}{0}{+lshift}{left}
-{kp-w}>{speed9}{-lshift}{,}{+lshift}{-lshift}{.}{+lshift}{left}
-{kp-e}>{speed9}{obrack}{cbrack}{left}
-{kp-r}>{speed9}{-lshift}{obrack}{+lshift}{-lshift}{cbrack}{+lshift}{left}
+*# Aligned with ZMK - F13-F16 for software override
+[kp-q]>[F13]
+[kp-w]>[F14]
+[kp-e]>[F15]
+[kp-r]>[F16]
 
 {kp-t}>{speed9}{-lshift}{4}{+lshift}
 
 *# left keypad row 2 
-
-{kp-a}>{speed9}{-lshift}{9}{+lshift}
-{lshift}{kp-a}>{speed9}{-lshift}{0}{+lshift}
-
-{kp-s}>{speed9}{-lshift}{,}{+lshift}
-{lshift}{kp-s}>{speed9}{-lshift}{.}{+lshift}
-
-{kp-d}>{speed9}{obrack}
-{lshift}{kp-d}>{speed9}{cbrack}
-
-{kp-f}>{speed9}{-lshift}{obrack}{+lshift}
-{lshift}{kp-f}>{speed9}{-lshift}{cbrack}{+lshift}
+*# Aligned with ZMK - F17-F20 for software override
+[kp-a]>[F17]
+[kp-s]>[F18]
+[kp-d]>[F19]
+[kp-f]>[F20]
 
 {kp-g}>{speed9}{-lshift}{3}{+lshift}
 
 *# left keypad row 3
-[kp-z]>[intl-\]
-{kp-x}>{speed9}{-lshift}{`}{+lshift}
-{kp-c}>{speed9}{-lshift}{hyphen}{+lshift}
-{kp-v}>{speed9}{-lshift}{=}{+lshift}
+*# Aligned with ZMK - F21-F24 for software override
+[kp-z]>[F21]
+[kp-x]>[F22]
+[kp-c]>[F23]
+[kp-v]>[F24]
 {kp-b}>{speed9}{-lshift}{2}{+lshift}
 
 *# left keypad row 4 (only four keys)
-[kp-`]>[left]
-[kp-insert]>[down]
-[kp-left]>[up]
-[kp-right]>[right]
+*# Aligned with ZMK - HOME/PGDN/PGUP/END
+[kp-`]>[home]
+[kp-insert]>[pdown]
+[kp-left]>[pup]
+[kp-right]>[end]
 
 *# left row 4 (only four keys)
-[`]>[left]
-[intl-\]>[down]
-[left]>[up]
-*[right]>[right]
+*# Aligned with ZMK - HOME/PGDN/PGUP/END
+[`]>[home]
+[intl-\]>[pdown]
+[left]>[pup]
+*[right]>[end]
 
 *# right row 0
 [6]>[\]
 {lshift}{6}>{speed9}{-lshift}{1}{+lshift}
 [7]>[obrack]
 [8]>[cbrack]
+*# [key]>[null] needed so macro outputs ( and ) instead of 9 and 0
+[9]>[null]
 {9}>{speed9}{-lshift}{9}{+lshift}
 {lshift}{9}>{speed9}{-lshift}{,}{+lshift}
+[0]>[null]
 {0}>{speed9}{-lshift}{0}{+lshift}
 {lshift}{0}>{speed9}{-lshift}{.}{+lshift}
 
 *# right keypad row 0
+*# Aligned with ZMK - bracket macros
+*# Note: [key]>[null] is needed so the macro {key} is picked up instead
 {kp-6}>{speed9}{-lshift}{6}{+lshift}
-*[numlk]>[null]
+*# macro_brackets: []←
 [kp=]>[null]
+{kp=}>{speed9}{obrack}{cbrack}{left}
+*# macro_braces: {}←
 [kpdiv]>[null]
+{kpdiv}>{speed9}{-lshift}{obrack}{+lshift}{-lshift}{cbrack}{+lshift}{left}
+*# macro_parens: ()←
 [kpmult]>[null]
+{kpmult}>{speed9}{-lshift}{9}{+lshift}{-lshift}{0}{+lshift}{left}
 
 *# right keypad row 1
 {kp-y}>{speed9}{-lshift}{7}{+lshift}
 [kp7]>[1]
 [kp8]>[2]
 [kp9]>[3]
-[kpmin]>[']
+*# macro_angle_brackets: <>←
+[kpmin]>[null]
+{kpmin}>{speed9}{-lshift}{,}{+lshift}{-lshift}{.}{+lshift}{left}
 
 *# right row 2
 *# no changes to HJKL 
+*# [key]>[null] needed for macro {;} to output . instead of ;
+[;]>[null]
 {;}>{speed9}{.}
 {lshift}{;}>{speed9}{-lshift}{;}{+lshift}
 
@@ -171,12 +196,16 @@
 [kp4]>[4]
 [kp5]>[5]
 [kp6]>[6]
+*# [key]>[null] needed for macro {kpplus} to output . instead of +
+[kpplus]>[null]
 {kpplus}>{speed9}{.}
 {lshift}{kpplus}>{speed9}{-lshift}{;}{+lshift}
 
 *# right row 3
 *# no changes to NM
+*# [key]>[null] needed for macro {/} to output , instead of /
 [,]>[null]
+[/]>[null]
 [.]>[']
 {/}>{speed9}{,}
 {lshift}{/}>{speed9}{;}
@@ -188,6 +217,8 @@
 [kp1]>[7]
 [kp2]>[8]
 [kp3]>[9]
+*# [key]>[null] needed for macro {kpenter1} to output , instead of enter
+[kpenter1]>[null]
 {kpenter1}>{speed9}{,}
 {lshift}{kpenter1}>{speed9}{;}
 
@@ -195,6 +226,8 @@
 [kp-up]>[0]
 [kp-down]>[0] 
 [kp.]>[.]
+*# [key]>[null] needed for macro {kpenter2} to output ? instead of enter
+[kpenter2]>[null]
 {kpenter2}>{speed9}{-lshift}{/}{+lshift}
 
 *# right row 4 (only four keys)
