@@ -683,6 +683,69 @@ When running `klcm translate --from adv360 --to adv_mod`, the generated output h
 - RG()→RC() conversion for CMD layer (optional, adv360 uses RG, glove80 uses RC)
 - Per-keyboard modifier preference configuration
 
+### Critical Translation Issues Discovered (2025-11-28)
+
+#### Physical Layout Mismatch
+
+| Row | adv360 | adv_mod | Impact |
+|-----|--------|---------|--------|
+| Number row | 14 keys (7+7) | 12 keys (6+6) | Macros in positions 11-14 don't map |
+| Function row | 12 keys (6+6) | 18 keys | adv_mod has 6 extra keys |
+| System layer | Adv360-specific | Nice!Nano-specific | Should NOT translate |
+
+#### Missing Macros in Generated Output
+
+**Problem**: `macro_parens` and `macro_angle_brackets` exist in adv360 keypad layer but don't appear in generated adv_mod output.
+
+**Root Cause**: The adv360 number row has 14 keys per row (7 left + 7 right), but adv_mod only has 12 keys per row (6 left + 6 right). The macros are in positions that correspond to keys N9, N0, MINUS, EQUAL on adv360's mapping layer, but adv_mod's mapping layer only goes up to N0.
+
+**Source (adv360 keypad layer)**:
+```
+&kp CARET  &macro_brackets  &macro_braces  &macro_parens  &macro_angle_brackets
+```
+
+**Generated (adv_mod)**: Only `&macro_brackets` and `&macro_braces` appear; the others map to `&trans`.
+
+#### System Layer Should Be Preserved
+
+**Problem**: Generated output overwrites adv_mod's system_layer with adv360's system layer, which has different:
+- Bootloader positions
+- Bluetooth configuration
+- RGB/backlight settings
+
+**Required Behavior**: System layer (and other hardware-specific layers) should be **preserved from target**, not translated from source.
+
+#### RC vs RG Modifier Difference
+
+**Remote (correct for adv_mod)**:
+```
+&kp RC(Q)  &kp RC(W)  &kp RC(E)  // Right Control
+```
+
+**Generated (from adv360)**:
+```
+&kp RG(Q)  &kp RG(W)  &kp RG(E)  // Right GUI/Command
+```
+
+### Required Fixes (Priority Order)
+
+1. **Layer Preservation** - Add logic to preserve target's hardware-specific layers:
+   - `system_layer` - bootloader, BT, RGB (hardware-specific)
+   - `mapping_layer` - already being preserved
+   - Only translate: `default_layer`, `keypad_layer`, `cmd_layer`
+
+2. **Column Count Handling** - Handle physical layout differences:
+   - adv360: 7 columns per side on main rows
+   - adv_mod: 6 columns per side on main rows
+   - Keys in "extra" columns need alternative placement or explicit drop
+
+3. **Modifier Mapping** - Add per-keyboard modifier preferences:
+   - adv360 uses `RG()` (Right GUI/Command)
+   - adv_mod/glove80 should use `RC()` (Right Control)
+   - Make this configurable per target keyboard
+
+4. **Macro Detection Fix** - Ensure all macros from source are detected even if they map to `&trans` positions (so they can be manually placed)
+
 ### Files to Modify
 
 1. `internal/mappers/unified_mapper.go`
