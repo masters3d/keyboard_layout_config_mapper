@@ -398,6 +398,16 @@ func (g *ZMKGenerator) writeBindings(sb *strings.Builder, layer *models.Layer) {
 }
 
 // writeAdvModBindings writes bindings in Advanced Mod format
+// Physical layout (86 keys total):
+//   Row 0: 18 keys (function row - 9 left + 9 right, no gap)
+//   Row 1: 6 left + 6 right = 12 (number/symbol row)
+//   Row 2: 6 left + 6 right = 12 (QWERTY row)
+//   Row 3: 6 left + 6 right = 12 (home row)
+//   Row 4: 6 left + 6 right = 12 (bottom alpha row)
+//   Row 5: 4 left + 4 right = 8 (modifier row, indented)
+//   Row 6: 2 left + 2 right = 4 (thumb top)
+//   Row 7: 1 left + 1 right = 2 (thumb middle)
+//   Row 8: 3 left + 3 right = 6 (thumb bottom)
 func (g *ZMKGenerator) writeAdvModBindings(sb *strings.Builder, layer *models.Layer) {
 	// Group bindings by position for organized output
 	bindingMap := make(map[string]string)
@@ -405,149 +415,101 @@ func (g *ZMKGenerator) writeAdvModBindings(sb *strings.Builder, layer *models.La
 		key := fmt.Sprintf("%s_%d_%d", binding.Position.Side, binding.Position.Row, binding.Position.Col)
 		bindingMap[key] = binding.Value
 	}
-	
-	// Write function row (18 keys for Advanced Mod)
-	sb.WriteString("    ")
-	for i := 0; i < 18; i++ {
-		key := fmt.Sprintf("left_%d_%d", 0, i) // Function row is row 0
+
+	// Helper to get binding or &trans
+	getBinding := func(side string, row, col int) string {
+		key := fmt.Sprintf("%s_%d_%d", side, row, col)
 		if val, ok := bindingMap[key]; ok {
-			sb.WriteString(val)
-		} else {
-			sb.WriteString("&trans")
+			return val
 		}
-		if i < 17 {
+		return "&trans"
+	}
+
+	// Row 0: Function row (18 keys, 9 left + 9 right, continuous line)
+	sb.WriteString("    ")
+	for col := 0; col < 9; col++ {
+		sb.WriteString(getBinding("left", 0, col))
+		sb.WriteString("  ")
+	}
+	for col := 0; col < 9; col++ {
+		sb.WriteString(getBinding("right", 0, col))
+		if col < 8 {
 			sb.WriteString("  ")
 		}
 	}
 	sb.WriteString("\n")
-	
-	// Write main keyboard rows (5 rows x 6 cols each side)
-	for row := 1; row <= 5; row++ {
+
+	// Rows 1-4: Main keyboard rows (6 left + gap + 6 right)
+	for row := 1; row <= 4; row++ {
 		sb.WriteString("    ")
-		
 		// Left side (6 keys)
 		for col := 0; col < 6; col++ {
-			key := fmt.Sprintf("left_%d_%d", row, col)
-			if val, ok := bindingMap[key]; ok {
-				sb.WriteString(val)
-			} else {
-				sb.WriteString("&trans")
-			}
+			sb.WriteString(getBinding("left", row, col))
 			sb.WriteString("  ")
 		}
-		
-		// Add spacing/comment for visual separation
+		// Gap between hands
 		sb.WriteString("                                                   ")
-		
 		// Right side (6 keys)
 		for col := 0; col < 6; col++ {
-			key := fmt.Sprintf("right_%d_%d", row, col)
-			if val, ok := bindingMap[key]; ok {
-				sb.WriteString(val)
-			} else {
-				sb.WriteString("&trans")
-			}
+			sb.WriteString(getBinding("right", row, col))
 			if col < 5 {
 				sb.WriteString("  ")
 			}
 		}
 		sb.WriteString("\n")
-		
-		// Thumb cluster rows need special handling (rows 6-8)
-		if row == 5 {
-			// Thumb cluster top row (4 keys each side)
-			sb.WriteString("            ")
-			for col := 0; col < 4; col++ {
-				key := fmt.Sprintf("left_%d_%d", 6, col)
-				if val, ok := bindingMap[key]; ok {
-					sb.WriteString(val)
-				} else {
-					sb.WriteString("&trans")
-				}
-				sb.WriteString("  ")
-			}
-			sb.WriteString("                                                                  ")
-			for col := 0; col < 4; col++ {
-				key := fmt.Sprintf("right_%d_%d", 6, col)
-				if val, ok := bindingMap[key]; ok {
-					sb.WriteString(val)
-				} else {
-					sb.WriteString("&trans")
-				}
-				if col < 3 {
-					sb.WriteString("  ")
-				}
-			}
-			sb.WriteString("\n")
-			
-			// Thumb cluster middle row (2 keys each side)
-			sb.WriteString("                                                  ")
-			for col := 0; col < 2; col++ {
-				key := fmt.Sprintf("left_%d_%d", 7, col)
-				if val, ok := bindingMap[key]; ok {
-					sb.WriteString(val)
-				} else {
-					sb.WriteString("&trans")
-				}
-				sb.WriteString("  ")
-			}
-			sb.WriteString("                                      ")
-			for col := 0; col < 2; col++ {
-				key := fmt.Sprintf("right_%d_%d", 7, col)
-				if val, ok := bindingMap[key]; ok {
-					sb.WriteString(val)
-				} else {
-					sb.WriteString("&trans")
-				}
-				if col < 1 {
-					sb.WriteString("  ")
-				}
-			}
-			sb.WriteString("\n")
-			
-			// Thumb cluster center (1 key each side)
-			sb.WriteString("                                                          ")
-			key := fmt.Sprintf("left_%d_%d", 8, 0)
-			if val, ok := bindingMap[key]; ok {
-				sb.WriteString(val)
-			} else {
-				sb.WriteString("&trans")
-			}
-			sb.WriteString("                                      ")
-			key = fmt.Sprintf("right_%d_%d", 8, 0)
-			if val, ok := bindingMap[key]; ok {
-				sb.WriteString(val)
-			} else {
-				sb.WriteString("&trans")
-			}
-			sb.WriteString("\n")
-			
-			// Thumb cluster bottom (3 keys each side)
-			sb.WriteString("                                        ")
-			for col := 0; col < 3; col++ {
-				key := fmt.Sprintf("left_%d_%d", 9, col)
-				if val, ok := bindingMap[key]; ok {
-					sb.WriteString(val)
-				} else {
-					sb.WriteString("&trans")
-				}
-				sb.WriteString("  ")
-			}
-			sb.WriteString("                                      ")
-			for col := 0; col < 3; col++ {
-				key := fmt.Sprintf("right_%d_%d", 9, col)
-				if val, ok := bindingMap[key]; ok {
-					sb.WriteString(val)
-				} else {
-					sb.WriteString("&trans")
-				}
-				if col < 2 {
-					sb.WriteString("  ")
-				}
-			}
-			sb.WriteString("\n")
+	}
+
+	// Row 5: Modifier row (4 left + gap + 4 right, indented)
+	sb.WriteString("            ")
+	for col := 0; col < 4; col++ {
+		sb.WriteString(getBinding("left", 5, col))
+		sb.WriteString("  ")
+	}
+	sb.WriteString("                                                                  ")
+	for col := 0; col < 4; col++ {
+		sb.WriteString(getBinding("right", 5, col))
+		if col < 3 {
+			sb.WriteString("  ")
 		}
 	}
+	sb.WriteString("\n")
+
+	// Row 6: Thumb top (2 left + gap + 2 right)
+	sb.WriteString("                                                  ")
+	for col := 0; col < 2; col++ {
+		sb.WriteString(getBinding("left", 6, col))
+		sb.WriteString("  ")
+	}
+	sb.WriteString("                                      ")
+	for col := 0; col < 2; col++ {
+		sb.WriteString(getBinding("right", 6, col))
+		if col < 1 {
+			sb.WriteString("  ")
+		}
+	}
+	sb.WriteString("\n")
+
+	// Row 7: Thumb middle (1 left + gap + 1 right)
+	sb.WriteString("                                                          ")
+	sb.WriteString(getBinding("left", 7, 0))
+	sb.WriteString("                                      ")
+	sb.WriteString(getBinding("right", 7, 0))
+	sb.WriteString("\n")
+
+	// Row 8: Thumb bottom (3 left + gap + 3 right)
+	sb.WriteString("                                        ")
+	for col := 0; col < 3; col++ {
+		sb.WriteString(getBinding("left", 8, col))
+		sb.WriteString("  ")
+	}
+	sb.WriteString("                                      ")
+	for col := 0; col < 3; col++ {
+		sb.WriteString(getBinding("right", 8, col))
+		if col < 2 {
+			sb.WriteString("  ")
+		}
+	}
+	sb.WriteString("\n")
 }
 
 // writeGenericBindings writes bindings in a generic format
