@@ -729,35 +729,46 @@ When running `klcm translate --from adv360 --to adv_mod`, the generated output h
 
 ### Required Fixes (Priority Order)
 
-1. **Layer Preservation** - Add logic to preserve target's hardware-specific layers:
-   - `system_layer` - bootloader, BT, RGB (hardware-specific)
+1. ✅ **Layer Preservation** - Add logic to preserve target's hardware-specific layers:
+   - `system_layer` - bootloader, BT, RGB (hardware-specific) - **FIXED: Now skipped during translation**
    - `mapping_layer` - already being preserved
    - Only translate: `default_layer`, `keypad_layer`, `cmd_layer`
 
-2. **Column Count Handling** - Handle physical layout differences:
+2. ✅ **Thumb Cluster Layout** - Fixed physical layout for adv_mod:
+   - Row 5: 4 keys per side (modifier row)
+   - Row 6: 2 keys per side (thumb top)
+   - Row 7: 1 key per side (thumb middle)
+   - Row 8: 3 keys per side (thumb bottom)
+
+3. ✅ **Layer Filtering** - TranslateLayout now:
+   - Skips padding layers
+   - Skips system/bootloader/mod layers (they contain hardware-specific configs)
+   - Only translates essential layers with semantic naming
+
+4. **Column Count Handling** - Handle physical layout differences:
    - adv360: 7 columns per side on main rows
    - adv_mod: 6 columns per side on main rows
-   - Keys in "extra" columns need alternative placement or explicit drop
+   - Keys in "extra" columns translate to `&trans` (expected behavior)
 
-3. **Modifier Mapping** - Add per-keyboard modifier preferences:
+5. ⏳ **Modifier Mapping** - Add per-keyboard modifier preferences:
    - adv360 uses `RG()` (Right GUI/Command)
    - adv_mod/glove80 should use `RC()` (Right Control)
    - Make this configurable per target keyboard
 
-4. **Macro Detection Fix** - Ensure all macros from source are detected even if they map to `&trans` positions (so they can be manually placed)
+6. ⏳ **Macro Detection Fix** - Ensure all macros from source are detected even if they map to `&trans` positions (so they can be manually placed)
 
-### Files to Modify
+### Files Modified (2025-11-29)
 
 1. `internal/mappers/unified_mapper.go`
-   - Add layer filtering (remove padding)
-   - Add layer renumbering based on target layout
+   - ✅ Added layer filtering (removes padding, system, mod layers)
+   - ✅ Added getSemanticLayerName for consistent layer naming
+   - ✅ Fixed indexToPosition for correct thumb cluster mapping
 
 2. `internal/generators/zmk_generator.go`
-   - Separate macros section from behaviors
-   - Fix layer naming convention
-   - Fix header metadata nil check
-   - Add all morph behavior types
+   - ✅ Fixed writeAdvModBindings to match physical layout (86 keys)
+   - ✅ Correct row structure: rows 0-8 with proper key counts per row
+   - ✅ Proper indentation for thumb cluster rows
 
 3. `internal/cli/translate.go`
-   - Pass target layer configuration to mapper
-   - Support layer mapping (source layer X → target layer Y)
+   - Uses UnifiedMapper for translation
+   - Mapping layer extraction working
