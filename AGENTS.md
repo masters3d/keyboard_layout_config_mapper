@@ -607,5 +607,41 @@ The cheyo branch initially omitted the pedal keys from the keymap. This caused:
 
 The main branch and dcpedit's reference implementation correctly include all 3 pedals. This was corrected to ensure keymap matrix completeness.
 
-**Hardware Note**:
-The pedal connections on the Pillz Mod Pro PCB can be repurposed for other matrix repairs. In this case, Pedal 1's matrix position is used to reroute a broken `X` key pad on an older Kinesis keyboard, allowing that key to function again without PCB repair.
+**Hardware Note - Rerouting Broken Keys via Pedal Matrix**:
+The pedal connections on the Pillz Mod Pro PCB can be repurposed for matrix repairs. In this case, Pedal 1's matrix position is used to reroute a broken `X` key pad on an older Kinesis keyboard.
+
+**Anti-Ghosting Diode Technique**:
+When rerouting a key through an alternate matrix position (like using a pedal input for a regular key), you must add diodes to prevent current from flowing backwards through the matrix, which would cause key ghosting (phantom keypresses).
+
+The technique involves adding a pair of diodes in series with the rerouted key connection:
+- One diode on each leg of the switch connection
+- Diodes oriented to only allow current flow in the correct scanning direction
+- This isolates the rerouted key from interfering with other keys in the same row/column
+
+**Diode Orientation**:
+The dark band/stripe on a diode marks the **cathode** (negative) side - think of it as a tiny wall or dam.
+
+```
+     Current flows this way →
+          ┌─────────┐
+    ──────┤    →    ┣━━━━━━──
+          └─────────┘
+    Anode (+)       Cathode (-)
+                    ━━━ ← Dark stripe
+```
+
+**Current flow: Anode → Cathode (towards the stripe)**
+
+**The stripe is a one-way gate:**
+- Current CAN flow **towards** the stripe (anode → cathode) ✓
+- Current CANNOT flow **away from** the stripe (cathode → anode) ✗
+
+**Simple mental model:**
+Think of the dark stripe as a little flow blocker. Current flows INTO the stripe side and stops there — it cannot flow out from that side going backwards.
+
+For keyboard matrix isolation:
+- Orient diodes so the stripe points TOWARDS the row/column line
+- Current flows FROM the switch, TO the stripe, INTO the matrix
+- Reverse current (from matrix back to switch) is blocked by the stripe
+
+Without these diodes, pressing the rerouted key could trigger false readings on other keys that share the same row or column in the original matrix.
