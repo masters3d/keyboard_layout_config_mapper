@@ -52,9 +52,11 @@
 *[space]>[space]
 
 *# right pinkey keys
-*# Aligned with ZMK
-[hyphen]>[hyphen]
-[kp-hyphen]>[hyphen]
+*# Aligned with ZMK - Screenshot on right pinky row 0 (matches left side =)
+[hyphen]>[null]
+[kp-hyphen]>[null]
+{hyphen}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
+{kp-hyphen}>{speed5}{-lshift}{-lwin}{s}{+lshift}{+lwin}
 [']>[enter]
 [kp-']>[enter]
 [\]>[hyphen]
