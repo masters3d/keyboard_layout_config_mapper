@@ -18,15 +18,13 @@ var downloadCmd = &cobra.Command{
 	Long: `Download the latest keyboard configurations from their respective GitHub repositories.
 
 Supported keyboards:
-  kinesis2  - Kinesis Advantage 2 configuration
-  ergodox   - QMK ErgoDox keymap  
   glove80   - Glove80 ZMK keymap
   adv360    - Advantage360 ZMK keymap
   adv_mod   - Kinesis Advantage (Pillz Mod) ZMK keymap
 
 Examples:
   klcm download                    # Download all configurations
-  klcm download adv360 glove80     # Download only ZMK keyboards
+  klcm download adv360 glove80     # Download specific keyboards
   klcm download --force adv_mod    # Force re-download Pillz Mod keymap
   klcm download --preview          # Preview changes before downloading`,
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -101,18 +99,6 @@ type keyboardConfig struct {
 }
 
 var keyboards = []keyboardConfig{
-	{
-		name:     "kinesis2",
-		dir:      "configs/kinesis2",
-		filename: "1_qwerty.txt",
-		url:      "https://raw.githubusercontent.com/masters3d/supportfiles/master/1_qwerty.txt",
-	},
-	{
-		name:     "ergodox", 
-		dir:      "configs/qmk_ergodox",
-		filename: "keymap.c",
-		url:      "https://raw.githubusercontent.com/masters3d/qmk_firmware/masters3d/keyboards/ergodox_ez/keymaps/masters3d/keymap.c",
-	},
 	{
 		name:     "glove80",
 		dir:      "configs/zmk_glove80",
@@ -217,15 +203,11 @@ func downloadFile(dir, filename, url string, force bool) error {
 
 func printSummary() {
 	fmt.Println("\n📋 Summary:")
-	fmt.Println("  - configs/kinesis2/: Kinesis Advantage 2 reference configuration (1_qwerty.txt)")
-	fmt.Println("  - configs/qmk_ergodx/: QMK ErgoDox keymap (keymap.c)")
 	fmt.Println("  - configs/zmk_glove80/: Glove80 ZMK keymap (glove80.keymap)")
 	fmt.Println("  - configs/zmk_adv360/: Advantage360 ZMK keymap (adv360.keymap)")
 	fmt.Println("  - configs/zmk_adv_mod/: Kinesis Advantage (Pillz Mod) ZMK keymap (pillzmod_pro.keymap)")
 	
 	fmt.Println("\n🔗 Repository mapping:")
-	fmt.Println("  - Kinesis Advantage 2: masters3d/supportfiles/master/1_qwerty.txt")
-	fmt.Println("  - QMK ErgoDox: masters3d/qmk_firmware/masters3d/keyboards/ergodox_ez/keymaps/masters3d/keymap.c")
 	fmt.Println("  - Glove80: masters3d/glove80-zmk-config/cheyo/config/glove80.keymap")
 	fmt.Println("  - Advantage360: masters3d/Adv360-Pro-ZMK/cheyo/config/adv360.keymap")
 	fmt.Println("  - Advantage Mod: masters3d/zmk-config-pillzmod-nicenano/cheyo/config/pillzmod_pro.keymap")

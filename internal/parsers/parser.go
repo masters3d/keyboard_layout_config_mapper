@@ -18,16 +18,8 @@ type Parser interface {
 // NewParser creates a parser based on the keyboard type
 func NewParser(keyboardType models.KeyboardType) (Parser, error) {
 	switch keyboardType {
-	case models.KeyboardZMKAdv360:
+	case models.KeyboardZMKAdv360, models.KeyboardZMKGlove80, models.KeyboardZMKAdvMod:
 		return NewZMKParser(keyboardType), nil
-	case models.KeyboardZMKGlove80:
-		return NewZMKParser(keyboardType), nil
-	case models.KeyboardZMKAdvMod:
-		return NewZMKParser(keyboardType), nil
-	case models.KeyboardQMKErgoDox:
-		return NewQMKParser(), nil
-	case models.KeyboardKinesis2:
-		return NewKinesis2Parser(), nil
 	default:
 		return nil, fmt.Errorf("unsupported keyboard type: %s", keyboardType)
 	}
@@ -44,10 +36,6 @@ func GetConfigPath(keyboardType models.KeyboardType) (string, error) {
 		return filepath.Join(configsDir, "zmk_glove80", "glove80.keymap"), nil
 	case models.KeyboardZMKAdvMod:
 		return filepath.Join(configsDir, "zmk_adv_mod", "pillzmod_pro.keymap"), nil
-	case models.KeyboardQMKErgoDox:
-		return filepath.Join(configsDir, "qmk_ergodox", "keymap.c"), nil
-	case models.KeyboardKinesis2:
-		return filepath.Join(configsDir, "kinesis2", "1_qwerty.txt"), nil
 	default:
 		return "", fmt.Errorf("unsupported keyboard type: %s", keyboardType)
 	}
@@ -67,8 +55,6 @@ func (v *Validator) ValidateAll(compileCheck bool) error {
 		models.KeyboardZMKAdv360,
 		models.KeyboardZMKGlove80,
 		models.KeyboardZMKAdvMod,
-		models.KeyboardQMKErgoDox,
-		models.KeyboardKinesis2,
 	}
 
 	var errors []string
@@ -126,20 +112,9 @@ func (v *Validator) ValidateKeyboard(keyboard string, compileCheck bool) error {
 func (v *Validator) validateCompilation(keyboardType models.KeyboardType, configPath string) error {
 	switch keyboardType {
 	case models.KeyboardZMKAdv360, models.KeyboardZMKGlove80, models.KeyboardZMKAdvMod:
-		// For ZMK, we could potentially set up a docker container to test compilation
-		// For now, just do syntax validation
-		fmt.Printf("⚠️  Compilation check not yet implemented for %s\n", keyboardType)
+		// For ZMK, compilation happens via GitHub Actions on the firmware repos
+		fmt.Printf("⚠️  Local compilation check not implemented - use GitHub Actions\n")
 		return nil
-		
-	case models.KeyboardQMKErgoDox:
-		// For QMK, we could potentially validate with qmk compile
-		fmt.Printf("⚠️  Compilation check not yet implemented for %s\n", keyboardType)
-		return nil
-		
-	case models.KeyboardKinesis2:
-		// Kinesis2 is just text mapping, no compilation needed
-		return nil
-		
 	default:
 		return fmt.Errorf("compilation check not supported for %s", keyboardType)
 	}

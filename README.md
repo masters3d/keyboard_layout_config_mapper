@@ -1,196 +1,71 @@
 # 🎹 KLCM (Keyboard Layout Configuration Mapper)
 
-A powerful CLI tool for managing keyboard configuration files across different firmware systems (ZMK, QMK, Kinesis) with a focus on ZMK keyboards like the Advantage360 and Glove80.
+A CLI tool for managing ZMK keyboard configurations across multiple keyboards (Advantage360, Glove80, Pillz Mod) with GitHub PR automation.
 
 ## ✨ Features
 
-- **🔄 Pull configurations** from remote repositories (like `git pull`)
+- **🔄 Pull configurations** from remote repositories
 - **🔍 Compare local vs remote** configurations with git-style diffs
-- **🔄 Sync changes** between different keyboards (cross-vendor)
-- **✅ Validate configurations** for syntax errors and compatibility
+- **🔄 Sync changes** between ZMK keyboards
+- **✅ Validate configurations** for syntax errors
 - **🚀 GitHub PR automation** for contributing changes back
-- **🎯 Interactive workflow** guide for beginners
-- **🛡️ Safe preview mode** for all operations
+- **🎯 Interactive workflow** guide
 
 ## 🚀 Quick Start
 
-### **Option 1: Interactive Workflow (Recommended for Beginners)**
 ```bash
-# Start the interactive guide that walks you through everything
-klcm workflow
-```
-
-### **Option 2: Manual Commands (For Advanced Users)**
-```bash
-# 1. Update to latest configurations
-klcm pull --preview              # Preview changes
-klcm pull                        # Apply updates
-
-# 2. Make your changes (edit .keymap files)
-
-# 3. Validate your changes
-klcm validate
-
-# 4. Sync between keyboards (optional)
-klcm sync adv360 glove80 --preview
-klcm sync adv360 glove80
-
-# 5. Create pull requests
-klcm pr create --dry-run         # Preview PR creation
-klcm pr create --apply           # Create actual PRs
-```
-
-## 📋 Complete Workflow Process
-
-For detailed step-by-step instructions, see **[WORKFLOW.md](WORKFLOW.md)** - this contains the complete guide for making, validating, and contributing keyboard configuration changes.
-
-## 🛠️ Commands
-
-### **Core Commands**
-| Command | Description | Example |
-|---------|-------------|---------|
-| `pull` | Update local files from remote (like git pull) | `klcm pull --preview` |
-| `sync` | Copy changes between keyboards | `klcm sync adv360 glove80` |
-| `validate` | Check configurations for errors | `klcm validate adv360` |
-| `compare-remote` | Compare local vs remote files | `klcm compare-remote` |
-
-### **GitHub Integration**  
-| Command | Description | Example |
-|---------|-------------|---------|
-| `pr create` | Create pull requests for your changes | `klcm pr create --dry-run` |
-| `pr status` | Check status of your PRs | `klcm pr status` |
-| `pr workflow` | Interactive PR workflow guide | `klcm pr workflow` |
-
-### **Workflow Helpers**
-| Command | Description | Example |
-|---------|-------------|---------|
-| `workflow` | Interactive guide for complete process | `klcm workflow` |
-| `download` | Download specific configurations | `klcm download adv360` |
-
-## 💡 Common Use Cases
-
-### **Making Your First Change**
-```bash
-# Interactive guide walks you through everything
-klcm workflow
-```
-
-### **Updating to Latest Remote Configurations**
-```bash
-# See what would change
-klcm pull --preview
-
-# Apply the updates
-klcm pull
-```
-
-### **Syncing Same Layout to Both Keyboards**
-```bash
-# Edit configs/zmk_adv360/adv360.keymap
-klcm validate adv360
-
-# Copy changes to Glove80
-klcm sync adv360 glove80 --preview
-klcm sync adv360 glove80
-
-# Validate both
-klcm validate
-```
-
-### **Contributing Changes Back**
-```bash
-# See what PRs would be created
-klcm pr create --dry-run
-
-# Create the actual PRs
-klcm pr create --apply
-
-# Check PR status later
-klcm pr status
-```
-
-## 🔧 Installation
-
-```bash
-# Clone this repository
-git clone <repository-url>
-cd keyboard_layout_config_mapper
-
 # Build the tool
 go build -o klcm cmd/klcm/main.go
 
-# Run commands
-./klcm --help
+# Interactive workflow (recommended)
+./klcm workflow
+
+# Or manual commands:
+./klcm pull --preview           # Preview changes from remote
+./klcm pull                     # Apply updates
+./klcm validate                 # Validate all configs
+./klcm sync adv360 glove80      # Sync between keyboards
+./klcm pr create --dry-run      # Preview PR creation
+./klcm pr create --apply        # Create actual PRs
 ```
 
 ## 📁 Supported Keyboards
 
-### **ZMK Keyboards (Primary Focus)**
-- **Advantage360 Pro** (`configs/zmk_adv360/`)
-- **Glove80** (`configs/zmk_glove80/`)
-- **Pillz Mod Pro** (`configs/zmk_adv_mod/`) - Nice!Nano with ZMK
+| Keyboard | Config Path | Description |
+|----------|-------------|-------------|
+| `adv360` | `configs/zmk_adv360/adv360.keymap` | Kinesis Advantage360 Pro |
+| `glove80` | `configs/zmk_glove80/glove80.keymap` | MoErgo Glove80 |
+| `adv_mod` | `configs/zmk_adv_mod/pillzmod_pro.keymap` | Kinesis Advantage with Pillz Mod (Nice!Nano) |
 
-### **Native Firmware**
-- **Kinesis Advantage 2** (`configs/kinesis2/`) - SmartSet configuration
+## 🛠️ Commands
 
-### **Future Support**
-- QMK keyboards
-- Additional ZMK keyboards
+| Command | Description |
+|---------|-------------|
+| `pull` | Update local files from remote repos |
+| `sync` | Copy changes between keyboards |
+| `validate` | Check configurations for syntax errors |
+| `compare-remote` | Compare local vs remote files |
+| `download` | Download configurations |
+| `pr create` | Create GitHub PRs for changes |
+| `pr status` | Check status of PRs |
+| `workflow` | Interactive guide |
 
-## 🎯 Key Benefits
+## 📂 Project Structure
 
-### **🛡️ Safety First**
-- Preview all changes before applying
-- Interactive confirmations for destructive operations
-- Git-style diffs show exactly what will change
-- Validation catches errors before you commit
-
-### **🚀 Productivity**
-- Sync layouts between keyboards with one command
-- Automated PR creation saves manual GitHub work
-- Interactive workflow guides beginners
-- Batch operations for multiple keyboards
-
-### **🔧 Professional Workflow**
-- Git-style commands (`pull`, `diff`, etc.)
-- Proper branch management for PRs
-- Descriptive commit messages
-- Upstream contribution automation
-
-## 🆘 Getting Help
-
-### **Command Help**
-```bash
-klcm --help                    # General help
-klcm pull --help              # Command-specific help
-klcm pr create --help         # PR creation help
+```
+configs/
+├── zmk_adv360/          # Advantage360 ZMK config
+├── zmk_glove80/         # Glove80 ZMK config
+├── zmk_adv_mod/         # Pillz Mod ZMK config
+└── archived/            # Archived non-ZMK configs (kinesis2, qmk_ergodox)
 ```
 
-### **Verbose Output**
-Add `--verbose` to any command for detailed information:
-```bash
-klcm pull --verbose --preview
-klcm validate --verbose
-```
+## 🔗 Related Repositories
 
-### **Workflow Guide**
-- **📖 Complete guide**: [WORKFLOW.md](WORKFLOW.md)
-- **🎯 Interactive guide**: `klcm workflow`
-- **🚀 PR guide**: `klcm pr workflow`
-
-## 🤝 Contributing
-
-1. Make your keyboard configuration changes
-2. Run `klcm validate` to ensure they're correct
-3. Use `klcm pr create` to submit pull requests
-4. Monitor your PRs with `klcm pr status`
-
-For contributing to this tool itself, see the standard GitHub workflow.
-
-## 📝 License
-
-[Add your license here]
+- [Adv360-Pro-ZMK](https://github.com/masters3d/Adv360-Pro-ZMK) - Advantage360 firmware
+- [glove80-zmk-config](https://github.com/masters3d/glove80-zmk-config) - Glove80 firmware
+- [zmk-config-pillzmod-nicenano](https://github.com/masters3d/zmk-config-pillzmod-nicenano) - Pillz Mod firmware
 
 ---
 
-**🎉 Happy keyboard customizing!** This tool makes it easy to manage configurations across multiple keyboards while safely contributing back to the community.
+**🎉 Happy keyboard customizing!**

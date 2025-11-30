@@ -72,6 +72,7 @@ func runWorkflow(cmd *cobra.Command, args []string) error {
 	fmt.Println()
 	fmt.Println("  📁 Advantage360: configs/zmk_adv360/adv360.keymap")
 	fmt.Println("  📁 Glove80:      configs/zmk_glove80/glove80.keymap")
+	fmt.Println("  📁 Pillz Mod:    configs/zmk_adv_mod/pillzmod_pro.keymap")
 	fmt.Println()
 	fmt.Println("💡 Tips:")
 	fmt.Println("   - Make small, focused changes")
