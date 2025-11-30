@@ -521,6 +521,7 @@ When updating SmartSet configs:
 - All keyboard configs (adv360, glove80, pillzmod_pro) should be kept in sync
 - SmartSet (kinesis2) mirrors ZMK where hardware allows
 - The user upgraded their Kinesis Advantage 2 to run ZMK via Pillz Mod, so SmartSet config is now backup/reference only
+- **EXCEPTION**: Pillz Mod Pro has 3 pedal keys that don't exist on Adv360/Glove80 - these cannot be synced
 
 #### 2. Repositories Structure
 - **zmk-config-pillzmod-nicenano**: Actual ZMK firmware config (in `/Volumes/ExternalCheyo/source/`)
@@ -572,4 +573,39 @@ Custom shifted outputs (same across all ZMK configs):
 2. `keyboard_layout_config_mapper/configs/zmk_adv_mod/pillzmod_pro.keymap` (KLCM copy)
 3. `keyboard_layout_config_mapper/configs/zmk_adv360/adv360.keymap`
 4. `keyboard_layout_config_mapper/configs/zmk_glove80/glove80.keymap`
-5. `keyboard_layout_config_mapper/configs/kinesis2/1_qwerty.txt` (SmartSet backup)
+5. `keyboard_layout_config_mapper/configs/archived/kinesis2/1_qwerty.txt` (SmartSet backup)
+
+#### 10. Pedal Configuration (Pillz Mod Pro) - UNIQUE FEATURE
+
+⚠️ **IMPORTANT**: The Pillz Mod Pro is the ONLY keyboard in this system that supports pedals. The Adv360 and Glove80 do NOT have pedal support. This is a critical difference when syncing keymaps.
+
+The Pillz Mod Pro PCB supports 3 foot pedals via matrix positions `RC(0, 6)`, `RC(1, 6)`, and `RC(2, 6)`.
+
+**Matrix Position in Keymap**:
+The pedal row appears at the END of each layer's bindings, after the thumb cluster row. This is column 6 (the 7th column) in the matrix:
+```
+// ... thumb cluster row (6 keys)
+&kp SPACE   &kp LEFT_SHIFT      &kp LEFT_ALT    &mo LAYER_CMD  &kp RIGHT_SHIFT &kp SPACE
+// Pedal row (3 keys) - MUST be present for correct matrix
+&kp X  &kp ESC  &kp ESC   // <-- Pedal 1, Pedal 2, Pedal 3
+```
+
+**Current Configuration**:
+- **Pedal 1 (RC(0,6))**: `X` key - Used to reroute a broken X key pad on older keyboard
+- **Pedal 2 (RC(1,6))**: `ESC` key
+- **Pedal 3 (RC(2,6))**: `ESC` key
+
+**Layer Behavior**:
+- In non-default layers (keypad, cmd, system), pedals use `&trans` to inherit from the default layer
+- This means pedals always function the same regardless of active layer
+
+**Why Pedals Were Missing (Historical Bug)**:
+The cheyo branch initially omitted the pedal keys from the keymap. This caused:
+1. Matrix mismatch with the shield definition (86 keys expected, fewer provided)
+2. Potential key ghosting or scanning issues
+3. Build warnings about binding count mismatch
+
+The main branch and dcpedit's reference implementation correctly include all 3 pedals. This was corrected to ensure keymap matrix completeness.
+
+**Hardware Note**:
+The pedal connections on the Pillz Mod Pro PCB can be repurposed for other matrix repairs. In this case, Pedal 1's matrix position is used to reroute a broken `X` key pad on an older Kinesis keyboard, allowing that key to function again without PCB repair.
