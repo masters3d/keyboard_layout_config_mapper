@@ -193,6 +193,7 @@
                                                       &mo LAYER_KEYPAD  &kp LEFT_WIN                                       &kp ESC  &mo LAYER_KEYPAD
                                                                         &kp LEFT_CONTROL                                   &kp LEFT_CONTROL
                                         &kp SPACE   &kp LEFT_SHIFT      &kp LEFT_ALT                                       &mo LAYER_CMD  &kp RIGHT_SHIFT &kp SPACE
+    &kp X  &kp ESC  &kp ESC
             >;
         };
         
@@ -209,6 +210,7 @@
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                        &trans
                                           &trans  &trans  &trans                                        &trans  &trans  &trans
+    &trans  &trans  &trans
             >;
         };
 
@@ -225,6 +227,7 @@
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                        &trans
                                           &trans  &trans  &trans                                        &trans  &trans  &trans
+    &trans  &trans  &trans
             >;
         };
 
@@ -241,6 +244,7 @@
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                        &trans
                                       &out OUT_TOG  &trans  &trans                                        &trans  &trans  &trans
+    &trans  &trans  &trans
             >;
         };
 
