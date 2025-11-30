@@ -17,14 +17,12 @@ var (
 var validateCmd = &cobra.Command{
 	Use:   "validate",
 	Short: "Validate keyboard configuration files",
-	Long: `Validate keyboard configuration files for syntax errors and compatibility.
+	Long: `Validate keyboard configuration files for syntax errors.
 
-Supports validation for:
-- ZMK keymap files (.keymap)
-- QMK keymap files (.c)  
-- Kinesis2 configuration files (.txt)
-
-Can also attempt compilation validation where possible.`,
+Supports validation for ZMK keymap files (.keymap) for:
+- adv360  - Kinesis Advantage360
+- glove80 - MoErgo Glove80  
+- adv_mod - Kinesis Advantage with Pillz Mod`,
 	Example: `  # Validate all keyboards
   klcm validate --all
 
@@ -64,5 +62,5 @@ func init() {
 
 	validateCmd.Flags().BoolVar(&validateAll, "all", false, "validate all keyboard configurations")
 	validateCmd.Flags().BoolVar(&validateCompile, "compile", false, "attempt compilation validation")
-	validateCmd.Flags().StringVar(&validateKeyboard, "keyboard", "", "specific keyboard to validate (adv360, glove80, qmk_ergodx, kinesis2)")
+	validateCmd.Flags().StringVar(&validateKeyboard, "keyboard", "", "specific keyboard to validate (adv360, glove80, adv_mod)")
 }

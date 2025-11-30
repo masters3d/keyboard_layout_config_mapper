@@ -20,14 +20,13 @@ from their respective GitHub repositories. This helps you understand what
 changes you would lose before downloading/overriding your local files.
 
 Supported keyboards:
-  kinesis2  - Kinesis Advantage 2 configuration
-  ergodox   - QMK ErgoDox keymap  
   glove80   - Glove80 ZMK keymap
   adv360    - Advantage360 ZMK keymap
+  adv_mod   - Kinesis Advantage (Pillz Mod) ZMK keymap
 
 Examples:
   klcm compare-remote                    # Compare all configurations
-  klcm compare-remote adv360 glove80     # Compare only ZMK keyboards
+  klcm compare-remote adv360 glove80     # Compare specific keyboards
   klcm compare-remote --show-unchanged   # Include files with no differences`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		showUnchanged, _ := cmd.Flags().GetBool("show-unchanged")
