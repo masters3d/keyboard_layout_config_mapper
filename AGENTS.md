@@ -582,7 +582,7 @@ The pedal row appears at the end of each layer's bindings, after the bottom row 
 ```
 // ... thumb cluster row
 &kp SPACE   &kp LEFT_SHIFT      &kp LEFT_ALT    &mo LAYER_CMD  &kp RIGHT_SHIFT &kp SPACE
-&kp X  &kp ESC  &kp ESC   // <-- Pedal row: Pedal1, Pedal2, Pedal3
+&kp X  &kp ESC  &kp ESC   // <-- Pedal row: Pedal 1, Pedal 2, Pedal 3
 ```
 
 **Default Configuration**:
