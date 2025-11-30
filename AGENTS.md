@@ -573,3 +573,25 @@ Custom shifted outputs (same across all ZMK configs):
 3. `keyboard_layout_config_mapper/configs/zmk_adv360/adv360.keymap`
 4. `keyboard_layout_config_mapper/configs/zmk_glove80/glove80.keymap`
 5. `keyboard_layout_config_mapper/configs/kinesis2/1_qwerty.txt` (SmartSet backup)
+
+#### 10. Pedal Configuration (Pillz Mod Pro)
+The Pillz Mod Pro PCB supports 3 foot pedals via matrix positions `RC(0, 6)`, `RC(1, 6)`, and `RC(2, 6)`.
+
+**Matrix Position in Keymap**:
+The pedal row appears at the end of each layer's bindings, after the bottom row of the thumb cluster:
+```
+// ... thumb cluster row
+&kp SPACE   &kp LEFT_SHIFT      &kp LEFT_ALT    &mo LAYER_CMD  &kp RIGHT_SHIFT &kp SPACE
+&kp X  &kp ESC  &kp ESC   // <-- Pedal row: Pedal1, Pedal2, Pedal3
+```
+
+**Default Configuration**:
+- **Pedal 1**: `X` key (for software-defined actions)
+- **Pedal 2**: `ESC` key
+- **Pedal 3**: `ESC` key
+
+**Layer Behavior**:
+- In non-default layers (keypad, cmd, system), pedals use `&trans` to inherit from the default layer.
+
+**Historical Note**:
+The cheyo branch initially omitted the pedal keys, which was an error. The main branch and dcpedit's reference implementation include all 3 pedals. This was corrected to ensure keymap matrix completeness.
