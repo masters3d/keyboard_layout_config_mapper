@@ -203,7 +203,7 @@
             >;
         };
 
-        layer9_nav {
+        layer9_navigation {
             // -----------------------------------------------------------------------------------------
             // Navigation Layer for Modeless Editing
             // 

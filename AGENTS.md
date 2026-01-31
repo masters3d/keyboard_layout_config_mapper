@@ -28,12 +28,15 @@ The navigation layer is activated by holding any of the 4 positions on the botto
 ╠═══════════╦═══════════╦═══════════╦═══════════╦════════════════╣
 ║ Row 1     ║ GoBack    ║ Word←     ║  Up       ║ Word→          ║ GoForward
 ║ (Top)     ║ LC(-)     ║ LA(←)     ║  ↑        ║ LA(→)          ║ LC(LS(-))
+║           ║ (Y key)   ║ (U key)   ║ (I key)   ║ (O key)        ║ (P key)
 ╠═══════════╬═══════════╬═══════════╬═══════════╬════════════════╣
 ║ Row 2     ║ Home      ║  Left     ║  Down     ║  Right         ║ End
 ║ (Home)    ║ LG(←)     ║  ←        ║  ↓        ║  →             ║ LG(→)
+║           ║ (H key)   ║ (J key)   ║ (K key)   ║ (L key)        ║ (; key)
 ╠═══════════╬═══════════╬═══════════╬═══════════╬════════════════╣
 ║ Row 3     ║ DelWord← ║ Backspace ║ PageDown  ║ PageUp         ║ Delete      ║ DelWord→
 ║ (Bottom)  ║ LA(Bksp)  ║  BSPC     ║  PG_DN    ║  PG_UP         ║ DEL         ║ LA(DEL)
+║           ║ (N key)   ║ (M key)   ║ (, key)   ║ (. key)        ║ (/ key)     ║ (next key)
 ╚═══════════╩═══════════╩═══════════╩═══════════╩════════════════╝
 
 IJKL forms inverted-T arrow cluster (Vim-style)
@@ -47,12 +50,15 @@ Add Shift to any navigation key for selection variant
 ╠═══════════╦═══════════╦═══════════╦═══════════╦════════════════╣
 ║ Row 1     ║ Redo      ║ Undo      ║ DelLine   ║ DupLine        ║
 ║ (Top)     ║ LG(LS(Z)) ║ LG(Z)     ║ LG(LS(K)) ║ LG(LS(D))      ║
+║           ║ (Q key)   ║ (W key)   ║ (E key)   ║ (R key)        ║
 ╠═══════════╬═══════════╬═══════════╬═══════════╬════════════════╣
 ║ Row 2     ║ SelectAll ║ Cut       ║ Copy      ║ Paste          ║ SelLine
 ║ (Home)    ║ LG(A)     ║ LG(X)     ║ LG(C)     ║ LG(V)          ║ LG(L)
+║           ║ (A key)   ║ (S key)   ║ (D key)   ║ (F key)        ║ (G key)
 ╠═══════════╬═══════════╬═══════════╬═══════════╬════════════════╣
 ║ Row 3     ║ MoveLine↑ ║ MoveLine↓ ║ GoToDef   ║ FindRef        ║ CmdPalette
 ║ (Bottom)  ║ LA(↑)     ║ LA(↓)     ║ F12       ║ LS(F12)        ║ LG(LS(P))
+║           ║ (Z key)   ║ (X key)   ║ (C key)   ║ (V key)        ║ (B key)
 ╚═══════════╩═══════════╩═══════════╩═══════════╩════════════════╝
 
 Home row provides clipboard operations (ASDF → SelectAll, Cut, Copy, Paste)
@@ -95,8 +101,8 @@ Home row provides clipboard operations (ASDF → SelectAll, Cut, Copy, Paste)
 #### 6. Word Deletion
 | Motion | macOS Shortcut | ZMK Code | Location |
 |--------|----------------|----------|----------|
-| Delete word left | `Option + Backspace` | `&kp LA(BSPC)` | Right bottom: Z position |
-| Delete word right | `Option + Delete` | `&kp LA(DEL)` | Right bottom: / position |
+| Delete word left | `Option + Backspace` | `&kp LA(BSPC)` | Right bottom: first position |
+| Delete word right | `Option + Delete` | `&kp LA(DEL)` | Right bottom: last position |
 
 #### 7. Line Deletion/Manipulation
 | Motion | macOS Shortcut | ZMK Code | Location |
