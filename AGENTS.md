@@ -1,5 +1,197 @@
 # KLCM Agents Memory - Keyboard Integration Guide
 
+## Navigation Layer System for Modeless Editing
+
+### Overview
+The Navigation Layer (LAYER_NAV) provides a comprehensive set of navigation and editing motions for modeless editing in Zed and similar code editors. This layer eliminates the need for arrow keys on the base layer and provides efficient access to advanced navigation commands.
+
+**Layer Number:**
+- adv360: Layer 9 (LAYER_NAV)
+- glove80: Layer 9 (LAYER_NAV)
+- pillzmod_pro: Layer 4 (LAYER_NAV)
+
+### Activation Method
+The navigation layer is activated by holding any of the 4 positions on the bottom-right that previously held arrow keys. This provides momentary access - release to return to the default layer.
+
+**Design Rationale:**
+- **No mode toggling**: Momentary activation prevents getting stuck in wrong layer
+- **Easy to reach**: Bottom-right position is natural for right hand
+- **Four key cluster**: All four positions activate the same layer for convenience
+- **Selection support**: Hold Shift while in nav layer to convert navigation to selection
+
+### Physical Layout
+
+#### Right Hand - Navigation Focus
+```
+╔════════════════════════════════════════════════════════════════╗
+║                 RIGHT HAND - NAVIGATION LAYER                   ║
+╠═══════════╦═══════════╦═══════════╦═══════════╦════════════════╣
+║ Row 1     ║ GoBack    ║ Word←     ║  Up       ║ Word→          ║ GoForward
+║ (Top)     ║ LC(-)     ║ LA(←)     ║  ↑        ║ LA(→)          ║ LC(LS(-))
+╠═══════════╬═══════════╬═══════════╬═══════════╬════════════════╣
+║ Row 2     ║ Home      ║  Left     ║  Down     ║  Right         ║ End
+║ (Home)    ║ LG(←)     ║  ←        ║  ↓        ║  →             ║ LG(→)
+╠═══════════╬═══════════╬═══════════╬═══════════╬════════════════╣
+║ Row 3     ║ DelWord← ║ Backspace ║ PageDown  ║ PageUp         ║ Delete      ║ DelWord→
+║ (Bottom)  ║ LA(Bksp)  ║  BSPC     ║  PG_DN    ║  PG_UP         ║ DEL         ║ LA(DEL)
+╚═══════════╩═══════════╩═══════════╩═══════════╩════════════════╝
+
+IJKL forms inverted-T arrow cluster (Vim-style)
+Add Shift to any navigation key for selection variant
+```
+
+#### Left Hand - Editing Commands
+```
+╔════════════════════════════════════════════════════════════════╗
+║                 LEFT HAND - EDITING LAYER                       ║
+╠═══════════╦═══════════╦═══════════╦═══════════╦════════════════╣
+║ Row 1     ║ Redo      ║ Undo      ║ DelLine   ║ DupLine        ║
+║ (Top)     ║ LG(LS(Z)) ║ LG(Z)     ║ LG(LS(K)) ║ LG(LS(D))      ║
+╠═══════════╬═══════════╬═══════════╬═══════════╬════════════════╣
+║ Row 2     ║ SelectAll ║ Cut       ║ Copy      ║ Paste          ║ SelLine
+║ (Home)    ║ LG(A)     ║ LG(X)     ║ LG(C)     ║ LG(V)          ║ LG(L)
+╠═══════════╬═══════════╬═══════════╬═══════════╬════════════════╣
+║ Row 3     ║ MoveLine↑ ║ MoveLine↓ ║ GoToDef   ║ FindRef        ║ CmdPalette
+║ (Bottom)  ║ LA(↑)     ║ LA(↓)     ║ F12       ║ LS(F12)        ║ LG(LS(P))
+╚═══════════╩═══════════╩═══════════╩═══════════╩════════════════╝
+
+Home row provides clipboard operations (ASDF → SelectAll, Cut, Copy, Paste)
+```
+
+### Complete Motion Reference
+
+#### 1. Character Navigation (Basic Cursor Movement)
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Move left | `←` | `&kp LEFT` | Right home: J position |
+| Move right | `→` | `&kp RIGHT` | Right home: L position |
+| Move up | `↑` | `&kp UP` | Right top: I position |
+| Move down | `↓` | `&kp DOWN` | Right home: K position |
+
+#### 2. Word Navigation
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Word left | `Option + ←` | `&kp LA(LEFT)` | Right top: U position |
+| Word right | `Option + →` | `&kp LA(RIGHT)` | Right top: O position |
+
+#### 3. Line Navigation
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Start of line | `Cmd + ←` | `&kp LG(LEFT)` | Right home: H position |
+| End of line | `Cmd + →` | `&kp LG(RIGHT)` | Right home: ; position |
+
+#### 4. Page/Document Navigation
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Page up | `Page Up` | `&kp PG_UP` | Right bottom: , position |
+| Page down | `Page Down` | `&kp PG_DN` | Right bottom: M position |
+
+#### 5. Character Deletion
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Delete char left | `Backspace` | `&kp BSPC` | Right bottom: N position |
+| Delete char right | `Delete` | `&kp DEL` | Right bottom: . position |
+
+#### 6. Word Deletion
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Delete word left | `Option + Backspace` | `&kp LA(BSPC)` | Right bottom: Z position |
+| Delete word right | `Option + Delete` | `&kp LA(DEL)` | Right bottom: / position |
+
+#### 7. Line Deletion/Manipulation
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Delete entire line | `Cmd + Shift + K` | `&kp LG(LS(K))` | Left top: E position |
+| Duplicate line | `Cmd + Shift + D` | `&kp LG(LS(D))` | Left top: R position |
+| Move line up | `Option + ↑` | `&kp LA(UP)` | Left bottom: Z position |
+| Move line down | `Option + ↓` | `&kp LA(DOWN)` | Left bottom: X position |
+
+#### 8. Selection (Add Shift to Navigation)
+To select while navigating, hold Shift in addition to the nav layer key. All navigation motions become selection motions:
+- `Shift + →` = Select character right
+- `Shift + Word→` = Select word right
+- `Shift + End` = Select to line end
+- etc.
+
+#### 9. Clipboard Operations
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Cut | `Cmd + X` | `&kp LG(X)` | Left home: S position |
+| Copy | `Cmd + C` | `&kp LG(C)` | Left home: D position |
+| Paste | `Cmd + V` | `&kp LG(V)` | Left home: F position |
+| Undo | `Cmd + Z` | `&kp LG(Z)` | Left top: W position |
+| Redo | `Cmd + Shift + Z` | `&kp LG(LS(Z))` | Left top: Q position |
+| Select all | `Cmd + A` | `&kp LG(A)` | Left home: A position |
+| Select line | `Cmd + L` | `&kp LG(L)` | Left home: G position |
+
+#### 10. Code Navigation (IDE Specific)
+| Motion | macOS Shortcut | ZMK Code | Location |
+|--------|----------------|----------|----------|
+| Go to definition | `F12` | `&kp F12` | Left bottom: C position |
+| Find references | `Shift + F12` | `&kp LS(F12)` | Left bottom: V position |
+| Go back | `Ctrl + -` | `&kp LC(MINUS)` | Right top: P position |
+| Go forward | `Ctrl + Shift + -` | `&kp LC(LS(MINUS))` | Right top: Y position |
+| Command palette | `Cmd + Shift + P` | `&kp LG(LS(P))` | Left bottom: B position |
+
+### Usage Examples
+
+**Example 1: Navigate to end of line and delete word**
+1. Hold nav layer key (bottom-right arrow position)
+2. Tap L (→) to move right
+3. Tap ; (End) to jump to end of line
+4. Tap / (Delete word right) if needed
+5. Release nav layer key
+
+**Example 2: Select entire line and copy**
+1. Hold nav layer key
+2. Tap A (Select all on that line) OR tap G (Select line)
+3. Tap D (Copy)
+4. Release nav layer key
+
+**Example 3: Jump to definition and come back**
+1. Hold nav layer key
+2. Tap C (F12 - Go to definition)
+3. Release nav layer key
+4. (Review code at definition)
+5. Hold nav layer key again
+6. Tap P (Go back)
+7. Release nav layer key
+
+### Design Principles
+
+1. **Home row priority**: Most frequent actions (arrows, clipboard) on home row
+2. **Symmetric access**: Navigation on right hand, editing on left hand
+3. **Modifier consistency**: Shift always adds selection to navigation
+4. **Layer activation**: Single momentary hold, no mode toggling
+5. **Vim-inspired**: IJKL forms inverted-T arrow cluster (familiar to Vim users)
+6. **Progressive disclosure**: Basic movements on home row, advanced on top/bottom rows
+
+### Benefits
+
+- **No hand movement**: Navigate without leaving home position
+- **Fast text editing**: Clipboard operations easily accessible on left home row
+- **IDE integration**: Code navigation (go to def, find refs) built-in
+- **No arrow key dependency**: Complete navigation without moving to arrow cluster
+- **Selection mode**: Add Shift for instant selection variants
+- **Consistent across keyboards**: Same layout on adv360, glove80, pillzmod_pro
+
+### Implementation Notes
+
+**File locations:**
+- `configs/zmk_adv360/adv360.keymap` - Layer 9
+- `configs/zmk_glove80/glove80.keymap` - Layer 9  
+- `configs/zmk_adv_mod/pillzmod_pro.keymap` - Layer 4
+
+**Activation keys:**
+All four bottom-right positions (previously arrow keys) now activate the nav layer:
+```c
+&mo LAYER_NAV   &mo LAYER_NAV  &mo LAYER_NAV   &mo LAYER_NAV
+```
+
+This redundancy ensures easy activation from any finger position.
+
+---
+
 ## ZMK Advanced Mod (zmk_adv_mod) Integration
 
 ### Project Overview
