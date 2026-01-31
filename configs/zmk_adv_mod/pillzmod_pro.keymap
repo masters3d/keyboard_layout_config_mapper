@@ -19,6 +19,7 @@
 #define LAYER_KEYPAD 1
 #define LAYER_CMD 2
 #define LAYER_SYSTEM 3
+#define LAYER_NAV 4
 
 / {
     macros {
@@ -189,7 +190,7 @@
     &kp ESC    &kp Q     &kp W     &kp E     &kp R     &kp T                                                                                     &kp Y     &kp U     &kp I     &kp O     &kp P     &kp DEL
     &kp BSPC    &kp A     &kp S     &kp D     &kp F     &kp G                                                                                     &kp H     &kp J     &kp K     &kp L     &morph_dot  &kp ENTER
     &kp LC(BSPC)  &kp Z   &kp X     &kp C     &kp V     &kp B                                                                                     &kp N     &kp M     &kp COMMA &kp DOT   &morph_comma  &kp TAB
-               &kp HOME &kp PAGE_DOWN &kp PAGE_UP &kp END                                                                                   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT
+               &kp HOME &kp PAGE_DOWN &kp PAGE_UP &kp END                                                                                   &mo LAYER_NAV  &mo LAYER_NAV  &mo LAYER_NAV    &mo LAYER_NAV
                                                       &mo LAYER_KEYPAD  &kp LEFT_WIN                                       &kp ESC  &mo LAYER_KEYPAD
                                                                         &kp LEFT_CONTROL                                   &kp LEFT_CONTROL
                                         &kp SPACE   &kp LEFT_SHIFT      &kp LEFT_ALT                                       &mo LAYER_CMD  &kp RIGHT_SHIFT &kp SPACE
@@ -244,6 +245,37 @@
                                                   &trans  &trans                                        &trans  &trans
                                                           &trans                                        &trans
                                       &out OUT_TOG  &trans  &trans                                        &trans  &trans  &trans
+    &trans  &trans  &trans
+            >;
+        };
+
+        layer4_navigation {
+            // -----------------------------------------------------------------------------------------
+            // Navigation Layer for Modeless Editing
+            // 
+            // Design: Right hand focuses on navigation motions (IJKL as inverted-T arrows)
+            //         Left hand provides editing commands (cut/copy/paste, undo/redo)
+            //         Hold SHIFT in this layer to convert navigation to selection
+            //
+            // Right Hand Navigation Layout:
+            //   Row 1: GoBack | Word← |   ↑   | Word→ | GoForward
+            //   Row 2: Home   |   ←   |   ↓   |   →   | End
+            //   Row 3: DelW←  | Bksp  | PgDn  | PgUp  | Del | DelW→
+            //
+            // Left Hand Editing Layout:
+            //   Row 1: Redo     | Undo    | DelLine | DupLine | (unused)
+            //   Row 2: SelAll   | Cut     | Copy    | Paste   | SelLine
+            //   Row 3: MvLn↑    | MvLn↓   | GoDef   | FindRef | CmdPalette
+            // -----------------------------------------------------------------------------------------
+            bindings = <
+    &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+    &trans  &kp LG(LS(Z))  &kp LG(Z)  &kp LG(LS(K))  &kp LG(LS(D))  &trans                           &kp LC(LS(MINUS))  &kp LA(LEFT)  &kp UP  &kp LA(RIGHT)  &kp LC(MINUS)  &trans
+    &trans  &kp LG(A)  &kp LG(X)  &kp LG(C)  &kp LG(V)  &kp LG(L)                                    &kp LG(LEFT)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LG(RIGHT)  &trans
+    &trans  &kp LA(UP)  &kp LA(DOWN)  &kp F12  &kp LS(F12)  &kp LG(LS(P))                            &kp LA(BSPC)  &kp BSPC  &kp PG_DN  &kp PG_UP  &kp DEL  &kp LA(DEL)  &trans
+            &trans  &trans  &trans  &trans                                                                   &trans  &trans  &trans  &trans
+                                                  &trans  &trans                                        &trans  &trans
+                                                          &trans                                        &trans
+                                           &trans  &trans  &trans                                        &trans  &trans  &trans
     &trans  &trans  &trans
             >;
         };

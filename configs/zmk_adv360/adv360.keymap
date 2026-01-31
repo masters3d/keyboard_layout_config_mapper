@@ -7,6 +7,7 @@
 #define LAYER_KEYPAD 6
 #define LAYER_CMD 7
 #define LAYER_MOD 8
+#define LAYER_NAV 9
 
 / {
   behaviors {
@@ -119,7 +120,7 @@
         &kp ESC         &kp Q                &kp W                &kp E      &kp R      &kp T       &to 1                                                                                                        &to 1            &kp Y                 &kp U      &kp I     &kp O               &kp P                &kp DEL
         &kp BSPC        &kp A                &kp S                &kp D      &kp F      &kp G       &to 0                       &mo LAYER_KEYPAD  &kp LEFT_WIN       &kp ESCAPE     &mo LAYER_KEYPAD             &to 0            &kp H                 &kp J      &kp K     &kp L               &morph_dot                &kp ENTER
         &kp LC(BSPC)    &kp Z                &kp X                &kp C      &kp V      &kp B                                                     &kp LEFT_CONTROL   &kp LEFT_CONTROL                                             &kp N                 &kp M      &kp COMMA &kp DOT             &morph_comma         &kp TAB
-        &mo LAYER_MOD   &kp HOME             &kp PAGE_DOWN        &kp PAGE_UP    &kp END                             &kp SPACE  &kp LEFT_SHIFT    &kp LEFT_ALT       &mo LAYER_CMD  &kp RIGHT_SHIFT  &kp SPACE                                          &kp LEFT   &kp DOWN  &kp UP              &kp RIGHT            &mo LAYER_MOD
+        &mo LAYER_MOD   &kp HOME             &kp PAGE_DOWN        &kp PAGE_UP    &kp END                             &kp SPACE  &kp LEFT_SHIFT    &kp LEFT_ALT       &mo LAYER_CMD  &kp RIGHT_SHIFT  &kp SPACE                                          &mo LAYER_NAV   &mo LAYER_NAV  &mo LAYER_NAV              &mo LAYER_NAV            &mo LAYER_MOD
             >;
         };
 
@@ -199,6 +200,33 @@
         &bootloader &none        &none        &none        &none        &none        &none                   &none &none &bt BT_CLR &none                      &rgb_ug RGB_MEFS_CMD 5 &none        &none        &none        &none &none &bootloader
         &none       &none        &none        &none        &none        &none                                      &none &none                                                        &none        &none        &none        &none &none &none
         &none       &none        &none        &none        &none                                       &none &none &none &none      &bl BL_TOG &rgb_ug RGB_TOG                                     &bl BL_INC   &bl BL_DEC   &none &none &none
+            >;
+        };
+
+        layer9_navigation {
+            // -----------------------------------------------------------------------------------------
+            // Navigation Layer for Modeless Editing
+            // 
+            // Design: Right hand focuses on navigation motions (IJKL as inverted-T arrows)
+            //         Left hand provides editing commands (cut/copy/paste, undo/redo)
+            //         Hold SHIFT in this layer to convert navigation to selection
+            //
+            // Right Hand Navigation Layout:
+            //   Row 1: GoBack | Word← |   ↑   | Word→ | GoForward
+            //   Row 2: Home   |   ←   |   ↓   |   →   | End
+            //   Row 3: DelW←  | Bksp  | PgDn  | PgUp  | Del | DelW→
+            //
+            // Left Hand Editing Layout:
+            //   Row 1: Redo     | Undo    | DelLine | DupLine | (unused)
+            //   Row 2: SelAll   | Cut     | Copy    | Paste   | SelLine
+            //   Row 3: MvLn↑    | MvLn↓   | GoDef   | FindRef | CmdPalette
+            // -----------------------------------------------------------------------------------------
+            bindings = <
+        &trans            &trans         &trans               &trans                &trans              &trans              &trans                                                                                              &trans              &trans                &trans           &trans                &trans              &trans                &trans
+        &trans            &kp LG(LS(Z))  &kp LG(Z)            &kp LG(LS(K))         &kp LG(LS(D))       &trans              &trans                                                                                              &trans              &kp LC(LS(MINUS))     &kp LA(LEFT)     &kp UP                &kp LA(RIGHT)       &kp LC(MINUS)         &trans
+        &trans            &kp LG(A)      &kp LG(X)            &kp LG(C)             &kp LG(V)           &kp LG(L)           &trans          &trans   &trans             &trans   &trans          &trans              &kp LG(LEFT)        &kp LEFT              &kp DOWN         &kp RIGHT             &kp LG(RIGHT)       &trans
+        &trans            &kp LA(UP)     &kp LA(DOWN)         &kp F12               &kp LS(F12)         &kp LG(LS(P))                                &trans             &trans                                           &kp LA(BSPC)        &kp BSPC              &kp PG_DN        &kp PG_UP             &kp DEL             &kp LA(DEL)           &trans
+        &trans            &trans         &trans               &trans                &trans                                          &trans   &trans  &trans             &trans   &trans &trans                                          &trans                &trans           &trans                &trans              &trans
             >;
         };
 
