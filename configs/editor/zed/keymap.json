@@ -1,0 +1,43 @@
+[
+  {
+    "context": "Editor && mode == full && !multibuffer && !vim_mode",
+    "bindings": {
+      "ctrl-alt-f1": "editor::MoveLeft",
+      "ctrl-alt-f2": "editor::MoveDown",
+      "ctrl-alt-f3": "editor::MoveUp",
+      "ctrl-alt-f4": "editor::MoveRight",
+      "ctrl-alt-f5": "editor::MoveToPreviousWordStart",
+      "ctrl-alt-f6": null,
+      "ctrl-alt-f7": ["editor::MoveToBeginningOfLine", {"stop_at_soft_wraps": false, "stop_at_indent": false}],
+      "ctrl-alt-f8": ["editor::MoveToEndOfLine", {"stop_at_soft_wraps": false}],
+      "ctrl-alt-f9": "editor::MoveToBeginning",
+      "ctrl-alt-f10": "editor::MoveToEnd",
+      "ctrl-alt-f11": "editor::MoveToStartOfParagraph",
+      "ctrl-alt-f12": "editor::MoveToEndOfParagraph",
+      "ctrl-alt-shift-f1": "editor::SelectLeft",
+      "ctrl-alt-shift-f2": "editor::SelectDown",
+      "ctrl-alt-shift-f3": "editor::SelectUp",
+      "ctrl-alt-shift-f4": "editor::SelectRight",
+      "ctrl-alt-shift-f5": "editor::SelectToPreviousWordStart",
+      "ctrl-alt-shift-f6": null,
+      "ctrl-alt-shift-f7": ["editor::SelectToBeginningOfLine", {"stop_at_soft_wraps": false, "stop_at_indent": false}],
+      "ctrl-alt-shift-f8": ["editor::SelectToEndOfLine", {"stop_at_soft_wraps": false}],
+      "ctrl-alt-shift-f9": "editor::SelectToBeginning",
+      "ctrl-alt-shift-f10": "editor::SelectToEnd",
+      "ctrl-alt-shift-f11": "editor::SelectToStartOfParagraph",
+      "ctrl-alt-shift-f12": "editor::SelectToEndOfParagraph",
+      "ctrl-shift-f1": "editor::Undo",
+      "ctrl-shift-f2": "editor::Redo",
+      "ctrl-shift-f3": null,
+      "ctrl-shift-f4": null,
+      "ctrl-shift-f5": null,
+      "ctrl-shift-f6": null,
+      "ctrl-shift-f7": "buffer_search::Deploy",
+      "ctrl-shift-f8": "search::SelectNextMatch",
+      "ctrl-shift-f9": "search::SelectPreviousMatch",
+      "ctrl-shift-f10": "editor::GoToDefinition",
+      "ctrl-shift-f11": "pane::GoBack",
+      "ctrl-shift-f12": "editor::Cancel"
+    }
+  }
+]

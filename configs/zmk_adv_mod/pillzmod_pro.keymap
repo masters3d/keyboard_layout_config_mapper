@@ -20,6 +20,21 @@
 #define LAYER_CMD 2
 #define LAYER_SYSTEM 3
 
+// Opt-in pilot: define KLCM_EDITOR_ENABLE before preprocessing this keymap.
+#ifdef KLCM_EDITOR_ENABLE
+#define LAYER_EDITOR_NAV 4
+#define LAYER_EDITOR_SELECT 5
+#define LAYER_EDITOR_EDIT 6
+#define KLCM_LEFT_SPACE &lt LAYER_EDITOR_NAV SPACE
+#define KLCM_RIGHT_SPACE &lt LAYER_EDITOR_EDIT SPACE
+#define KLCM_NAV(n) &kp LC(LA(n))
+#define KLCM_SELECT(n) &kp LC(LA(LS(n)))
+#define KLCM_EDIT(n) &kp LC(LS(n))
+#else
+#define KLCM_LEFT_SPACE &kp SPACE
+#define KLCM_RIGHT_SPACE &kp SPACE
+#endif
+
 / {
     macros {
         macro_brackets: macro_brackets {
@@ -192,7 +207,7 @@
                &kp HOME &kp PAGE_DOWN &kp PAGE_UP &kp END                                                                                   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT
                                                       &mo LAYER_KEYPAD  &kp LEFT_WIN                                       &kp ESC  &mo LAYER_KEYPAD
                                                                         &kp LEFT_CONTROL                                   &kp LEFT_CONTROL
-                                        &kp SPACE   &kp LEFT_SHIFT      &kp LEFT_ALT                                       &mo LAYER_CMD  &kp RIGHT_SHIFT &kp SPACE
+                                        KLCM_LEFT_SPACE   &kp LEFT_SHIFT      &kp LEFT_ALT                                       &mo LAYER_CMD  &kp RIGHT_SHIFT KLCM_RIGHT_SPACE
     &kp ESC  &kp X  &kp Z
             >;
         };
@@ -248,5 +263,53 @@
             >;
         };
 
+#ifdef KLCM_EDITOR_ENABLE
+        // H/J/K/L movement; hold either Shift position for anchored selection.
+        // Unassigned positions are blocked; pedals and emergency Escape remain available.
+        editor_nav_layer {
+            bindings = <
+    &none KLCM_NAV(F1) KLCM_NAV(F2) KLCM_NAV(F3) KLCM_NAV(F4) KLCM_NAV(F5) KLCM_NAV(F6) KLCM_NAV(F7) KLCM_NAV(F8) KLCM_NAV(F9) KLCM_NAV(F10) KLCM_NAV(F11) KLCM_NAV(F12) &none &none &none &none &none
+    &none &none &none &none &none &none                                      &none &none &none &none &none &none
+    &kp ESC &none KLCM_NAV(F6) KLCM_NAV(F8) &none KLCM_NAV(F10)               &none KLCM_NAV(F11) &none KLCM_NAV(F12) &none &none
+    &none KLCM_NAV(F7) &none &none &none KLCM_NAV(F9)                        KLCM_NAV(F1) KLCM_NAV(F2) KLCM_NAV(F3) KLCM_NAV(F4) &none &none
+    &none &none &none &none &none KLCM_NAV(F5)                              &none &none &none &none &none &none
+    &none &none &none &none                                                &none &none &none &none
+    &none &none                                                           &kp ESC &none
+    &none                                                                 &none
+    &trans &mo LAYER_EDITOR_SELECT &none                                   &none &mo LAYER_EDITOR_SELECT &mo LAYER_EDITOR_EDIT
+    &trans &trans &trans
+            >;
+        };
+
+        editor_select_layer {
+            bindings = <
+    &none KLCM_SELECT(F1) KLCM_SELECT(F2) KLCM_SELECT(F3) KLCM_SELECT(F4) KLCM_SELECT(F5) KLCM_SELECT(F6) KLCM_SELECT(F7) KLCM_SELECT(F8) KLCM_SELECT(F9) KLCM_SELECT(F10) KLCM_SELECT(F11) KLCM_SELECT(F12) &none &none &none &none &none
+    &none &none &none &none &none &none                                      &none &none &none &none &none &none
+    &kp ESC &none KLCM_SELECT(F6) KLCM_SELECT(F8) &none KLCM_SELECT(F10)      &none KLCM_SELECT(F11) &none KLCM_SELECT(F12) &none &none
+    &none KLCM_SELECT(F7) &none &none &none KLCM_SELECT(F9)                  KLCM_SELECT(F1) KLCM_SELECT(F2) KLCM_SELECT(F3) KLCM_SELECT(F4) &none &none
+    &none &none &none &none &none KLCM_SELECT(F5)                           &none &none &none &none &none &none
+    &none &none &none &none                                                &none &none &none &none
+    &none &none                                                           &kp ESC &none
+    &none                                                                 &none
+    &trans &trans &none                                                    &none &trans &mo LAYER_EDITOR_EDIT
+    &trans &trans &trans
+            >;
+        };
+
+        editor_edit_layer {
+            bindings = <
+    &none KLCM_EDIT(F1) KLCM_EDIT(F2) KLCM_EDIT(F3) KLCM_EDIT(F4) KLCM_EDIT(F5) KLCM_EDIT(F6) KLCM_EDIT(F7) KLCM_EDIT(F8) KLCM_EDIT(F9) KLCM_EDIT(F10) KLCM_EDIT(F11) KLCM_EDIT(F12) &none &none &none &none &none
+    &none &none &none &none &none KLCM_EDIT(F7)                              &none &none &none &none &none &none
+    KLCM_EDIT(F12) &none KLCM_EDIT(F3) KLCM_EDIT(F4) KLCM_EDIT(F2) &none     &none KLCM_EDIT(F1) KLCM_EDIT(F5) &none KLCM_EDIT(F9) &none
+    &none &none &none KLCM_EDIT(F10) &none &none                            &none &none &none &none &none &none
+    &none &none &none &none &none KLCM_EDIT(F11)                            KLCM_EDIT(F8) &none &none KLCM_EDIT(F6) &none &none
+    &none &none &none &none                                                &none &none &none &none
+    &none &none                                                           &kp ESC &none
+    &none                                                                 &none
+    &none &none &none                                                     &none &none &trans
+    &trans &trans &trans
+            >;
+        };
+#endif
     };
 };
