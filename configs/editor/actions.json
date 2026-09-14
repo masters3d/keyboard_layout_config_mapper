@@ -10,7 +10,7 @@
   "invariants": {
     "typing": "Completed actions return to insertion, except explicit selection and visible prompts. Typing replaces a selection.",
     "selection": "Selection has a persistent anchor; releasing the firmware layer does not cancel it. Cancel collapses selection.",
-    "movement": "Positions are insertion boundaries, not Normal-mode character positions. Vertical movement follows logical lines.",
+    "movement": "Reference positions are UTF-8 codepoint insertion boundaries, not grapheme or Normal-mode character positions. Vertical movement follows logical lines. Adapter deviations must be declared.",
     "deletion": "Delete the half-open range from the insertion position to the requested target, preserving registers.",
     "undo": "Each completed destructive action is a separate undo unit.",
     "failure": "Missing targets do not change text; unsupported actions must be identified in the capability matrix.",
@@ -47,7 +47,7 @@
     {"id":"edit.delete_3_words","bank":"edit","slot":4,"key":"E","effect":"Delete to the third next small-word start as one edit."},
     {"id":"edit.change_inside_parens","bank":"edit","slot":5,"key":"I","effect":"Remove contents of enclosing parentheses, keep delimiters, insert at interior start. Not syntax-aware."},
     {"id":"edit.repeat","bank":"edit","slot":6,"key":"DOT","effect":"Repeat last adapter destructive operation at current position; does not replay subsequent typed replacement text."},
-    {"id":"search.open","bank":"edit","slot":7,"key":"SLASH","effect":"Open a visible forward search prompt; cancellation does not change text."},
+    {"id":"search.open","bank":"edit","slot":7,"key":"SLASH","effect":"Open a visible forward search prompt; cancellation does not change text. Reference accepts Vim regex, not native search offsets or chained searches."},
     {"id":"search.next","bank":"edit","slot":8,"key":"N","effect":"Find next match of the accepted search."},
     {"id":"search.previous","bank":"edit","slot":9,"key":"P","effect":"Find previous match of the accepted search."},
     {"id":"code.definition","bank":"edit","slot":10,"key":"D","effect":"Request definition from editor language service; missing service must fail safely."},

@@ -138,7 +138,8 @@ func TestPillzModDefaultUnchanged(t *testing.T) {
 func TestPillzModPilot(t *testing.T) {
 	var c contract
 	loadJSON(t, "actions.json", &c)
-	layers := layersRE.FindAllStringSubmatch(preprocess(t, true), -1)
+	preprocessed := preprocess(t, true)
+	layers := layersRE.FindAllStringSubmatch(preprocessed, -1)
 	if len(layers) != 7 {
 		t.Fatalf("expected seven layers, got %d", len(layers))
 	}
@@ -150,15 +151,18 @@ func TestPillzModPilot(t *testing.T) {
 		byName[layer[1]] = layer[2]
 	}
 	base := byName["default_layer"]
-	if !strings.Contains(base, "&lt 4 SPACE") || !strings.Contains(base, "&lt 6 SPACE") {
-		t.Fatal("pilot must have momentary thumb access to NAV and EDIT")
+	for _, access := range []string{
+		"key-positions=<8074>;bindings=<&mo4>;layers=<0>;slow-release;",
+		"key-positions=<8577>;bindings=<&mo6>;layers=<0>;slow-release;",
+	} {
+		if !strings.Contains(whitespaceRE.ReplaceAllString(preprocessed, ""), access) {
+			t.Fatal("pilot must have same-hand Space/Keypad combo access")
+		}
 	}
 	for _, oldLayer := range layersRE.FindAllStringSubmatch(preprocess(t, false), -1) {
 		active := whitespaceRE.ReplaceAllString(byName[oldLayer[1]], "")
-		active = strings.ReplaceAll(active, "&lt4SPACE", "&kpSPACE")
-		active = strings.ReplaceAll(active, "&lt6SPACE", "&kpSPACE")
 		if active != whitespaceRE.ReplaceAllString(oldLayer[2], "") {
-			t.Errorf("enabled pilot changed %s beyond the two thumb access keys", oldLayer[1])
+			t.Errorf("enabled pilot changed original %s", oldLayer[1])
 		}
 	}
 	bankLayers := map[string]string{"nav": "editor_nav_layer", "select": "editor_select_layer", "edit": "editor_edit_layer"}
@@ -194,6 +198,24 @@ func TestPillzModPilot(t *testing.T) {
 			t.Errorf("%s must preserve emergency Escape", name)
 		}
 	}
+}
+
+func TestRawDefaultBindingsRemainParseable(t *testing.T) {
+	data, err := os.ReadFile("../../configs/zmk_adv_mod/pillzmod_pro.keymap")
+	if err != nil {
+		t.Fatal(err)
+	}
+	layers := layersRE.FindAllStringSubmatch(string(data), -1)
+	for _, layer := range layers {
+		if layer[1] == "default_layer" {
+			hash := fmt.Sprintf("%x", sha256.Sum256([]byte(whitespaceRE.ReplaceAllString(layer[2], ""))))
+			if hash != "a2b2b87ba14b1093dc6a3a7aaf508de3026e017e163e9cac2388baf8926148dd" {
+				t.Fatal("raw default bindings changed; KLCM sync does not preprocess macros")
+			}
+			return
+		}
+	}
+	t.Fatal("default layer missing")
 }
 
 func TestZedCapabilitiesMatchBindings(t *testing.T) {

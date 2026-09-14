@@ -121,6 +121,9 @@ substituted here.
 
 All three banks use F1–F12 with explicit modifiers, leaving the existing plain
 F13–F24 Keypad assignments alone. Signals still need host-level conflict testing.
+**These are candidate signals, not universally safe shortcuts:** Linux desktops
+may reserve Ctrl+Alt+function keys for virtual-console switching. Resolve such
+OS bindings or choose another verified transport before enabling the pilot.
 
 | Bank | Signal | Intended interaction |
 |---|---|---|
@@ -153,9 +156,26 @@ interactions, not invisible operator-pending states.
 
 1. Back up the editor configuration. Keep ordinary Escape and normal editor
    navigation available.
-2. For Neovim, load the Lua adapter from its absolute path and call `setup()`.
-   The adapter's `teardown()` removes its configuration; do not install a
-   blanket autocmd forcing Insert mode whenever it is left.
+2. For Neovim, add the following to your Lua configuration, adjusting the absolute
+   checkout location when installing elsewhere. Use `require`, not a bare
+   `dofile`: the adapter's queued continuation resolves the cached `klcm` module.
+   `insert_on_enter` opts ordinary editable buffers into Insert mode on entry;
+   leave it false to manage initial insertion yourself. Escape still deliberately
+   exits Insert mode. When loading interactively, enter Insert mode once with `i`.
+   The adapter's `teardown()` restores its mappings; do not install a blanket
+   autocmd forcing Insert mode whenever it is left.
+
+   ```lua
+   package.path = package.path .. ";/home/runner/work/keyboard_layout_config_mapper/keyboard_layout_config_mapper/configs/editor/neovim/?.lua"
+   local klcm = require("klcm")
+   klcm.setup({ insert_on_enter = true })
+   ```
+
+   The Lua adapter is exercised on Neovim 0.9.5. Earlier versions are unverified.
+   Advanced users can provide `setup({ mappings = { ... } })`: that table replaces,
+   rather than merges with, default action-ID-to-shortcut mappings. Keep it in
+   sync with the firmware transport. `dispatch(action_id)` exposes the same
+   operations for editor-side customization.
 3. For Zed, turn Vim and Helix modes off. Merge the objects from the
    [adapter keymap](configs/editor/zed/keymap.json) into the user keymap array;
    **do not overwrite existing bindings**. Resolve conflicting shortcuts and
@@ -181,20 +201,30 @@ by the firmware build. Do not assume a similarly named Kconfig option exists.
 Without that preprocessor definition, the four original layers compile to their
 original bindings.
 
-The experimental access scheme deliberately changes **only the enabled pilot**:
+The experimental access combos exist **only in the enabled pilot**:
 
-- Left Space: tap Space, hold NAV.
-- Right Space: tap Space, hold EDIT.
+- Press left Space + left Keypad together (within 50 ms) to hold NAV.
+- Press right Space + right Keypad together (within 50 ms) to hold EDIT.
+- Access combos start on the default layer only. Release **both** combo keys to
+  leave that layer; after activation, either one can keep it held.
+- While NAV/SELECT is held, right Space provides direct momentary EDIT access.
 - While NAV is active, hold either physical Shift position for SELECT.
 - EDIT has higher priority than SELECT, which has higher priority than NAV.
 - The right-thumb Escape remains a literal emergency Escape in all three layers.
-- Unassigned pilot positions are blocked. Existing layers remain unchanged, but
+- Unassigned pilot positions are blocked. The raw default layer is unchanged as
+  well as its compiled bindings, so KLCM's non-preprocessing parser still sees it.
+  Existing layers remain unchanged, but
   pilot layers mask their keys while active. All three pedal positions inherit.
 
 Activate NAV **before** its selection key. Holding Shift first sends a real host
 modifier, not a selection-layer request. Release layer keys and modifiers before
-switching banks; extra held modifiers can change a signal. Built-in layer-tap
-timing is only a prototype and needs physical typing/repetition tests.
+switching banks; extra held modifiers can change a signal. Combo timing is only a
+prototype and needs physical typing/repetition tests. Missing the combo window
+falls back to the existing Space/Keypad behavior. The enabled pilot may briefly
+delay participating keys while waiting for a possible combo.
+
+The access mechanism uses standard [ZMK combos](https://github.com/zmkfirmware/zmk/blob/main/docs/docs/keymaps/combos.md)
+with zero-based positions and `slow-release`; no custom firmware behavior is needed.
 
 Remove the definition and restore known-good firmware to roll back. The enabled
 matrix has 89 bindings per layer, including all three pedals; do not use historical
@@ -207,6 +237,27 @@ navigation/selection gestures, Zed capability/binding consistency, and C
 preprocessing of both pilot states. Preprocessing uses empty ZMK headers to check
 guards and layout structure; it is **not** a firmware compilation. Original
 disabled-layer fingerprints protect default behavior.
+
+Run the existing Go tooling and the adapter's dependency-free headless assertions:
+
+```sh
+cd /home/runner/work/keyboard_layout_config_mapper/keyboard_layout_config_mapper
+go test ./...
+go vet ./...
+go build -o /tmp/klcm-editor ./cmd/klcm
+/tmp/klcm-editor validate --all
+nvim --headless -u NONE -i NONE -n -c "luafile /home/runner/work/keyboard_layout_config_mapper/keyboard_layout_config_mapper/configs/editor/neovim/klcm_test.lua"
+```
+
+Neovim character operations use UTF-8 codepoints, not grapheme clusters or visual
+columns. Parenthesis operations are literal balanced-delimiter operations, not a
+language parser. Combining marks, strings/comments containing parentheses, and
+multicursor editing do not have full Vim/native-editor parity.
+The Neovim search prompt accepts Vim regular expressions, but not native search
+offsets or chained searches. Submitted queries run through protected editor APIs
+so invalid or missing matches cannot flush queued typing into Normal-mode edits.
+Existing buffer-local shortcuts take precedence over adapter mappings; resolve
+such conflicts explicitly instead of silently replacing plugin bindings.
 
 KLCM's `validate --all` is a syntax check. Its current `--compile` option merely
 reports that local compilation is unimplemented; a real firmware build is still
@@ -224,7 +275,7 @@ Before calling this portable, run the same scenarios in both editors:
 | Repeat at a second location | Repeat the operation, not an old absolute text range |
 | Search confirm/cancel and next/previous | No shortcut text inserted; deliberate prompt lifecycle |
 | Definition and return, with/without LSP | Safe failure or correct history navigation |
-| Rapid tap/hold, reversed release order, USB/Bluetooth | No stuck layer, key, or modifier |
+| Combo timing, reversed release order, USB/Bluetooth | No stuck layer, key, or modifier |
 | Existing CMD/Keypad/System and pedals | Existing functions remain available outside the pilot |
 
 The complete demanding slice is a Neovim target; Zed's unsupported actions are
